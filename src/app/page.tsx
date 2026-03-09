@@ -1,105 +1,105 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Briefcase, Percent, Plus, Sparkles, Users, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { VirtualAssistantChat } from "@/components/virtual-assistant-chat";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const navItems = [
-  { href: "#services", label: "Services" },
-  { href: "#process", label: "Process" },
-  { href: "#studio", label: "Studio" },
-  { href: "#sectors", label: "Sectors" },
+  { href: "#services", label: "Equipe" },
+  { href: "#process", label: "Atuação" },
+  { href: "#studio", label: "Escritório" },
+  { href: "#sectors", label: "Áreas" },
   { href: "#faq", label: "FAQ" },
 ];
 
 const practiceAreas = [
-  "Residences",
-  "Interiors",
-  "Workplaces",
-  "Retail",
-  "Hospitality",
-  "Renovations",
+  "Contencioso Estratégico",
+  "Consultoria Empresarial",
+  "Patrimônio e Sucessões",
+  "Direito Penal Empresarial",
+  "Direito Imobiliário",
+  "Compliance e Direito Digital",
 ];
 
 const serviceHighlights = [
   {
-    icon: Briefcase,
-    title: "Residential architecture",
+    title: "Dr. Tiago Sales Fustinoni - OAB/SP 395.178",
     description:
-      "Homes and multi-unit residences designed around circulation, daylight, privacy, and the way people actually live.",
+      "Fundador do escritório, com atuação em Direito Penal e Processual Penal, nulidades processuais, planejamento e proteção patrimonial, além de estratégias para satisfação de execução.",
   },
   {
-    icon: Users,
-    title: "Collaborative design process",
+    title: "Dr. Eduardo Torres de Freitas - OAB/SP 478.321",
     description:
-      "We turn needs, references, routines, and constraints into clear design decisions your team can evaluate with confidence.",
+      "Atua em Direito Penal, Civil, Consumidor e Previdenciário, com foco em gestão de riscos, estratégia processual e condução ativa de litígios de alta complexidade.",
   },
   {
-    icon: Percent,
-    title: "Budget-aware planning",
+    title: "Dra. Melina Carneiro Rizzo - OAB/SP a confirmar",
     description:
-      "Every phase is developed with scope, priorities, and feasibility in view so the project stays ambitious without losing control.",
+      "Especialista em Direito Imobiliário, Penal e Processual Penal, com experiência em consultivo e contencioso imobiliário, due diligence estratégica e compliance de integridade.",
   },
   {
-    icon: Sparkles,
-    title: "Architecture plus interiors",
+    title: "Dr. Marcio Eduardo Garcia Leite - OAB/SP 257.464",
     description:
-      "From spatial layout to materials, lighting, and built-ins, the project stays coherent down to the final layer of detail.",
+      "Atuação destacada em Direito Trabalhista, Civil e Administrativo, com forte experiência em prevenção de litígios, negociação, gestão de riscos e defesa de interesses corporativos.",
   },
 ];
 
 const processRows = [
-  "Discovery workshop and brief alignment",
-  "Concept layouts and spatial studies",
-  "3D views and presentation material",
-  "Material and finish direction",
-  "Technical drawing set",
-  "Permit and consultant coordination",
-  "Interior detailing",
-  "Site follow-up",
+  "Diagnóstico jurídico e mapeamento de riscos",
+  "Definição de estratégia consultiva ou contenciosa",
+  "Pareceres e orientação para tomada de decisão",
+  "Estruturação documental e contratual",
+  "Negociação e condução de tratativas",
+  "Atuação contenciosa em primeira instância",
+  "Recursos e sustentações orais",
+  "Acompanhamento pós-decisão e execução",
 ];
 
 const faqs = [
   {
-    question: "What happens in the first consultation?",
+    question: "Como funciona a primeira consulta?",
     answer:
-      "We review your goals, the site or existing space, timeline, budget range, and design priorities. The outcome is a clearer project brief and the best next step.",
+      "A primeira reunião é dedicada ao entendimento completo do caso, dos objetivos e dos riscos envolvidos. A partir disso, apresentamos um direcionamento estratégico e o escopo recomendado.",
   },
   {
-    question: "Do you work on renovations as well as new builds?",
+    question: "O escritório atende pessoas físicas e empresas?",
     answer:
-      "Yes. We work on new homes, apartment reconfigurations, interior renovations, and commercial spaces that need a stronger spatial strategy.",
+      "Sim. Atuamos para pessoas, famílias e empresas, com abordagem personalizada para demandas consultivas, preventivas e contenciosas.",
   },
   {
-    question: "Can you handle interiors too?",
+    question: "É possível contratar somente consultoria preventiva?",
     answer:
-      "Yes. We can develop the project at the architectural level only or continue into interiors, material selection, lighting, and custom joinery.",
+      "Sim. A consultoria preventiva pode ser contratada de forma independente para reduzir riscos, estruturar decisões e evitar litígios futuros.",
   },
   {
-    question: "Do you coordinate with engineers and contractors?",
+    question: "Vocês atuam em casos urgentes e medidas liminares?",
     answer:
-      "Yes. We coordinate with the required consultants and can support the construction phase so decisions stay aligned with the approved design intent.",
+      "Sim. Em situações urgentes, avaliamos a viabilidade jurídica imediata e estruturamos a atuação necessária para proteção célere dos direitos do cliente.",
   },
   {
-    question: "How long does a project usually take?",
+    question: "O atendimento pode ser remoto?",
     answer:
-      "It depends on scope, approvals, and complexity. Smaller interior renovations move faster, while full architectural projects require a longer development and coordination cycle.",
+      "Sim. O escritório realiza atendimentos presenciais e remotos, com acompanhamento contínuo e comunicação transparente durante toda a condução do caso.",
   },
   {
-    question: "Can you work with clients in other cities?",
+    question: "Como são definidos honorários e escopo?",
     answer:
-      "Yes. We can run briefing, design reviews, and most approvals remotely, then organize local coordination when the project enters technical development or construction.",
+      "Honorários e escopo são definidos conforme complexidade, volume de trabalho e objetivos do cliente, sempre com proposta clara e alinhada antes do início da atuação.",
   },
 ];
 
 export default function Home() {
+  const whatsappUrl = buildWhatsAppUrl();
+
   return (
     <div className="min-h-screen overflow-x-clip bg-grid-pattern text-black font-sans selection:bg-black selection:text-white">
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col bg-white shadow-2xl sm:border-x sm:border-black/15">
         <header className="sticky top-0 z-50 flex items-center justify-between gap-4 border-b border-black/15 bg-white/90 px-4 py-4 backdrop-blur-sm sm:px-6 sm:py-5 md:px-10">
           <div className="font-serif text-base leading-tight font-semibold tracking-[0.22em] uppercase sm:text-lg">
-            LIGHT CITY STUDIO
+            FUSTINONI ADVOCACIA
           </div>
 
           <nav className="hidden items-center gap-8 text-xs font-medium uppercase tracking-wider text-black/60 md:flex">
@@ -110,37 +110,41 @@ export default function Home() {
             ))}
           </nav>
 
-          <Button className="shrink-0 rounded-none bg-black px-4 py-4 text-[11px] uppercase tracking-wider text-white hover:bg-black/80 sm:px-6 sm:py-5 sm:text-xs">
-            Book a Consultation
+          <Button asChild className="shrink-0 rounded-none bg-black px-4 py-4 text-[11px] uppercase tracking-wider text-white hover:bg-black/80 sm:px-6 sm:py-5 sm:text-xs">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              Agendar Consulta
+            </a>
           </Button>
         </header>
 
         <section className="relative flex flex-col items-center overflow-hidden border-b border-black/15 px-4 pt-16 pb-10 text-center sm:px-6 sm:pt-20 sm:pb-12 md:px-10 md:pt-24">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">
-            Architecture for homes, interiors, and spaces with purpose
+            FUSTINONI ADVOCACIA
           </div>
 
           <h1 className="mb-8 max-w-4xl text-balance font-serif text-4xl leading-[0.9] tracking-tight sm:mb-10 sm:text-5xl md:text-6xl lg:text-7xl">
-            Architecture that brings <br className="hidden md:block" /> clarity, light, and lasting value
+            Assessoria jurídica com <br className="hidden md:block" /> estratégia, discrição e precisão técnica
           </h1>
 
           <p className="mb-10 max-w-2xl text-sm leading-7 text-black/65 sm:text-base">
-            We design residential and commercial spaces that feel calm to move through, precise in detail, and aligned with the way people live, work, and gather.
+            Atuação consultiva e contenciosa para pessoas físicas e jurídicas, com foco em proteção patrimonial, mitigação de riscos e defesa qualificada de interesses relevantes.
           </p>
 
-          <Button className="z-10 mb-12 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:mb-16 sm:w-auto sm:py-6">
-            Book a Consultation
+          <Button asChild className="z-10 mb-12 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:mb-16 sm:w-auto sm:py-6">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              Agendar Consulta
+            </a>
           </Button>
 
           <div className="relative z-0 mx-auto mt-4 w-full max-w-4xl">
             <Image
-              src="/bridge-sketch.png"
-              alt="Architectural bridge sketch"
+              src="/hero-courthouse-notext.png"
+              alt="Representação institucional do escritório"
               width={1600}
               height={900}
               priority
               sizes="(max-width: 768px) 100vw, 1024px"
-              className="h-auto w-full object-contain drop-shadow-sm mix-blend-multiply"
+              className="h-auto w-full object-contain mix-blend-multiply contrast-125"
             />
           </div>
         </section>
@@ -162,16 +166,14 @@ export default function Home() {
 
         <section id="services" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
           <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 md:px-20 md:py-24">
-            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Services</div>
+            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Equipe</div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Architecture services shaped around <br /> how people live and use space
+              Advogados com formação sólida <br /> e atuação multidisciplinar
             </h2>
           </div>
 
           <div className="grid grid-cols-1 border-t border-black/15 md:grid-cols-2">
             {serviceHighlights.map((service, index) => {
-              const Icon = service.icon;
-
               return (
                 <div
                   key={service.title}
@@ -182,7 +184,6 @@ export default function Home() {
                   } ${index === 3 ? "border-t border-black/15" : ""}`}
                 >
                   <div className="mb-8 flex items-center gap-3 border-b border-black/15 pb-4">
-                    <Icon className="h-5 w-5" />
                     <h3 className="font-serif text-xl sm:text-2xl">{service.title}</h3>
                   </div>
                   <p className="text-sm leading-relaxed text-black/60 md:text-base">{service.description}</p>
@@ -196,31 +197,31 @@ export default function Home() {
 
         <section id="studio" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
           <div className="px-4 py-16 text-center sm:px-6 sm:py-20">
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Studio</div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Escritório</div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              A studio grounded in context, proportion, and atmosphere
+              Excelência técnica com visão estratégica para decisões de alta relevância
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
-              We believe strong architecture starts with listening well, simplifying what matters, and designing spaces that feel obvious once they exist.
+              Nossa atuação combina rigor jurídico, discrição absoluta e atendimento personalizado para transformar complexidade em soluções seguras, eficazes e sustentáveis.
             </p>
           </div>
 
           <div className="relative mx-auto w-full max-w-2xl px-4 pb-8 sm:px-6 sm:pb-10">
             <Image
-              src="/globe-sketch.png"
-              alt="Architectural studio perspective"
+              src="/studio-elements-sketch.png"
+              alt="Posicionamento institucional do escritório"
               width={1200}
               height={1200}
-              className="h-auto w-full mix-blend-multiply"
+              className="h-auto w-full mix-blend-multiply contrast-125"
             />
           </div>
 
           <div className="grid w-full grid-cols-2 border-t border-black/15 text-center text-sm font-medium sm:grid-cols-3 md:grid-cols-5 md:text-base">
-            <div className="border-r border-b border-black/15 py-4 md:border-b-0">Homes</div>
-            <div className="border-b border-black/15 py-4 sm:border-r md:border-b-0">Apartments</div>
-            <div className="border-r border-b border-black/15 py-4 md:border-r md:border-b-0">Offices</div>
-            <div className="border-b border-black/15 py-4 sm:border-r sm:border-b-0 md:border-r">Retail</div>
-            <div className="col-span-2 py-4 sm:col-span-1">Interiors</div>
+            <div className="border-r border-b border-black/15 py-4 md:border-b-0">Rigor técnico</div>
+            <div className="border-b border-black/15 py-4 sm:border-r md:border-b-0">Estratégia processual</div>
+            <div className="border-r border-b border-black/15 py-4 md:border-r md:border-b-0">Discrição absoluta</div>
+            <div className="border-b border-black/15 py-4 sm:border-r sm:border-b-0 md:border-r">Atendimento personalizado</div>
+            <div className="col-span-2 py-4 sm:col-span-1">Visão multidisciplinar</div>
           </div>
         </section>
 
@@ -228,21 +229,23 @@ export default function Home() {
 
         <section id="process" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
           <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Process</div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Modelos de Atuação</div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Choose the level of support your project needs
+              Escolha o nível de acompanhamento jurídico que seu caso exige
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col border-b border-black/15 md:border-r md:border-b-0">
               <div className="flex-1 p-6 sm:p-8 lg:p-12">
-                <h3 className="mb-4 font-serif text-2xl">Architecture Design</h3>
+                <h3 className="mb-4 font-serif text-2xl">Consultoria e Prevenção</h3>
                 <p className="mb-8 leading-relaxed text-black/60">
-                  Ideal for clients who need a strong concept, spatial definition, and a complete design direction for the next stage.
+                  Ideal para quem busca orientação estratégica, prevenção de passivos e estruturação jurídica antes do litígio.
                 </p>
-                <Button className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                  Discuss Your Project
+                <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                    Falar com a Equipe
+                  </a>
                 </Button>
               </div>
 
@@ -260,12 +263,14 @@ export default function Home() {
 
             <div className="flex flex-col">
               <div className="flex-1 p-6 sm:p-8 lg:p-12">
-                <h3 className="mb-4 font-serif text-2xl">Full-Service Architecture</h3>
+                <h3 className="mb-4 font-serif text-2xl">Atuação Completa</h3>
                 <p className="mb-8 leading-relaxed text-black/60">
-                  Best for clients who want the studio involved from early strategy through detailing, coordination, and site follow-up.
+                  Recomendado para casos que exigem condução integral, da estratégia inicial à atuação contenciosa e fase de execução.
                 </p>
-                <Button className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                  Book a Consultation
+                <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                    Agendar Consulta
+                  </a>
                 </Button>
               </div>
 
@@ -287,63 +292,63 @@ export default function Home() {
 
         <section id="sectors" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
           <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Sectors</div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Áreas de Atuação</div>
             <h2 className="mx-auto max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Spaces we design with clarity, character, and everyday usability
+              Atuação jurídica abrangente em 12 frentes estratégicas
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col justify-between border-b border-black/15 p-6 sm:p-8 lg:border-r">
               <h3 className="mb-10 font-serif text-xl leading-snug sm:mb-16 sm:text-2xl">
-                Private homes shaped around routine, comfort, and natural light.
+                Direito Civil e Direito de Família e Sucessões.
               </h3>
-              <div className="text-sm font-medium">Single-family homes and custom residences</div>
+              <div className="text-sm font-medium">Contratos, responsabilidade civil, inventários e planejamento patrimonial familiar.</div>
             </div>
 
             <div className="grid grid-rows-2 border-b border-black/15 lg:border-r">
               <div className="flex items-center justify-center border-b border-black/15 p-6 sm:p-8">
                 <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-widest text-black/50">Project scale</div>
-                  <div className="mt-3 font-serif text-3xl sm:text-4xl">From one room to full buildings</div>
+                  <div className="text-xs font-bold uppercase tracking-widest text-black/50">Frente Patrimonial</div>
+                  <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Tributário + Direito Imobiliário</div>
                 </div>
               </div>
               <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8">
-                <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Approach</div>
-                <div className="font-serif text-3xl sm:text-4xl">Context first</div>
+                <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Planejamento</div>
+                <div className="font-serif text-3xl sm:text-4xl">Estruturas e proteção de ativos</div>
               </div>
             </div>
 
             <div className="flex flex-col justify-between border-b border-black/15 bg-white p-6 sm:p-8 lg:border-b-0">
               <h3 className="mb-10 font-serif text-xl leading-snug sm:mb-16 sm:text-2xl">
-                Apartments and renovations that make existing square meters work harder.
+                Direito Trabalhista e Direito Empresarial.
               </h3>
-              <div className="text-sm font-medium">Layouts, upgrades, and interior reconfigurations</div>
+              <div className="text-sm font-medium">Consultoria preventiva, contratos estratégicos e defesa em litígios de alta exposição.</div>
             </div>
 
             <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8 md:border-r md:border-black/15">
-              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Scope</div>
-              <div className="font-serif text-3xl sm:text-4xl">Architecture + Interiors</div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Setores Regulados</div>
+              <div className="font-serif text-3xl sm:text-4xl">Direito da Saúde + Direito Administrativo</div>
             </div>
 
             <div className="grid grid-rows-2 md:border-r md:border-black/15">
               <div className="flex items-center justify-center border-b border-black/15 p-6 sm:p-8">
                 <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-widest text-black/50">Built for</div>
-                  <div className="mt-3 font-serif text-3xl sm:text-4xl">Homes, retail, and workplaces</div>
+                  <div className="text-xs font-bold uppercase tracking-widest text-black/50">Âmbito Internacional</div>
+                  <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Internacional + Direito Desportivo</div>
                 </div>
               </div>
               <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8">
-                <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Focus</div>
-                <div className="font-serif text-3xl sm:text-4xl">Flow, light, materiality</div>
+                <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Risco e Integridade</div>
+                <div className="font-serif text-3xl sm:text-4xl">Direito Penal Empresarial + Direito Digital e Compliance</div>
               </div>
             </div>
 
             <div className="flex flex-col justify-between p-6 sm:p-8">
               <h3 className="mb-10 font-serif text-xl leading-snug sm:mb-16 sm:text-2xl">
-                Commercial spaces that support operations while expressing a clear point of view.
+                Atuação consultiva e contenciosa com estratégia sob medida para cada cliente.
               </h3>
-              <div className="text-sm font-medium">Studios, offices, shops, and hospitality environments</div>
+              <div className="text-sm font-medium">Pessoas físicas, famílias e empresas com demandas de alta complexidade.</div>
             </div>
           </div>
         </section>
@@ -354,7 +359,7 @@ export default function Home() {
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
             <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">FAQ</div>
             <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              What clients usually want to know before the first meeting
+              Perguntas frequentes antes do início da atuação jurídica
             </h2>
           </div>
 
@@ -377,27 +382,29 @@ export default function Home() {
         <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
         <section className="flex flex-col items-center overflow-hidden border-b border-black/15 px-4 pt-16 text-center sm:px-6 sm:pt-20 md:pt-24">
-          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Start Your Project</div>
+          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Agende Sua Consulta</div>
 
           <h2 className="mx-auto mb-10 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-            Let&apos;s design a space that feels intentional from the first sketch
+            Fale com uma equipe preparada para decisões jurídicas estratégicas
           </h2>
 
           <p className="mb-10 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
-            If you&apos;re planning a home, a renovation, or a commercial interior, we can help turn the brief into a clear architectural direction.
+            Se você precisa de consultoria preventiva ou representação contenciosa, estruturamos a atuação ideal para proteger seus interesses com segurança jurídica.
           </p>
 
-          <Button className="z-10 mb-10 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:w-auto sm:py-6">
-            Book a Consultation
+          <Button asChild className="z-10 mb-10 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:w-auto sm:py-6">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              Agendar Consulta
+            </a>
           </Button>
 
           <div className="relative top-1 mt-auto w-full">
             <Image
-              src="/city-sketch.png"
-              alt="City skyline sketch"
+              src="/footer-meeting-sketch.png"
+              alt="Imagem institucional da advocacia"
               width={1600}
               height={700}
-              className="h-auto w-full max-h-[400px] object-cover object-bottom mix-blend-multiply opacity-90"
+              className="h-auto w-full max-h-[400px] object-cover object-bottom mix-blend-multiply opacity-90 contrast-125"
             />
           </div>
         </section>
@@ -408,33 +415,27 @@ export default function Home() {
           <div className="grid grid-cols-1 border-t border-black/15 bg-white sm:grid-cols-2 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)_minmax(0,1.1fr)]">
             <div className="p-6 sm:border-r sm:border-black/15 sm:p-8">
               <div className="mb-10 font-serif text-lg font-semibold uppercase tracking-widest sm:mb-14">
-                LIGHT CITY STUDIO
+                FUSTINONI ADVOCACIA
               </div>
-              <p className="text-xs text-black/40">All rights reserved - Light City Studio</p>
+              <p className="text-xs text-black/40">FUSTINONI ADVOCACIA - Todos os direitos reservados</p>
               <div className="mt-10 flex flex-wrap gap-4 text-xs font-medium uppercase tracking-wider text-black/50 sm:mt-12">
-                <Link href="#" className="transition-colors hover:text-black">
-                  LinkedIn
-                </Link>
-                <Link href="#" className="transition-colors hover:text-black">
-                  X/Twitter
-                </Link>
-                <Link href="#" className="transition-colors hover:text-black">
-                  YouTube
-                </Link>
+                <span>Atendimento confidencial</span>
+                <span>Consultas por agendamento</span>
+                <span>Atuação nacional</span>
               </div>
             </div>
 
             <div className="border-t border-black/15 p-6 sm:border-t-0 sm:p-8 lg:border-r lg:border-black/15">
-              <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Explore</div>
+              <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Navegação</div>
               <ul className="space-y-3 font-medium">
                 <li>
                   <Link href="#services" className="transition-colors hover:text-black/60">
-                    Services
+                    Equipe
                   </Link>
                 </li>
                 <li>
                   <Link href="#process" className="transition-colors hover:text-black/60">
-                    Process
+                    Modelos de Atuação
                   </Link>
                 </li>
                 <li>
@@ -446,27 +447,27 @@ export default function Home() {
             </div>
 
             <div className="border-t border-black/15 p-6 sm:col-span-2 sm:p-8 lg:col-span-1 lg:border-t-0">
-              <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Contact</div>
+              <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Contato</div>
               <ul className="space-y-3 font-medium">
                 <li>
-                  <Link href="mailto:hello@lightcitystudio.com" className="transition-colors hover:text-black/60">
-                    hello@lightcitystudio.com
-                  </Link>
+                  <span className="text-black/70">Atendimento consultivo e contencioso para pessoas físicas e jurídicas</span>
                 </li>
                 <li>
-                  <span className="text-black/70">Architecture, interiors, and renovation planning</span>
+                  <span className="text-black/70">Reuniões presenciais e remotas, conforme a necessidade do caso</span>
                 </li>
                 <li>
-                  <span className="text-black/70">Remote collaboration available</span>
+                  <span className="text-black/70">Consultas e informações mediante agendamento prévio</span>
                 </li>
                 <li>
-                  <span className="text-black/70">Consultations by appointment</span>
+                  <span className="text-black/70">Canal de contato disponibilizado no primeiro atendimento</span>
                 </li>
               </ul>
             </div>
           </div>
         </footer>
       </div>
+
+      <VirtualAssistantChat whatsappUrl={whatsappUrl} />
     </div>
   );
 }

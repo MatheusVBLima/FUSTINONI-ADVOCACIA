@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
+import "streamdown/styles.css";
 import "./globals.css";
 
 const inter = Inter({
@@ -18,8 +19,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Light City Studio | Architecture and Interior Design",
-  description: "Architecture studio for homes, interiors, renovations, and commercial spaces with clear process and thoughtful detail.",
+  title: "FUSTINONI ADVOCACIA",
+  description:
+    "Assessoria jurídica consultiva e contenciosa para pessoas físicas e jurídicas, com atuação estratégica, técnica e personalizada em múltiplas áreas do Direito.",
 };
 
 export default function RootLayout({
@@ -28,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
       >
@@ -37,3 +39,4 @@ export default function RootLayout({
     </html>
   );
 }
+
