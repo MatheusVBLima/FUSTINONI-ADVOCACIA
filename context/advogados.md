@@ -38,7 +38,7 @@ soluÃ§Ãµes sob medida para demandas pessoais e empresariais. Seu diferencial
 conduÃ§Ã£o ativa e transparente de cada caso, prezando por estratÃ©gias eficientes, sejam
 elas voltadas Ã  prevenÃ§Ã£o de conflitos ou Ã  mitigaÃ§Ã£o de danos, sem perder de vista a
 assertividade na esfera contenciosa.
-Dra. Melina Carneiro Rizzo â€“ OAB/SP
+Dra. Melina Carneiro Rizzo â€“ OAB/SP 391.137
 Melina Carneiro Rizzo construiu uma carreira jurÃ­dica sÃ³lida e versÃ¡til, pautada pela
 excelÃªncia acadÃªmica e pela prÃ¡tica consistente em Ã¡reas de alta complexidade.
 Graduada em Direito pela tradicional Universidade Presbiteriana Mackenzie,

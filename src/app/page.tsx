@@ -36,7 +36,7 @@ const serviceHighlights = [
       "Atua em Direito Penal, Civil, Consumidor e Previdenciário, com foco em gestão de riscos, estratégia processual e condução ativa de litígios de alta complexidade.",
   },
   {
-    title: "Dra. Melina Carneiro Rizzo - OAB/SP a confirmar",
+    title: "Dra. Melina Carneiro Rizzo - OAB/SP 391.137",
     description:
       "Especialista em Direito Imobiliário, Penal e Processual Penal, com experiência em consultivo e contencioso imobiliário, due diligence estratégica e compliance de integridade.",
   },
