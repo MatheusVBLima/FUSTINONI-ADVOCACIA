@@ -3,23 +3,27 @@ import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import "streamdown/styles.css";
 import "./globals.css";
 
-import { SITE_DESCRIPTION, SITE_NAME, getSiteUrl } from "@/lib/site";
+import { SiteShell } from "@/components/site-shell";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
 
 const siteUrl = getSiteUrl();
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -36,11 +40,20 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,
     locale: "pt_BR",
+    images: [
+      {
+        url: SITE_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: SITE_NAME,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
+    images: [SITE_OG_IMAGE],
   },
   robots: {
     index: true,
@@ -58,7 +71,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

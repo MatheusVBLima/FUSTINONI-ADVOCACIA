@@ -77,19 +77,9 @@ export function VirtualAssistantChat({ whatsappUrl }: VirtualAssistantChatProps)
         <Button
           type="button"
           onClick={() => setIsOpen(open => !open)}
-          className="h-12 rounded-none border border-black bg-black px-4 text-xs uppercase tracking-wider text-white hover:bg-black/85"
+          className="size-12 rounded-none border border-black bg-black text-white hover:bg-black/85"
         >
-          {isOpen ? (
-            <>
-              <X className="h-4 w-4" />
-              Fechar Assistente
-            </>
-          ) : (
-            <>
-              <MessageCircle className="h-4 w-4" />
-              Assistente Virtual
-            </>
-          )}
+          {isOpen ? <X className="h-4 w-4" /> : <MessageCircle className="h-4 w-4" />}
         </Button>
       </div>
 
