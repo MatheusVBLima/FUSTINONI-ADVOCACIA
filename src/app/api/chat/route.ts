@@ -13,14 +13,7 @@ const BCB_REPORT_URL =
   "https://www.bcb.gov.br/meubc/relatorioemprestimofinanciamento";
 const CHAT_TOTAL_TIMEOUT_MS = 25_000;
 const CHAT_CHUNK_TIMEOUT_MS = 8_000;
-const CHAT_MAX_OUTPUT_TOKENS = 700;
 
-const TABLE_RESPONSE_GUIDELINES = [
-  '- Se o usuário pedir "tabela", responda somente com uma tabela Markdown válida e completa.',
-  "- Sempre inclua cabeçalho, linha separadora e todas as linhas solicitadas.",
-  '- Em pedidos no plural (ex.: "serviços específicos"), retorne no mínimo 2 linhas quando houver dados no contexto.',
-  "- Não interrompa a tabela no meio e não deixe linha pendente sem fechar com pipe.",
-].join("\n");
 
 let cachedContext: string | null = null;
 
@@ -90,6 +83,7 @@ Regras obrigatórias:
 - Nesses casos, responda usando exatamente este link em Markdown:
   [Falar com a equipe no WhatsApp](${whatsappUrl})
 - Não exiba o endereço completo "https://wa.me/..." em texto puro.
+- Ao listar itens, use listas Markdown (- item) em vez de tabelas. Reserve tabelas apenas quando o usuário pedir explicitamente ("tabela", "em formato de tabela").
 - Se o usuário pedir tabela, responda em tabela Markdown válida.
 - Responda sempre em português do Brasil.
 - Mantenha respostas claras, objetivas e profissionais.
@@ -106,16 +100,10 @@ export async function POST(req: Request) {
     const whatsappUrl = buildWhatsAppUrl();
 
     const result = streamText({
-      model: google("gemini-2.5-flash"),
-      system: [
-        buildSystemPrompt(projectContext, whatsappUrl, BCB_REPORT_URL),
-        "",
-        "Instruções extras para formatação de tabela:",
-        TABLE_RESPONSE_GUIDELINES,
-      ].join("\n"),
+      model: google("gemini-3.1-flash-lite-preview"),
+      system: buildSystemPrompt(projectContext, whatsappUrl, BCB_REPORT_URL),
       messages: await convertToModelMessages(messages),
       temperature: 0.1,
-      maxOutputTokens: CHAT_MAX_OUTPUT_TOKENS,
       maxRetries: 0,
       timeout: {
         totalMs: CHAT_TOTAL_TIMEOUT_MS,
