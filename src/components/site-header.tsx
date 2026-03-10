@@ -31,6 +31,8 @@ export function SiteHeader({
   productNavItems,
   whatsappUrl,
 }: SiteHeaderProps) {
+  const mobileMenuId = "mobile-main-navigation";
+  const mobileProductsId = "mobile-products-navigation";
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
@@ -43,6 +45,7 @@ export function SiteHeader({
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+    setIsMobileProductsOpen(false);
   };
 
   return (
@@ -57,7 +60,7 @@ export function SiteHeader({
           <span className="block">ADVOCACIA</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 text-xs font-medium uppercase tracking-wider text-black/60 xl:flex">
+        <nav className="hidden items-center gap-8 text-xs font-medium uppercase tracking-wider text-black/70 xl:flex">
           {activeNavItems.map(item => (
             <Link key={item.href} href={item.href} className="transition-colors hover:text-black">
               {item.label.toUpperCase()}
@@ -67,7 +70,7 @@ export function SiteHeader({
           <NavigationMenu viewport={false}>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-auto gap-1 rounded-none bg-transparent px-0 text-xs font-medium uppercase tracking-wider text-black/60 shadow-none hover:bg-transparent hover:text-black focus:bg-transparent data-[state=open]:bg-transparent data-active:bg-transparent">
+                <NavigationMenuTrigger className="h-auto gap-1 rounded-none bg-transparent px-0 text-xs font-medium uppercase tracking-wider text-black/70 shadow-none hover:bg-transparent hover:text-black focus:bg-transparent data-[state=open]:bg-transparent data-active:bg-transparent">
                   SERVIÇOS ESPECÍFICOS
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max min-w-56 rounded-none border border-black/15 bg-white p-2 shadow-xl">
@@ -102,9 +105,11 @@ export function SiteHeader({
           className="rounded-none border-black/20 xl:hidden"
           onClick={() => setIsMobileMenuOpen(prev => !prev)}
           aria-expanded={isMobileMenuOpen}
+          aria-controls={mobileMenuId}
+          aria-haspopup="menu"
           aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
         >
-          {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          {isMobileMenuOpen ? <X className="h-4 w-4" aria-hidden="true" /> : <Menu className="h-4 w-4" aria-hidden="true" />}
         </Button>
 
         <Button
@@ -119,7 +124,7 @@ export function SiteHeader({
 
       {isMobileMenuOpen && (
         <div className="mt-4 border-t border-black/15 pt-4 xl:hidden">
-          <nav className="flex flex-col border border-black/15 bg-white">
+          <nav id={mobileMenuId} aria-label="Navegação principal" className="flex flex-col border border-black/15 bg-white">
             {activeNavItems.map(item => (
               <Link
                 key={item.href}
@@ -135,29 +140,33 @@ export function SiteHeader({
               type="button"
               className="flex items-center justify-between border-b border-black/15 px-4 py-3 text-xs font-semibold tracking-wider uppercase transition-colors hover:bg-neutral-50"
               onClick={() => setIsMobileProductsOpen(prev => !prev)}
+              aria-expanded={isMobileProductsOpen}
+              aria-controls={mobileProductsId}
             >
               Serviços Específicos
-              <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isMobileProductsOpen ? "rotate-180" : ""}`} />
+              <ChevronDown aria-hidden="true" className={`h-3.5 w-3.5 transition-transform duration-200 ${isMobileProductsOpen ? "rotate-180" : ""}`} />
             </button>
-            {isMobileProductsOpen && productNavItems.map(product =>
-              product.status === "active" ? (
-                <Link
-                  key={product.href}
-                  href={product.href}
-                  className="border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-100"
-                  onClick={closeMobileMenu}
-                >
-                  {product.label.toUpperCase()}
-                </Link>
-              ) : (
-                <div
-                  key={product.href}
-                  className="border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase text-black/35"
-                >
-                  {product.label.toUpperCase()}
-                </div>
-              ),
-            )}
+            <div id={mobileProductsId}>
+              {isMobileProductsOpen && productNavItems.map(product =>
+                product.status === "active" ? (
+                  <Link
+                    key={product.href}
+                    href={product.href}
+                    className="border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-100"
+                    onClick={closeMobileMenu}
+                  >
+                    {product.label.toUpperCase()}
+                  </Link>
+                ) : (
+                  <div
+                    key={product.href}
+                    className="border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase text-black/70"
+                  >
+                    {product.label.toUpperCase()}
+                  </div>
+                ),
+              )}
+            </div>
 
             <div className="p-4">
               <Button asChild className="w-full rounded-none bg-black text-xs tracking-wider uppercase">
@@ -178,3 +187,4 @@ export function SiteHeader({
     </header>
   );
 }
+

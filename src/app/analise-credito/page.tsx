@@ -83,7 +83,7 @@ const productFaqs = [
   {
     question: "O atendimento pode ser remoto?",
     answer:
-      "Sim. O escritorio realiza atendimentos remotos e presenciais, conforme a necessidade do caso.",
+      "Sim. O escritório realiza atendimentos remotos e presenciais, conforme a necessidade do caso.",
   },
   {
     question: "O caso pode exigir medida urgente?",
@@ -95,12 +95,12 @@ const productFaqs = [
 const heroTags = [
   "Atendimento sigiloso",
   "Análise documental individualizada",
-  "Atuacao consultiva e contenciosa",
+  "Atuação consultiva e contenciosa",
 ];
 
 const heroPreliminarItems = [
   {
-    text: "Recusa reiterada de credito sem justificativa clara",
+    text: "Recusa reiterada de crédito sem justificativa clara",
     tone: "default" as const,
     order: 1,
   },
@@ -110,7 +110,7 @@ const heroPreliminarItems = [
     order: 2,
   },
   { text: "Redução ou bloqueio de limite bancário", tone: "default" as const, order: 3 },
-  { text: "Dados bancarios desatualizados ou controvertidos", tone: "default" as const, order: 4 },
+  { text: "Dados bancários desatualizados ou controvertidos", tone: "default" as const, order: 4 },
   {
     text: "A análise jurídica permite distinguir recusa creditícia legítima de restrição fundada em informação irregular, inexata ou desatualizada.",
     tone: "inverse" as const,
@@ -119,7 +119,14 @@ const heroPreliminarItems = [
 ];
 
 export default function AnaliseCreditoPage() {
-  const whatsappUrl = buildWhatsAppUrl();
+  const whatsappUrlHero = buildWhatsAppUrl(
+    undefined,
+    "Olá! Gostaria de solicitar uma análise de apontamentos indevidos no meu CPF/CNPJ.",
+  );
+  const whatsappUrlCta = buildWhatsAppUrl(
+    undefined,
+    "Olá! Vim pelo site e quero agendar uma consulta sobre apontamentos indevidos no meu CPF/CNPJ.",
+  );
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -143,7 +150,7 @@ export default function AnaliseCreditoPage() {
       <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
         <div className="grid items-start gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div className="min-w-0">
-            <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/50">
+            <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
               Análise jurídica de histórico bancário e acesso ao crédito
             </p>
             <h1 className="mb-8 max-w-3xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
@@ -153,7 +160,7 @@ export default function AnaliseCreditoPage() {
               Recusas de crédito, financiamento e limite bancário podem decorrer de dados
               desatualizados ou indevidos em sistemas do mercado financeiro, inclusive no SCR.
             </p>
-            <p className="mb-8 max-w-3xl text-sm leading-7 text-black/60 sm:text-base">
+            <p className="mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
               O escritório realiza análise jurídica do histórico e da documentação para definir a
               medida cabível: correção de apontamentos, cessação de efeitos lesivos e
               responsabilização quando houver base legal.
@@ -174,7 +181,7 @@ export default function AnaliseCreditoPage() {
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <OpticsButton
                 render={
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" />
+                  <a href={whatsappUrlHero} target="_blank" rel="noopener noreferrer" />
                 }
                 variant="decorations"
                 decorationColor="black"
@@ -214,7 +221,7 @@ export default function AnaliseCreditoPage() {
               className="rounded-none border border-black/15 ring-0 bg-white p-6 shadow-none"
             >
               <OpticsCardHeader className="mb-6 border-b border-black/15 pb-4">
-                <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
+                <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
                   Avaliação preliminar
                 </OpticsCardDescription>
                 <OpticsCardTitle className="mt-2 font-serif text-2xl leading-tight font-normal">
@@ -254,14 +261,14 @@ export default function AnaliseCreditoPage() {
       <section id="problema" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-end">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
               O problema
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               Quando o nome parece regular, mas o mercado continua fechado
             </h2>
           </div>
-          <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/60 sm:text-base">
+          <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/70 sm:text-base">
             <p>
               Muitos clientes chegam com o nome aparentemente regular, mas com recusas repetidas em
               bancos e financeiras.
@@ -306,7 +313,7 @@ export default function AnaliseCreditoPage() {
       >
         <div className="grid gap-10 md:grid-cols-2 md:items-start">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
               Como atuamos
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
@@ -335,7 +342,7 @@ export default function AnaliseCreditoPage() {
             className="rounded-none border border-black/15 bg-white shadow-none ring-0 gap-0"
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
-              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
+              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
                 Etapas da atuação
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
@@ -360,12 +367,12 @@ export default function AnaliseCreditoPage() {
                     className="rounded-none border-black/15 p-3 shadow-none"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5 shrink-0 border border-black/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black/40">
+                      <div className="mt-0.5 shrink-0 border border-black/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black/60">
                         {item.step}
                       </div>
                       <div>
                         <div className="text-sm font-medium">{item.title}</div>
-                        <div className="mt-0.5 text-xs leading-relaxed text-black/55">{item.description}</div>
+                        <div className="mt-0.5 text-xs leading-relaxed text-black/70">{item.description}</div>
                       </div>
                     </div>
                   </Card>
@@ -384,7 +391,7 @@ export default function AnaliseCreditoPage() {
       >
         <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-start">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
               Quando há irregularidade
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
@@ -394,7 +401,7 @@ export default function AnaliseCreditoPage() {
               Comprovada irregularidade, a atuação pode buscar correção cadastral, retirada de
               apontamentos, tutela de urgência e reparação indenizatória, conforme o caso.
             </p>
-            <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/60 shadow-none">
+            <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/70 shadow-none">
               Não há fórmula única nem promessa de resultado: a estratégia depende da documentação
               e dos elementos jurídicos do caso concreto.
             </Card>
@@ -405,7 +412,7 @@ export default function AnaliseCreditoPage() {
             className="rounded-none border border-black/15 bg-white shadow-none ring-0 gap-0"
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
-              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
+              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
                 Providências possíveis
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
@@ -443,7 +450,7 @@ export default function AnaliseCreditoPage() {
 
       <section id="publico" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="max-w-4xl">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             Para quem é esta página
           </div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
@@ -498,8 +505,8 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
       >
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-start">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
-              Diferenciais do escritorio
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
+              Diferenciais do escritório
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               Por que a análise deve ser jurídica, e não apenas operacional
@@ -517,7 +524,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Rigor técnico
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Análise documental criteriosa, sem generalizações ou atalhos.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -528,7 +535,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Estratégia processual
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Cada caso recebe estratégia proporcional — extrajudicial, judicial ou de urgência — conforme o que a situação exige.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -539,7 +546,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Atendimento personalizado
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Nenhum caso é tratado como padrão. A atuação é moldada ao perfil, ao histórico e aos objetivos de cada cliente.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -548,9 +555,9 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Discricao absoluta
+                Discrição absoluta
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Sigilo total no tratamento de dados e informações sensíveis.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -559,9 +566,9 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atuacao consultiva e contenciosa
+                Atuação consultiva e contenciosa
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Capacidade de atuar tanto na prevenção quanto no litígio, conforme o momento do caso.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -572,7 +579,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Análise individual de alta complexidade
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Casos que envolvem SCR, Registrato e histórico bancário exigem leitura técnica aprofundada — não apenas operacional.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -585,7 +592,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
       <section id="faq" className="border-b border-black/15">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
-            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">FAQ</div>
+            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
             <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               Perguntas frequentes antes do início da atuação jurídica
             </h2>
@@ -602,7 +609,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
                   <AccordionTrigger className="py-6 text-left text-sm font-medium hover:no-underline md:text-base">
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="pb-6 leading-relaxed text-black/60">
+                  <AccordionContent className="pb-6 leading-relaxed text-black/70">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -617,13 +624,13 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
       <section className="relative border-b border-black/15 bg-black px-4 pt-16 pb-20 text-center sm:px-6 sm:pt-20 md:px-10 md:pt-24 overflow-hidden">
         <BackgroundBeams className="absolute inset-0 z-0" />
         <div className="relative z-10 mx-auto max-w-3xl">
-          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-white/70">
+          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-white/85">
             Agende sua consulta
           </div>
           <h2 className="mx-auto mb-6 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl">
             Fale com uma equipe preparada para examinar seu caso com seriedade técnica
           </h2>
-          <p className="mx-auto max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
+          <p className="mx-auto max-w-2xl text-sm leading-7 text-white/90 sm:text-base">
             Se você enfrenta negativa de crédito sem justificativa clara, dificuldade de
             financiamento ou suspeita de informação bancária indevida, o primeiro passo é uma
             análise jurídica criteriosa da documentação. A estratégia correta começa com
@@ -631,7 +638,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           </p>
           <div className="mt-8 flex justify-center">
             <OpticsButton
-              render={<a href={whatsappUrl} target="_blank" rel="noopener noreferrer" />}
+              render={<a href={whatsappUrlCta} target="_blank" rel="noopener noreferrer" />}
               variant="decorations"
               decorationColor="white"
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
@@ -639,7 +646,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
               Agendar consulta
             </OpticsButton>
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/65">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/85">
             <span>Atendimento por agendamento</span>
             <span>Análise individualizada</span>
             <span>Atuação nacional</span>
@@ -649,3 +656,4 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
     </>
   );
 }
+

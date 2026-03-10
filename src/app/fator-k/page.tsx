@@ -93,7 +93,7 @@ const productFaqs = [
 const heroTags = [
   "Atendimento empresarial",
   "Análise documental individualizada",
-  "Atuacao consultiva e contenciosa",
+  "Atuação consultiva e contenciosa",
 ];
 
 const heroPreliminarItems = [
@@ -125,7 +125,14 @@ const heroPreliminarItems = [
 ];
 
 export default function FatorKPage() {
-  const whatsappUrl = buildWhatsAppUrl();
+  const whatsappUrlHero = buildWhatsAppUrl(
+    undefined,
+    "Olá! Gostaria de solicitar uma análise jurídica sobre o Fator K na minha fatura da SABESP.",
+  );
+  const whatsappUrlCta = buildWhatsAppUrl(
+    undefined,
+    "Olá! Vim pelo site e quero agendar uma consulta sobre o Fator K da SABESP.",
+  );
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -150,7 +157,7 @@ export default function FatorKPage() {
       <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
         <div className="grid items-start gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div className="min-w-0">
-            <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/50">
+            <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
               Revisão jurídica de cobrança de Fator K — SABESP
             </p>
             <h1 className="mb-8 max-w-3xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
@@ -161,7 +168,7 @@ export default function FatorKPage() {
               de empresas, calculada com base em parâmetros técnicos que nem sempre são
               transparentes ou auditáveis.
             </p>
-            <p className="mb-8 max-w-3xl text-sm leading-7 text-black/60 sm:text-base">
+            <p className="mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
               O escritório realiza análise jurídica e técnica das faturas e do contrato de
               fornecimento para verificar se o enquadramento e os valores cobrados têm amparo legal
               e contratual — e, quando cabível, estrutura a impugnação adequada.
@@ -170,7 +177,7 @@ export default function FatorKPage() {
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <OpticsButton
                 render={
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" />
+                  <a href={whatsappUrlHero} target="_blank" rel="noopener noreferrer" />
                 }
                 variant="decorations"
                 decorationColor="black"
@@ -210,7 +217,7 @@ export default function FatorKPage() {
               className="rounded-none border border-black/15 ring-0 bg-white p-6 shadow-none"
             >
               <OpticsCardHeader className="mb-6 border-b border-black/15 pb-4">
-                <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
+                <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
                   Avaliação preliminar
                 </OpticsCardDescription>
                 <OpticsCardTitle className="mt-2 font-serif text-2xl leading-tight font-normal">
@@ -251,14 +258,14 @@ export default function FatorKPage() {
       <section id="problema" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-end">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
               O problema
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               Cobrança relevante, técnica opaca e sem auditoria regular
             </h2>
           </div>
-          <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/60 sm:text-base">
+          <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/70 sm:text-base">
             <p>
               Muitas empresas pagam o Fator K há anos sem questionar o enquadramento tarifário ou
               verificar se os parâmetros aplicados pela SABESP correspondem à realidade operacional.
@@ -304,7 +311,7 @@ export default function FatorKPage() {
       >
         <div className="grid gap-10 md:grid-cols-2 md:items-start">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
               Como atuamos
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
@@ -322,7 +329,7 @@ export default function FatorKPage() {
             className="rounded-none border border-black/15 bg-white shadow-none ring-0 gap-0"
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
-              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
+              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
                 Etapas da atuação
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
@@ -347,12 +354,12 @@ export default function FatorKPage() {
                     className="rounded-none border-black/15 p-3 shadow-none"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5 shrink-0 border border-black/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black/40">
+                      <div className="mt-0.5 shrink-0 border border-black/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black/60">
                         {item.step}
                       </div>
                       <div>
                         <div className="text-sm font-medium">{item.title}</div>
-                        <div className="mt-0.5 text-xs leading-relaxed text-black/55">{item.description}</div>
+                        <div className="mt-0.5 text-xs leading-relaxed text-black/70">{item.description}</div>
                       </div>
                     </div>
                   </Card>
@@ -372,7 +379,7 @@ export default function FatorKPage() {
       >
         <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-start">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
               Quando a cobrança é questionável
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
@@ -383,7 +390,7 @@ export default function FatorKPage() {
               pode buscar revisão tarifária, restituição de valores e compensação dos efeitos
               financeiros do pagamento indevido.
             </p>
-            <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/60 shadow-none">
+            <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/70 shadow-none">
               Não há fórmula única nem promessa de resultado: a estratégia depende da documentação
               disponível e dos elementos técnicos e jurídicos do caso concreto.
             </Card>
@@ -394,8 +401,8 @@ export default function FatorKPage() {
             className="rounded-none border border-black/15 bg-white shadow-none ring-0 gap-0"
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
-              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
-                Hipoteses de questionamento
+              <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
+                Hipóteses de questionamento
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
                 O que pode ser impugnado juridicamente
@@ -434,7 +441,7 @@ export default function FatorKPage() {
       {/* Para Quem */}
       <section id="publico" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="max-w-4xl">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             Para quem é esta página
           </div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
@@ -506,8 +513,8 @@ export default function FatorKPage() {
       >
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-start">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
-              Diferenciais do escritorio
+            <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
+              Diferenciais do escritório
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               Por que a análise deve ser jurídica, e não apenas operacional
@@ -526,7 +533,7 @@ export default function FatorKPage() {
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Análise técnica e jurídica integrada
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Avaliação da cobrança sob perspectiva regulatória, contratual e legal, sem atalhos.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -537,7 +544,7 @@ export default function FatorKPage() {
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Estratégia proporcional ao caso
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Cada empresa recebe encaminhamento adequado — impugnação administrativa, revisional ou pleito indenizatório — conforme o que os documentos suportam.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -546,9 +553,9 @@ export default function FatorKPage() {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atuacao preventiva e contenciosa
+                Atuação preventiva e contenciosa
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Capacidade de atuar antes do litígio, estruturando defesas administrativas, e na fase judicial quando necessário.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -559,7 +566,7 @@ export default function FatorKPage() {
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Sigilo absoluto
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Tratamento confidencial de dados operacionais, contratos e histórico de consumo.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -570,7 +577,7 @@ export default function FatorKPage() {
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Atendimento personalizado
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Nenhuma empresa é tratada como caso padrão. O porte, o setor e o histórico de cobrança determinam a estratégia.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -581,7 +588,7 @@ export default function FatorKPage() {
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Experiência em demandas regulatórias de alta complexidade
               </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
                 Cobranças da SABESP envolvem metodologia técnica específica — a leitura jurídica exige domínio do marco regulatório do saneamento.
               </OpticsCardDescription>
             </OpticsCardHeader>
@@ -595,7 +602,7 @@ export default function FatorKPage() {
       <section id="faq" className="border-b border-black/15">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
-            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">FAQ</div>
+            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
             <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               Perguntas frequentes antes do início da atuação jurídica
             </h2>
@@ -612,7 +619,7 @@ export default function FatorKPage() {
                   <AccordionTrigger className="py-6 text-left text-sm font-medium hover:no-underline md:text-base">
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="pb-6 leading-relaxed text-black/60">
+                  <AccordionContent className="pb-6 leading-relaxed text-black/70">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -628,20 +635,20 @@ export default function FatorKPage() {
       <section className="relative border-b border-black/15 bg-black px-4 pt-16 pb-20 text-center sm:px-6 sm:pt-20 md:px-10 md:pt-24 overflow-hidden">
         <BackgroundBeams className="absolute inset-0 z-0" />
         <div className="relative z-10 mx-auto max-w-3xl">
-          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-white/70">
+          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-white/85">
             Agende sua consulta
           </div>
           <h2 className="mx-auto mb-6 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl">
             Sua empresa paga Fator K e nunca verificou se a cobrança é exigível?
           </h2>
-          <p className="mx-auto max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
+          <p className="mx-auto max-w-2xl text-sm leading-7 text-white/90 sm:text-base">
             Antes de suportar indefinidamente um custo relevante, convém apurar com critério técnico
             se a cobrança foi corretamente constituída, se o enquadramento está adequado e se há
             medida jurídica viável para revisão, cessação ou restituição de valores.
           </p>
           <div className="mt-8 flex justify-center">
             <OpticsButton
-              render={<a href={whatsappUrl} target="_blank" rel="noopener noreferrer" />}
+              render={<a href={whatsappUrlCta} target="_blank" rel="noopener noreferrer" />}
               variant="decorations"
               decorationColor="white"
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
@@ -649,7 +656,7 @@ export default function FatorKPage() {
               Agendar consulta
             </OpticsButton>
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/65">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/85">
             <span>Atendimento por agendamento</span>
             <span>Análise individualizada</span>
             <span>Atuação nacional</span>
@@ -659,3 +666,4 @@ export default function FatorKPage() {
     </>
   );
 }
+

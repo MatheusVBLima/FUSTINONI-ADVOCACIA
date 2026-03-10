@@ -11,6 +11,16 @@ export const maxDuration = 30;
 
 const BCB_REPORT_URL =
   "https://www.bcb.gov.br/meubc/relatorioemprestimofinanciamento";
+const CHAT_TOTAL_TIMEOUT_MS = 25_000;
+const CHAT_CHUNK_TIMEOUT_MS = 8_000;
+const CHAT_MAX_OUTPUT_TOKENS = 700;
+
+const TABLE_RESPONSE_GUIDELINES = [
+  '- Se o usuário pedir "tabela", responda somente com uma tabela Markdown válida e completa.',
+  "- Sempre inclua cabeçalho, linha separadora e todas as linhas solicitadas.",
+  '- Em pedidos no plural (ex.: "serviços específicos"), retorne no mínimo 2 linhas quando houver dados no contexto.',
+  "- Não interrompa a tabela no meio e não deixe linha pendente sem fechar com pipe.",
+].join("\n");
 
 let cachedContext: string | null = null;
 
@@ -37,7 +47,7 @@ async function loadProjectContext(): Promise<string> {
     }),
   );
 
-  cachedContext = ["# CONTEXTO DO PROJETO (FONTE UNICA)", ...blocks].join("\n\n");
+  cachedContext = ["# CONTEXTO DO PROJETO (FONTE ÚNICA)", ...blocks].join("\n\n");
 
   return cachedContext;
 }
@@ -97,12 +107,41 @@ export async function POST(req: Request) {
 
     const result = streamText({
       model: google("gemini-2.5-flash"),
-      system: buildSystemPrompt(projectContext, whatsappUrl, BCB_REPORT_URL),
+      system: [
+        buildSystemPrompt(projectContext, whatsappUrl, BCB_REPORT_URL),
+        "",
+        "Instruções extras para formatação de tabela:",
+        TABLE_RESPONSE_GUIDELINES,
+      ].join("\n"),
       messages: await convertToModelMessages(messages),
-      temperature: 0.2,
+      temperature: 0.1,
+      maxOutputTokens: CHAT_MAX_OUTPUT_TOKENS,
+      maxRetries: 0,
+      timeout: {
+        totalMs: CHAT_TOTAL_TIMEOUT_MS,
+        chunkMs: CHAT_CHUNK_TIMEOUT_MS,
+      },
+      providerOptions: {
+        google: {
+          thinkingConfig: {
+            thinkingBudget: 0,
+          },
+        },
+      },
+      onFinish: ({ finishReason }) => {
+        console.info("Chat stream finished:", finishReason);
+      },
+      onError: ({ error }) => {
+        console.error("Chat streamText error:", error);
+      },
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse({
+      onError: error => {
+        console.error("Chat UI stream error:", error);
+        return "Não consegui concluir a resposta agora. Tente novamente.";
+      },
+    });
   } catch (error) {
     console.error("Chat route error:", error);
     return new Response(

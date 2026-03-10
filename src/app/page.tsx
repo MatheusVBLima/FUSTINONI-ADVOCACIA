@@ -76,7 +76,7 @@ const faqs = [
       "Sim. A consultoria preventiva pode ser contratada de forma independente para reduzir riscos, estruturar decisões e evitar litígios futuros.",
   },
   {
-    question: "Voces atuam em casos urgentes e medidas liminares?",
+    question: "Vocês atuam em casos urgentes e medidas liminares?",
     answer:
       "Sim. Em situações urgentes, avaliamos a viabilidade jurídica imediata e estruturamos a atuação necessária para proteção célere dos direitos do cliente.",
   },
@@ -163,7 +163,18 @@ const specificServices = [
 ];
 
 export default function Home() {
-  const whatsappUrl = buildWhatsAppUrl();
+  const whatsappUrl = buildWhatsAppUrl(
+    undefined,
+    "Olá! Gostaria de agendar uma consulta com a equipe da FUSTINONI ADVOCACIA.",
+  );
+  const whatsappUrlConsultoria = buildWhatsAppUrl(
+    undefined,
+    "Olá! Quero falar com a equipe da FUSTINONI ADVOCACIA sobre meu caso.",
+  );
+  const whatsappUrlSaude = buildWhatsAppUrl(
+    undefined,
+    "Olá! Gostaria de agendar uma consulta sobre Direito à Saúde (convênio médico ou home care).",
+  );
   const siteUrl = getSiteUrl();
   const legalServiceSchema = {
     "@context": "https://schema.org",
@@ -238,7 +249,7 @@ export default function Home() {
       />
 
       <section className="relative flex flex-col items-center overflow-hidden border-b border-black/15 px-4 pt-16 pb-10 text-center sm:px-6 sm:pt-20 sm:pb-12 md:px-10 md:pt-24">
-        <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">
+        <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">
           FUSTINONI ADVOCACIA
         </div>
 
@@ -286,7 +297,7 @@ export default function Home() {
 
       <section id="services" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 md:px-20 md:py-24">
-          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Equipe</div>
+          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">Equipe</div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
             Advogados com formação sólida <br /> e atuação multidisciplinar
           </h2>
@@ -306,7 +317,7 @@ export default function Home() {
                 <div className="mb-8 flex items-center gap-3 border-b border-black/15 pb-4">
                   <h3 className="font-serif text-xl sm:text-2xl">{service.title}</h3>
                 </div>
-                <p className="text-sm leading-relaxed text-black/60 md:text-base">{service.description}</p>
+                <p className="text-sm leading-relaxed text-black/70 md:text-base">{service.description}</p>
               </div>
             );
           })}
@@ -317,11 +328,11 @@ export default function Home() {
 
       <section id="studio" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Escritório</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">Escritório</div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
             Excelência técnica com visão estratégica para decisões de alta relevância
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/70 sm:text-base">
             Nossa atuação combina rigor jurídico, discrição absoluta e atendimento personalizado para transformar complexidade em soluções seguras, eficazes e sustentáveis.
           </p>
         </div>
@@ -339,7 +350,7 @@ export default function Home() {
         <div className="grid w-full grid-cols-2 border-t border-black/15 text-center text-sm font-medium sm:grid-cols-3 md:grid-cols-5 md:text-base">
           <div className="border-r border-b border-black/15 py-4 md:border-b-0">Rigor técnico</div>
           <div className="border-b border-black/15 py-4 sm:border-r md:border-b-0">Estratégia processual</div>
-          <div className="border-r border-b border-black/15 py-4 md:border-r md:border-b-0">Discricao absoluta</div>
+          <div className="border-r border-b border-black/15 py-4 md:border-r md:border-b-0">Discrição absoluta</div>
           <div className="border-b border-black/15 py-4 sm:border-r sm:border-b-0 md:border-r">Atendimento personalizado</div>
           <div className="col-span-2 py-4 sm:col-span-1">Visão multidisciplinar</div>
         </div>
@@ -349,7 +360,7 @@ export default function Home() {
 
       <section id="process" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Modelos de Atuação</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">Modelos de Atuação</div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
             Escolha o nível de acompanhamento jurídico que seu caso exige
           </h2>
@@ -359,11 +370,11 @@ export default function Home() {
           <div className="flex flex-col border-b border-black/15 md:border-r md:border-b-0">
             <div className="flex-1 p-6 sm:p-8 lg:p-12">
               <h3 className="mb-4 font-serif text-2xl">Consultoria e Prevenção</h3>
-              <p className="mb-8 leading-relaxed text-black/60">
+              <p className="mb-8 leading-relaxed text-black/70">
                 Ideal para quem busca orientação estratégica, prevenção de passivos e estruturação jurídica antes do litígio.
               </p>
               <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <a href={whatsappUrlConsultoria} target="_blank" rel="noopener noreferrer">
                   Falar com a Equipe
                 </a>
               </Button>
@@ -374,7 +385,7 @@ export default function Home() {
                 <div key={label} className="grid grid-cols-[1fr_2.75rem] border-b border-black/15 last:border-b-0 sm:grid-cols-[1fr_4rem]">
                   <div className="border-r border-black/15 p-3 text-sm leading-relaxed text-black/70 sm:p-4">{label}</div>
                   <div className="flex items-center justify-center bg-neutral-50 p-3 sm:p-4">
-                    {index < 5 ? <Plus className="h-4 w-4 text-black/40" /> : <X className="h-4 w-4 text-black/40" />}
+                    {index < 5 ? <Plus className="h-4 w-4 text-black/60" /> : <X className="h-4 w-4 text-black/60" />}
                   </div>
                 </div>
               ))}
@@ -384,7 +395,7 @@ export default function Home() {
           <div className="flex flex-col">
             <div className="flex-1 p-6 sm:p-8 lg:p-12">
               <h3 className="mb-4 font-serif text-2xl">Atuação Completa</h3>
-              <p className="mb-8 leading-relaxed text-black/60">
+              <p className="mb-8 leading-relaxed text-black/70">
                 Recomendado para casos que exigem condução integral, da estratégia inicial à atuação contenciosa e fase de execução.
               </p>
               <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
@@ -399,7 +410,7 @@ export default function Home() {
                 <div key={label} className="grid grid-cols-[1fr_2.75rem] border-b border-black/15 last:border-b-0 sm:grid-cols-[1fr_4rem]">
                   <div className="border-r border-black/15 p-3 text-sm leading-relaxed text-black/70 sm:p-4">{label}</div>
                   <div className="flex items-center justify-center bg-neutral-50 p-3 sm:p-4">
-                    <Plus className="h-4 w-4 text-black/40" />
+                    <Plus className="h-4 w-4 text-black/60" />
                   </div>
                 </div>
               ))}
@@ -412,7 +423,7 @@ export default function Home() {
 
       <section id="sectors" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Áreas de Atuação</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">Áreas de Atuação</div>
           <h2 className="mx-auto max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
             Atuação jurídica abrangente em 12 frentes estratégicas
           </h2>
@@ -429,12 +440,12 @@ export default function Home() {
           <div className="grid grid-rows-2 border-b border-black/15 lg:border-r">
             <div className="flex items-center justify-center border-b border-black/15 p-6 sm:p-8">
               <div className="text-center">
-                <div className="text-xs font-bold uppercase tracking-widest text-black/50">Frente Patrimonial</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-black/70">Frente Patrimonial</div>
                 <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Tributário + Direito Imobiliário</div>
               </div>
             </div>
             <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8">
-              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Planejamento</div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/70">Planejamento</div>
               <div className="font-serif text-3xl sm:text-4xl">Estruturas e proteção de ativos</div>
             </div>
           </div>
@@ -447,19 +458,19 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8 md:border-r md:border-black/15">
-            <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Setores Regulados</div>
+            <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/70">Setores Regulados</div>
             <div className="font-serif text-3xl sm:text-4xl">Direito da Saúde + Direito Administrativo</div>
           </div>
 
           <div className="grid grid-rows-2 md:border-r md:border-black/15">
             <div className="flex items-center justify-center border-b border-black/15 p-6 sm:p-8">
               <div className="text-center">
-                <div className="text-xs font-bold uppercase tracking-widest text-black/50">Âmbito Internacional</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-black/70">Âmbito Internacional</div>
                 <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Internacional + Direito Desportivo</div>
               </div>
             </div>
             <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8">
-              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Risco e Integridade</div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/70">Risco e Integridade</div>
               <div className="font-serif text-3xl sm:text-4xl">Direito Penal Empresarial + Direito Digital e Compliance</div>
             </div>
           </div>
@@ -475,11 +486,11 @@ export default function Home() {
 
       <section id="specific-services" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Serviços Específicos</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">Serviços Específicos</div>
           <h2 className="mx-auto max-w-3xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
             Soluções dedicadas para demandas jurídicas específicas
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/70 sm:text-base">
             Conheça frentes específicas de atuação com escopo claro, abordagem técnica e acompanhamento estratégico.
           </p>
         </div>
@@ -494,7 +505,7 @@ export default function Home() {
               >
                 <div className="flex-1">
                   <h3 className="mb-4 font-serif text-2xl leading-tight">{service.title}</h3>
-                  <p className="mb-8 text-sm leading-7 text-black/60 sm:text-base">{service.description}</p>
+                  <p className="mb-8 text-sm leading-7 text-black/70 sm:text-base">{service.description}</p>
                 </div>
 
                 {service.href && !service.disabled ? (
@@ -504,7 +515,7 @@ export default function Home() {
                 ) : (
                   <Button
                     disabled
-                    className="w-full rounded-none border border-black/20 bg-neutral-200 py-6 text-xs uppercase tracking-wider text-black/45 hover:bg-neutral-200"
+                    className="w-full rounded-none border border-black/20 bg-neutral-200 py-6 text-xs uppercase tracking-wider text-black/60 hover:bg-neutral-200"
                   >
                     {service.ctaLabel}
                   </Button>
@@ -519,7 +530,7 @@ export default function Home() {
           .map(service => (
             <article key={service.title} className="border-t border-black/15 px-6 py-12 text-center sm:px-8 sm:py-16 md:px-10">
               <h3 className="mb-4 font-serif text-2xl leading-tight sm:text-3xl">{service.title}</h3>
-              <p className="mx-auto mb-10 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">{service.description}</p>
+              <p className="mx-auto mb-10 max-w-2xl text-sm leading-7 text-black/70 sm:text-base">{service.description}</p>
               {"subCards" in service && service.subCards && (
                 <div className="grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
                   {service.subCards.map(sub => (
@@ -528,7 +539,7 @@ export default function Home() {
                         <h4 className="mb-3 font-serif text-xl leading-snug">{sub.title}</h4>
                         <ul className="mb-6 space-y-2">
                           {sub.bullets.map(bullet => (
-                            <li key={bullet} className="flex items-start gap-2 text-sm leading-6 text-black/60">
+                            <li key={bullet} className="flex items-start gap-2 text-sm leading-6 text-black/70">
                               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-black/30" />
                               {bullet}
                             </li>
@@ -536,7 +547,7 @@ export default function Home() {
                         </ul>
                       </div>
                       <Button asChild className="w-full rounded-none bg-black py-5 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">{sub.ctaLabel}</a>
+                        <a href={whatsappUrlSaude} target="_blank" rel="noopener noreferrer">{sub.ctaLabel}</a>
                       </Button>
                     </div>
                   ))}
@@ -550,7 +561,7 @@ export default function Home() {
 
       <section id="faq" className="scroll-mt-24 grid grid-cols-1 border-b border-black/15 sm:scroll-mt-28 lg:grid-cols-2">
         <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
-          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">FAQ</div>
+          <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
           <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
             Perguntas frequentes antes do início da atuação jurídica
           </h2>
@@ -563,7 +574,7 @@ export default function Home() {
                 <AccordionTrigger className="py-6 text-left text-sm font-medium hover:no-underline md:text-base">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="pb-6 leading-relaxed text-black/60">
+                <AccordionContent className="pb-6 leading-relaxed text-black/70">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -575,13 +586,13 @@ export default function Home() {
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
       <section className="flex flex-col items-center overflow-hidden border-b border-black/15 px-4 pt-16 text-center sm:px-6 sm:pt-20 md:pt-24">
-        <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Agende Sua Consulta</div>
+        <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">Agende Sua Consulta</div>
 
         <h2 className="mx-auto mb-10 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
           Fale com uma equipe preparada para decisões jurídicas estratégicas
         </h2>
 
-        <p className="mb-10 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
+        <p className="mb-10 max-w-2xl text-sm leading-7 text-black/70 sm:text-base">
           Se você precisa de consultoria preventiva ou representação contenciosa, estruturamos a atuação ideal para proteger seus interesses com segurança jurídica.
         </p>
 
@@ -604,3 +615,4 @@ export default function Home() {
     </>
   );
 }
+
