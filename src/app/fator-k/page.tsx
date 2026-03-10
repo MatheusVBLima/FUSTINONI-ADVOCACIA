@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 
 import { OpticsButton } from "@/components/optics/optics-button";
 import {
@@ -6,28 +7,25 @@ import {
   OpticsCardAction,
   OpticsCardContent,
   OpticsCardDescription,
-  OpticsCardFooter,
   OpticsCardHeader,
   OpticsCardTitle,
 } from "@/components/optics/optics-card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AnimatedList } from "@/components/ui/animated-list";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Marquee } from "@/components/ui/marquee";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Marquee } from "@/components/ui/marquee";
 import { SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const siteUrl = getSiteUrl();
-const pagePath = "/analise-credito";
+const pagePath = "/fator-k";
 const pageUrl = `${siteUrl}${pagePath}`;
-const BCB_REPORT_URL =
-  "https://www.bcb.gov.br/meubc/relatorioemprestimofinanciamento";
 const pageTitle =
-  "Análise jurídica de histórico bancário e acesso ao crédito | FUSTINONI ADVOCACIA";
+  "Revisão jurídica de cobrança de Fator K da SABESP | FUSTINONI ADVOCACIA";
 const pageDescription =
-  "Recusa de crédito, financiamento, limite bancário ou aprovação cadastral pode envolver informação desatualizada, distorcida ou indevida. O escritório realiza análise técnica e define a medida jurídica cabível.";
+  "Empresas que pagam Fator K nas faturas SABESP podem ter direito a revisão tarifária e restituição de valores. O escritório realiza análise jurídica e técnica com estratégia extrajudicial ou judicial.";
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -61,64 +59,72 @@ export const metadata: Metadata = {
 
 const productFaqs = [
   {
-    question: "Ter o nome limpo significa que meu histórico bancário está regular?",
+    question: "Toda cobrança de Fator K é indevida?",
     answer:
-      "Não necessariamente. É possível inexistir negativação clássica e, ainda assim, subsistirem informações bancárias ou cadastrais que influenciem a análise de crédito realizada pelas instituições financeiras.",
+      "Não. A cobrança pode ser legítima. A análise jurídica visa identificar se o enquadramento, os parâmetros aplicados e a memória de cálculo são adequados ao caso concreto — e se há base para impugnação.",
   },
   {
-    question: "Toda recusa de crédito é ilegal?",
+    question: "Minha empresa paga essa rubrica há anos. Ainda assim o caso pode ser analisado?",
     answer:
-      "Não. A concessão de crédito envolve critérios internos das instituições. Contudo, quando a negativa decorre de dado indevido, inexato, desatualizado ou mantido sem respaldo, pode haver providência jurídica cabível.",
+      "Sim. Justamente nos casos de cobrança prolongada a análise costuma ser mais relevante, pois permite examinar a origem do enquadramento, a evolução das faturas, a coerência da classificação adotada e a eventual viabilidade de repetição de valores pagos indevidamente, observados os limites legais aplicáveis.",
   },
   {
-    question: "O escritório analisa a documentação antes de propor qualquer medida?",
+    question: "É possível recuperar valores já pagos?",
     answer:
-      "Sim. A atuação parte de análise técnica da documentação, justamente para aferir a viabilidade jurídica do caso e definir a estratégia adequada. Para triagem inicial, o relatório de Empréstimos e Financiamentos do Banco Central é um documento relevante.",
+      "Dependendo do caso, sim. A repetição de indébito pode ser pleiteada quando comprovado pagamento indevido, observados os prazos prescricionais aplicáveis.",
   },
   {
-    question: "É possível pleitear indenização?",
+    question: "Quais documentos são necessários para a análise inicial?",
     answer:
-      "Em hipóteses juridicamente configuradas, sim. Isso dependerá da natureza da irregularidade, da extensão do prejuízo e dos elementos probatórios disponíveis.",
+      "Em geral, faturas SABESP dos últimos anos, contrato de fornecimento, documentos societários e dados cadastrais da empresa. A partir disso, o escritório realiza o diagnóstico de viabilidade.",
+  },
+  {
+    question: "A impugnação pode ser feita sem ação judicial?",
+    answer:
+      "Sim. Em muitos casos, a via administrativa é o primeiro passo — e pode ser suficiente para a revisão dos valores. A medida judicial é adotada quando necessária ou mais eficiente.",
   },
   {
     question: "O atendimento pode ser remoto?",
     answer:
-      "Sim. O escritorio realiza atendimentos remotos e presenciais, conforme a necessidade do caso.",
-  },
-  {
-    question: "O caso pode exigir medida urgente?",
-    answer:
-      "Pode. Em determinadas situações, sobretudo quando há operação financeira em curso ou prejuízo iminente, pode ser necessária tutela de urgência, a depender da análise documental.",
+      "Sim. O escritório realiza atendimentos remotos e presenciais, com acompanhamento contínuo e comunicação transparente durante toda a condução do caso.",
   },
 ];
 
 const heroTags = [
-  "Atendimento sigiloso",
+  "Atendimento empresarial",
   "Análise documental individualizada",
   "Atuacao consultiva e contenciosa",
 ];
 
 const heroPreliminarItems = [
   {
-    text: "Recusa reiterada de credito sem justificativa clara",
+    text: "Fatura SABESP com cobrança de Fator K sem memória de cálculo clara",
     tone: "default" as const,
     order: 1,
   },
   {
-    text: "Financiamento negado apesar de nome aparentemente regular",
+    text: "Empresa enquadrada em categoria tarifária sem verificação individualizada",
     tone: "default" as const,
     order: 2,
   },
-  { text: "Redução ou bloqueio de limite bancário", tone: "default" as const, order: 3 },
-  { text: "Dados bancarios desatualizados ou controvertidos", tone: "default" as const, order: 4 },
   {
-    text: "A análise jurídica permite distinguir recusa creditícia legítima de restrição fundada em informação irregular, inexata ou desatualizada.",
+    text: "Parâmetros técnicos aplicados sem comprovação documental adequada",
+    tone: "default" as const,
+    order: 3,
+  },
+  {
+    text: "Impacto financeiro relevante em contas empresariais ao longo de meses ou anos",
+    tone: "default" as const,
+    order: 4,
+  },
+  {
+    text: "A análise jurídica permite aferir se o enquadramento e os valores cobrados têm respaldo técnico e legal.",
     tone: "inverse" as const,
     order: 5,
   },
 ];
 
-export default function AnaliseCreditoPage() {
+export default function FatorKPage() {
   const whatsappUrl = buildWhatsAppUrl();
   const faqSchema = {
     "@context": "https://schema.org",
@@ -140,36 +146,26 @@ export default function AnaliseCreditoPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
+      {/* Hero */}
       <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
         <div className="grid items-start gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div className="min-w-0">
             <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/50">
-              Análise jurídica de histórico bancário e acesso ao crédito
+              Revisão jurídica de cobrança de Fator K — SABESP
             </p>
             <h1 className="mb-8 max-w-3xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
-              Crédito negado, mesmo sem negativação aparente?
+              Sua empresa está pagando Fator K à SABESP?
             </h1>
             <p className="mb-5 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-              Recusas de crédito, financiamento e limite bancário podem decorrer de dados
-              desatualizados ou indevidos em sistemas do mercado financeiro, inclusive no SCR.
+              O Fator K é uma cobrança tarifária aplicada pela SABESP sobre determinadas categorias
+              de empresas, calculada com base em parâmetros técnicos que nem sempre são
+              transparentes ou auditáveis.
             </p>
             <p className="mb-8 max-w-3xl text-sm leading-7 text-black/60 sm:text-base">
-              O escritório realiza análise jurídica do histórico e da documentação para definir a
-              medida cabível: correção de apontamentos, cessação de efeitos lesivos e
-              responsabilização quando houver base legal.
+              O escritório realiza análise jurídica e técnica das faturas e do contrato de
+              fornecimento para verificar se o enquadramento e os valores cobrados têm amparo legal
+              e contratual — e, quando cabível, estrutura a impugnação adequada.
             </p>
-
-            <div className="mb-8 max-w-3xl border border-black/15 bg-neutral-50 px-4 py-3 text-left text-sm leading-6 text-black/70">
-              <p className="font-medium text-black">Documento essencial para análise inicial</p>
-              <a
-                href={BCB_REPORT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 inline-block underline underline-offset-2"
-              >
-                Gerar Relatório de Empréstimos e Financiamentos (Banco Central)
-              </a>
-            </div>
 
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <OpticsButton
@@ -222,7 +218,7 @@ export default function AnaliseCreditoPage() {
                 </OpticsCardTitle>
                 <OpticsCardAction>
                   <div className="border border-black/20 px-3 py-1 text-[11px] font-medium uppercase tracking-wider">
-                    SCR / Registrato
+                    SABESP / Fator K
                   </div>
                 </OpticsCardAction>
               </OpticsCardHeader>
@@ -251,6 +247,7 @@ export default function AnaliseCreditoPage() {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* Problema */}
       <section id="problema" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-end">
           <div>
@@ -258,29 +255,29 @@ export default function AnaliseCreditoPage() {
               O problema
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Quando o nome parece regular, mas o mercado continua fechado
+              Cobrança relevante, técnica opaca e sem auditoria regular
             </h2>
           </div>
           <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/60 sm:text-base">
             <p>
-              Muitos clientes chegam com o nome aparentemente regular, mas com recusas repetidas em
-              bancos e financeiras.
+              Muitas empresas pagam o Fator K há anos sem questionar o enquadramento tarifário ou
+              verificar se os parâmetros aplicados pela SABESP correspondem à realidade operacional.
             </p>
             <p>
-              Em vários casos, o bloqueio está ligado a registros bancários controvertidos ou
-              desatualizados, afetando limite, financiamento e reputação negocial.
+              A ausência de auditoria jurídica das faturas pode representar pagamento a maior
+              durante anos, sem possibilidade de recuperação futura por decurso do prazo.
             </p>
           </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { label: "Recusa reiterada de crédito sem justificativa clara", index: "01" },
-            { label: "Financiamento negado apesar de nome aparentemente regular", index: "02" },
-            { label: "Redução ou bloqueio de limite bancário", index: "03" },
-            { label: "Dados bancários desatualizados ou controvertidos", index: "04" },
-            { label: "Dificuldade em operações empresariais e pessoais", index: "05" },
-            { label: "Necessidade de correção e responsabilização jurídica", index: "06" },
+            { label: "Cobrança calculada com base em parâmetros técnicos opacos e não auditados", index: "01" },
+            { label: "Memória de cálculo ausente ou incompleta nas faturas mensais", index: "02" },
+            { label: "Enquadramento em categorias tarifárias sem verificação individualizada", index: "03" },
+            { label: "Aceitação passiva de valores sem análise jurídica prévia", index: "04" },
+            { label: "Ausência de impugnação administrativa durante o prazo decadencial", index: "05" },
+            { label: "Potencial de revisão e recuperação de valores pagos indevidamente", index: "06" },
           ].map(item => (
             <OpticsCard
               key={item.label}
@@ -300,6 +297,7 @@ export default function AnaliseCreditoPage() {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* Como Atuamos */}
       <section
         id="como-atuamos"
         className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10"
@@ -310,23 +308,12 @@ export default function AnaliseCreditoPage() {
               Como atuamos
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Atuação jurídica estruturada, com estratégia e precisão técnica
+              Atuação jurídica estruturada, com análise técnica e estratégia proporcional
             </h2>
             <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-              Cada caso exige leitura jurídica individual. Cruzamos relatórios, contratos e histórico
-              bancário para definir a estratégia extrajudicial ou judicial mais adequada.
-            </p>
-            <p className="mt-4 text-sm leading-7 text-black/65 sm:text-base">
-              Para triagem inicial, priorize a emissão do relatório oficial do Banco Central:{" "}
-              <a
-                href={BCB_REPORT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium underline underline-offset-2"
-              >
-                Relatório de Empréstimos e Financiamentos
-              </a>
-              .
+              Cada caso exige leitura individualizada das faturas, contratos e dados de consumo.
+              Cruzamos informações técnicas e jurídicas para definir a estratégia mais adequada —
+              administrativa ou judicial.
             </p>
           </div>
 
@@ -339,7 +326,7 @@ export default function AnaliseCreditoPage() {
                 Etapas da atuação
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
-                Do diagnóstico ao acompanhamento completo
+                Do diagnóstico ao acompanhamento integral
               </OpticsCardTitle>
             </OpticsCardHeader>
             <div
@@ -349,10 +336,10 @@ export default function AnaliseCreditoPage() {
             <OpticsCardContent className="px-0">
               <AnimatedList delay={400} newestOnTop={false} className="w-full items-stretch gap-2">
                 {[
-                  { step: "01", title: "Recebimento da documentação", description: "Relatórios, contratos e comprovantes essenciais, com prioridade ao relatório do Banco Central." },
-                  { step: "02", title: "Diagnóstico jurídico", description: "Mapeamento de inconsistências e dados indevidos." },
-                  { step: "03", title: "Definição da medida cabível", description: "Notificação, ação, tutela de urgência ou pedido indenizatório." },
-                  { step: "04", title: "Acompanhamento completo", description: "Condução até a conclusão com discrição e estratégia." },
+                  { step: "01", title: "Levantamento documental", description: "Faturas, histórico de consumo, contratos, documentos societários e CNAE." },
+                  { step: "02", title: "Diagnóstico jurídico e técnico", description: "Avaliação do enquadramento tarifário, memória de cálculo e histórico de faturamento." },
+                  { step: "03", title: "Definição da estratégia", description: "Impugnação administrativa, ação revisional ou pleito de repetição de indébito, conforme o caso." },
+                  { step: "04", title: "Acompanhamento integral", description: "Condução do caso até a conclusão com discrição e precisão técnica." },
                 ].map((item, i) => (
                   <Card
                     key={item.step}
@@ -378,25 +365,27 @@ export default function AnaliseCreditoPage() {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* Questionavel */}
       <section
-        id="irregularidade"
+        id="questionavel"
         className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10"
       >
         <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
-              Quando há irregularidade
+              Quando a cobrança é questionável
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
               O que pode ser discutido juridicamente
             </h2>
             <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-              Comprovada irregularidade, a atuação pode buscar correção cadastral, retirada de
-              apontamentos, tutela de urgência e reparação indenizatória, conforme o caso.
+              Identificada irregularidade no enquadramento ou na metodologia de cálculo, a atuação
+              pode buscar revisão tarifária, restituição de valores e compensação dos efeitos
+              financeiros do pagamento indevido.
             </p>
             <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/60 shadow-none">
               Não há fórmula única nem promessa de resultado: a estratégia depende da documentação
-              e dos elementos jurídicos do caso concreto.
+              disponível e dos elementos técnicos e jurídicos do caso concreto.
             </Card>
           </div>
 
@@ -406,10 +395,10 @@ export default function AnaliseCreditoPage() {
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
               <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/50">
-                Providências possíveis
+                Hipoteses de questionamento
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
-                O que pode ser buscado juridicamente
+                O que pode ser impugnado juridicamente
               </OpticsCardTitle>
             </OpticsCardHeader>
             <div
@@ -419,11 +408,12 @@ export default function AnaliseCreditoPage() {
             <OpticsCardContent className="px-0">
               <AnimatedList delay={300} newestOnTop={false} className="w-full items-stretch gap-2">
                 {[
-                  "Correção ou exclusão da informação irregular",
-                  "Adequação do histórico cadastral e bancário à realidade documental",
-                  "Cessação dos efeitos lesivos sobre o acesso ao crédito",
-                  "Tutela de urgência para impedir a perpetuação do dano",
-                  "Reparação indenizatória, quando presentes os requisitos legais",
+                  "Enquadramento em categoria tarifária sem verificação individualizada da empresa",
+                  "Aplicação de parâmetros sem comprovação da metodologia de cálculo",
+                  "Ausência de memória de cálculo acessível e auditável nas faturas",
+                  "Majoração tarifária suportada por longo período sem base documental compreensível",
+                  "Necessidade de cessação ou revisão da cobrança futura",
+                  "Viabilidade de recuperação de valores pagos, quando juridicamente cabível",
                 ].map((item, i) => (
                   <Card
                     key={item}
@@ -441,17 +431,18 @@ export default function AnaliseCreditoPage() {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* Para Quem */}
       <section id="publico" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="max-w-4xl">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">
             Para quem é esta página
           </div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Atendimento para pessoas físicas, empresários e estruturas familiares
+            Empresas que pagam Fator K e nunca questionaram o enquadramento
           </h2>
           <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-A página foi pensada para atender clientes que, embora não identifiquem restrições
-              evidentes, percebem efeitos concretos de bloqueio negocial no mercado.
+            A página foi pensada para empresas que recebem cobrança de Fator K na fatura SABESP e
+            nunca realizaram análise jurídica do enquadramento tarifário ou da metodologia aplicada.
           </p>
         </div>
 
@@ -459,7 +450,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Pessoas físicas com crédito pessoal ou financiamento recusado
+                Restaurantes, padarias e operações de alimentação com alto consumo de água
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -467,7 +458,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Empresários com dificuldade de obtenção de limite, capital de giro ou aprovação bancária
+                Shoppings, condomínios comerciais e centros empresariais com múltiplos usuários
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -475,7 +466,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Famílias em fase de aquisição imobiliária e clientes que revisam o histórico antes de nova operação
+                Frigoríficos, lavanderias e prestadores de serviço com processo produtivo intensivo em água
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -483,7 +474,23 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Pessoas que suspeitam de manutenção indevida de informações após quitação
+                Empresas industriais que nunca auditaram suas faturas SABESP
+              </OpticsCardTitle>
+            </OpticsCardHeader>
+          </OpticsCard>
+
+          <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
+            <OpticsCardHeader>
+              <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
+                Negócios que pagam Fator K há anos sem impugnar ou questionar
+              </OpticsCardTitle>
+            </OpticsCardHeader>
+          </OpticsCard>
+
+          <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
+            <OpticsCardHeader>
+              <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
+                Sociedades em revisão de custos operacionais ou planejamento estratégico que identificaram a rubrica nas faturas
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -492,6 +499,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* Diferenciais */}
       <section
         id="diferenciais"
         className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10"
@@ -506,8 +514,9 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
             </h2>
           </div>
           <p className="mt-[calc(1rem+1lh)] border-l border-black/15 pl-8 text-sm leading-7 text-black/65 sm:text-base">
-            Nosso diferencial está em separar recusa legítima de restrição irregular, com leitura
-            jurídica técnica e estratégia proporcional a cada caso.
+            A revisão da cobrança do Fator K exige estruturação jurídica da tese, leitura
+            regulatória, análise das faturas em série e definição da medida adequada — sempre à
+            luz da documentação do caso.
           </p>
         </div>
 
@@ -515,10 +524,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Rigor técnico
+                Análise técnica e jurídica integrada
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
-                Análise documental criteriosa, sem generalizações ou atalhos.
+                Avaliação da cobrança sob perspectiva regulatória, contratual e legal, sem atalhos.
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -526,43 +535,43 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Estratégia processual
+                Estratégia proporcional ao caso
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
-                Cada caso recebe estratégia proporcional — extrajudicial, judicial ou de urgência — conforme o que a situação exige.
+                Cada empresa recebe encaminhamento adequado — impugnação administrativa, revisional ou pleito indenizatório — conforme o que os documentos suportam.
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
 
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
+            <OpticsCardHeader>
+              <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
+                Atuacao preventiva e contenciosa
+              </OpticsCardTitle>
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+                Capacidade de atuar antes do litígio, estruturando defesas administrativas, e na fase judicial quando necessário.
+              </OpticsCardDescription>
+            </OpticsCardHeader>
+          </OpticsCard>
+
+          <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
+            <OpticsCardHeader>
+              <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
+                Sigilo absoluto
+              </OpticsCardTitle>
+              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
+                Tratamento confidencial de dados operacionais, contratos e histórico de consumo.
+              </OpticsCardDescription>
+            </OpticsCardHeader>
+          </OpticsCard>
+
+          <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
                 Atendimento personalizado
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
-                Nenhum caso é tratado como padrão. A atuação é moldada ao perfil, ao histórico e aos objetivos de cada cliente.
-              </OpticsCardDescription>
-            </OpticsCardHeader>
-          </OpticsCard>
-
-          <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
-            <OpticsCardHeader>
-              <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Discricao absoluta
-              </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
-                Sigilo total no tratamento de dados e informações sensíveis.
-              </OpticsCardDescription>
-            </OpticsCardHeader>
-          </OpticsCard>
-
-          <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
-            <OpticsCardHeader>
-              <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atuacao consultiva e contenciosa
-              </OpticsCardTitle>
-              <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
-                Capacidade de atuar tanto na prevenção quanto no litígio, conforme o momento do caso.
+                Nenhuma empresa é tratada como caso padrão. O porte, o setor e o histórico de cobrança determinam a estratégia.
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -570,10 +579,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Análise individual de alta complexidade
+                Experiência em demandas regulatórias de alta complexidade
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/55">
-                Casos que envolvem SCR, Registrato e histórico bancário exigem leitura técnica aprofundada — não apenas operacional.
+                Cobranças da SABESP envolvem metodologia técnica específica — a leitura jurídica exige domínio do marco regulatório do saneamento.
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -582,6 +591,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* FAQ */}
       <section id="faq" className="border-b border-black/15">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
@@ -614,6 +624,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
+      {/* CTA */}
       <section className="relative border-b border-black/15 bg-black px-4 pt-16 pb-20 text-center sm:px-6 sm:pt-20 md:px-10 md:pt-24 overflow-hidden">
         <BackgroundBeams className="absolute inset-0 z-0" />
         <div className="relative z-10 mx-auto max-w-3xl">
@@ -621,13 +632,12 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
             Agende sua consulta
           </div>
           <h2 className="mx-auto mb-6 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl">
-            Fale com uma equipe preparada para examinar seu caso com seriedade técnica
+            Sua empresa paga Fator K e nunca verificou se a cobrança é exigível?
           </h2>
           <p className="mx-auto max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
-            Se você enfrenta negativa de crédito sem justificativa clara, dificuldade de
-            financiamento ou suspeita de informação bancária indevida, o primeiro passo é uma
-            análise jurídica criteriosa da documentação. A estratégia correta começa com
-            diagnóstico preciso.
+            Antes de suportar indefinidamente um custo relevante, convém apurar com critério técnico
+            se a cobrança foi corretamente constituída, se o enquadramento está adequado e se há
+            medida jurídica viável para revisão, cessação ou restituição de valores.
           </p>
           <div className="mt-8 flex justify-center">
             <OpticsButton

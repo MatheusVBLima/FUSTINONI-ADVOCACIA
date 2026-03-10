@@ -5,7 +5,7 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
-import { VirtualAssistantChat } from "./virtual-assistant-chat";
+import { VirtualAssistantChatLazy } from "./virtual-assistant-chat-lazy";
 
 type SiteShellProps = {
   children: ReactNode;
@@ -26,7 +26,7 @@ export function SiteShell({ children }: SiteShellProps) {
         <SiteFooter />
       </div>
 
-      <VirtualAssistantChat whatsappUrl={whatsappUrl} />
+      <VirtualAssistantChatLazy whatsappUrl={whatsappUrl} />
     </div>
   );
 }

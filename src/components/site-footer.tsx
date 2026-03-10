@@ -15,12 +15,12 @@ export function SiteFooter() {
             <div className="mt-10 flex flex-wrap gap-4 text-xs font-medium uppercase tracking-wider text-black/50 sm:mt-12">
               <span>Atendimento confidencial</span>
               <span>Consultas por agendamento</span>
-              <span>Atuacao nacional</span>
+              <span>Atuação nacional</span>
             </div>
           </div>
 
           <div className="border-t border-black/15 p-6 sm:border-t-0 sm:p-8 lg:border-r lg:border-black/15">
-            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Navegacao</div>
+            <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Navegação</div>
             <ul className="space-y-3 font-medium">
               <li>
                 <Link href="/#services" className="transition-colors hover:text-black/60">
@@ -29,12 +29,12 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/#process" className="transition-colors hover:text-black/60">
-                  Modelos de Atuacao
+                  Modelos de Atuação
                 </Link>
               </li>
               <li>
                 <Link href="/analise-credito" className="transition-colors hover:text-black/60">
-                  Analise de Credito
+                  Análise de Apontamentos Indevidos
                 </Link>
               </li>
               <li>
@@ -50,17 +50,17 @@ export function SiteFooter() {
             <ul className="space-y-3 font-medium">
               <li>
                 <span className="text-black/70">
-                  Atendimento consultivo e contencioso para pessoas fisicas e juridicas
+                  Atendimento consultivo e contencioso para pessoas físicas e jurídicas
                 </span>
               </li>
               <li>
                 <span className="text-black/70">
-                  Reunioes presenciais e remotas, conforme a necessidade do caso
+                  Reuniões presenciais e remotas, conforme a necessidade do caso
                 </span>
               </li>
               <li>
                 <span className="text-black/70">
-                  Consultas e informacoes mediante agendamento previo
+                  Consultas e informações mediante agendamento prévio
                 </span>
               </li>
               <li>
@@ -73,4 +73,3 @@ export function SiteFooter() {
     </>
   );
 }
-

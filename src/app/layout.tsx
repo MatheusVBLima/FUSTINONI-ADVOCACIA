@@ -7,6 +7,9 @@ import { SiteShell } from "@/components/site-shell";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
 
 const siteUrl = getSiteUrl();
+const isProduction = process.env.VERCEL_ENV
+  ? process.env.VERCEL_ENV === "production"
+  : process.env.NODE_ENV === "production";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,9 +33,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(`${siteUrl}/`),
   title: SITE_NAME,
   description: SITE_DESCRIPTION,
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: siteUrl,
@@ -55,10 +55,16 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [SITE_OG_IMAGE],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: isProduction
+    ? {
+        index: true,
+        follow: true,
+      }
+    : {
+        index: false,
+        follow: false,
+        nocache: true,
+      },
 };
 
 export default function RootLayout({

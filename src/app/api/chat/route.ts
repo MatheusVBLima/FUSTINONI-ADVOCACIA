@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { google } from "@ai-sdk/google";
@@ -9,6 +9,9 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
+const BCB_REPORT_URL =
+  "https://www.bcb.gov.br/meubc/relatorioemprestimofinanciamento";
+
 let cachedContext: string | null = null;
 
 async function loadProjectContext(): Promise<string> {
@@ -17,23 +20,33 @@ async function loadProjectContext(): Promise<string> {
   }
 
   const basePath = path.join(process.cwd(), "context");
-  const [lawyersContext, practiceAreasContext] = await Promise.all([
-    readFile(path.join(basePath, "advogados.md"), "utf8"),
-    readFile(path.join(basePath, "areas-atuacao.md"), "utf8"),
-  ]);
+  const files = await readdir(basePath, { withFileTypes: true });
+  const markdownFiles = files
+    .filter(file => file.isFile() && file.name.toLowerCase().endsWith(".md"))
+    .map(file => file.name)
+    .sort((a, b) => a.localeCompare(b));
 
-  cachedContext = [
-    "# CONTEXTO DO PROJETO (FONTE ÚNICA)",
-    "## Arquivo: advogados.md",
-    lawyersContext,
-    "## Arquivo: areas-atuacao.md",
-    practiceAreasContext,
-  ].join("\n\n");
+  if (markdownFiles.length === 0) {
+    throw new Error("Nenhum arquivo de contexto (.md) encontrado na pasta context.");
+  }
+
+  const blocks = await Promise.all(
+    markdownFiles.map(async fileName => {
+      const content = await readFile(path.join(basePath, fileName), "utf8");
+      return [`## Arquivo: ${fileName}`, content].join("\n\n");
+    }),
+  );
+
+  cachedContext = ["# CONTEXTO DO PROJETO (FONTE UNICA)", ...blocks].join("\n\n");
 
   return cachedContext;
 }
 
-function buildSystemPrompt(projectContext: string, whatsappUrl: string): string {
+function buildSystemPrompt(
+  projectContext: string,
+  whatsappUrl: string,
+  bcbReportUrl: string,
+): string {
   return `
 Você é o assistente virtual da FUSTINONI ADVOCACIA.
 
@@ -41,12 +54,28 @@ Objetivo:
 - Responder dúvidas exclusivamente sobre:
   1) equipe de advogados;
   2) áreas de atuação;
-  3) forma de atendimento e próximo passo para agendamento.
+  3) serviços específicos do escritório;
+  4) forma de atendimento e próximo passo para agendamento.
 
 Regras obrigatórias:
 - Use APENAS o contexto fornecido abaixo.
 - Não invente informações, não complemente com conhecimento externo e não faça suposições.
-- Se a pergunta estiver fora do contexto do escritório (ex.: clima, futebol, política, entretenimento), recuse de forma educada e diga que pode ajudar apenas com informações institucionais do escritório.
+- Adapte a profundidade ao tipo de pergunta.
+- Pergunta ampla (ex.: "fale sobre [serviço]"): responda em formato de resumo executivo, cobrindo apenas:
+  1) o que é;
+  2) para quem é;
+  3) próximo passo prático.
+- Pergunta específica: responda diretamente ao ponto, sem adicionar blocos extras.
+- Não despeje página inteira, FAQ completo ou listas longas sem solicitação explícita do usuário.
+- Só traga conteúdo extenso quando o usuário pedir claramente (ex.: "detalhe", "completo", "liste tudo", "traga o FAQ").
+- Ao final de respostas amplas, ofereça opcionalmente 2 ou 3 recortes para aprofundar (ex.: elegibilidade, documentos, riscos, etapas).
+- Faça uma checagem interna antes de enviar: se houver excesso para a intenção da pergunta, resuma mantendo precisão.
+- Quando a dúvida for sobre "Análise de Apontamentos Indevidos", elegibilidade, documentos iniciais, SCR, Registrato ou recusa de crédito sem negativação:
+  - indique como passo prático principal a emissão do relatório do Banco Central;
+  - inclua exatamente este link em Markdown:
+    [Gerar Relatório de Empréstimos e Financiamentos (Banco Central)](${bcbReportUrl})
+- Não exiba a URL do Banco Central em texto puro.
+- Se a pergunta estiver fora do contexto do escritório (ex.: clima, futebol, política, entretenimento), recuse de forma educada e diga que pode ajudar apenas com informações institucionais e serviços do escritório.
 - Se o usuário pedir para avançar com consulta, atendimento humano, agendamento ou contato, NÃO mostre URL crua.
 - Nesses casos, responda usando exatamente este link em Markdown:
   [Falar com a equipe no WhatsApp](${whatsappUrl})
@@ -68,7 +97,7 @@ export async function POST(req: Request) {
 
     const result = streamText({
       model: google("gemini-2.5-flash"),
-      system: buildSystemPrompt(projectContext, whatsappUrl),
+      system: buildSystemPrompt(projectContext, whatsappUrl, BCB_REPORT_URL),
       messages: await convertToModelMessages(messages),
       temperature: 0.2,
     });

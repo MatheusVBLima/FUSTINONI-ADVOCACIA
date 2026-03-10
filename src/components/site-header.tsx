@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import {
   ANALISE_CREDITO_NAV_ITEMS,
+  FATOR_K_NAV_ITEMS,
   type HomeNavItem,
   type ProductNavItem,
 } from "@/lib/navigation";
@@ -33,8 +34,12 @@ export function SiteHeader({
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
-  const isAnaliseCreditoPage = pathname === "/analise-credito";
-  const activeNavItems = isAnaliseCreditoPage ? ANALISE_CREDITO_NAV_ITEMS : homeNavItems;
+  const activeNavItems =
+    pathname === "/analise-credito"
+      ? ANALISE_CREDITO_NAV_ITEMS
+      : pathname === "/fator-k"
+        ? FATOR_K_NAV_ITEMS
+        : homeNavItems;
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
@@ -63,16 +68,16 @@ export function SiteHeader({
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="h-auto gap-1 rounded-none bg-transparent px-0 text-xs font-medium uppercase tracking-wider text-black/60 shadow-none hover:bg-transparent hover:text-black focus:bg-transparent data-[state=open]:bg-transparent data-active:bg-transparent">
-                  PRODUTOS
+                  SERVIÇOS ESPECÍFICOS
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="rounded-none border border-black/15 bg-white p-2 shadow-xl">
-                  <ul className="min-w-48">
+                <NavigationMenuContent className="w-max min-w-56 rounded-none border border-black/15 bg-white p-2 shadow-xl">
+                  <ul className="w-full">
                     {productNavItems.map(product =>
                       product.status === "active" ? (
                         <li key={product.href}>
                           <Link
                             href={product.href}
-                            className="block px-3 py-2 text-xs font-medium uppercase tracking-wider text-black/70 transition-colors hover:bg-neutral-100 hover:text-black"
+                            className="block whitespace-nowrap px-3 py-2 text-xs font-medium uppercase tracking-wider text-black/70 transition-colors hover:bg-neutral-100 hover:text-black"
                           >
                             {product.label.toUpperCase()}
                           </Link>
@@ -131,7 +136,7 @@ export function SiteHeader({
               className="flex items-center justify-between border-b border-black/15 px-4 py-3 text-xs font-semibold tracking-wider uppercase transition-colors hover:bg-neutral-50"
               onClick={() => setIsMobileProductsOpen(prev => !prev)}
             >
-              Produtos
+              Serviços Específicos
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isMobileProductsOpen ? "rotate-180" : ""}`} />
             </button>
             {isMobileProductsOpen && productNavItems.map(product =>

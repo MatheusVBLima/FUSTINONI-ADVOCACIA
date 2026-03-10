@@ -1,4 +1,6 @@
-﻿import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 import { Plus, X } from "lucide-react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -6,12 +8,20 @@ import { Button } from "@/components/ui/button";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
+export const metadata: Metadata = {
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+};
+
 const practiceAreas = [
-  "Contencioso Estrategico",
+  "Contencioso Estratégico",
   "Consultoria Empresarial",
-  "Patrimonio e Sucessoes",
+  "Patrimônio e Sucessões",
   "Direito Penal Empresarial",
-  "Direito Imobiliario",
+  "Direito Imobiliário",
   "Compliance e Direito Digital",
 ];
 
@@ -19,82 +29,137 @@ const serviceHighlights = [
   {
     title: "Dr. Tiago Sales Fustinoni - OAB/SP 395.178",
     description:
-      "Fundador do escritorio, com atuacao em Direito Penal e Processual Penal, nulidades processuais, planejamento e protecao patrimonial, alem de estrategias para satisfacao de execucao.",
+      "Fundador do escritório, com atuação em Direito Penal e Processual Penal, nulidades processuais, planejamento e proteção patrimonial, além de estratégias para satisfação de execução.",
   },
   {
     title: "Dr. Eduardo Torres de Freitas - OAB/SP 478.321",
     description:
-      "Atua em Direito Penal, Civil, Consumidor e Previdenciario, com foco em gestao de riscos, estrategia processual e conducao ativa de litigios de alta complexidade.",
+      "Atua em Direito Penal, Civil, Consumidor e Previdenciário, com foco em gestão de riscos, estratégia processual e condução ativa de litígios de alta complexidade.",
   },
   {
     title: "Dra. Melina Carneiro Rizzo - OAB/SP 391.137",
     description:
-      "Especialista em Direito Imobiliario, Penal e Processual Penal, com experiencia em consultivo e contencioso imobiliario, due diligence estrategica e compliance de integridade.",
+      "Especialista em Direito Imobiliário, Penal e Processual Penal, com experiência em consultivo e contencioso imobiliário, due diligence estratégica e compliance de integridade.",
   },
   {
     title: "Dr. Marcio Eduardo Garcia Leite - OAB/SP 257.464",
     description:
-      "Atuacao destacada em Direito Trabalhista, Civil e Administrativo, com forte experiencia em prevencao de litigios, negociacao, gestao de riscos e defesa de interesses corporativos.",
+      "Atuação destacada em Direito Trabalhista, Civil e Administrativo, com forte experiência em prevenção de litígios, negociação, gestão de riscos e defesa de interesses corporativos.",
   },
 ];
 
 const processRows = [
-  "Diagnostico juridico e mapeamento de riscos",
-  "Definicao de estrategia consultiva ou contenciosa",
-  "Pareceres e orientacao para tomada de decisao",
-  "Estruturacao documental e contratual",
-  "Negociacao e conducao de tratativas",
-  "Atuacao contenciosa em primeira instancia",
-  "Recursos e sustentacoes orais",
-  "Acompanhamento pos-decisao e execucao",
+  "Diagnóstico jurídico e mapeamento de riscos",
+  "Definição de estratégia consultiva ou contenciosa",
+  "Pareceres e orientação para tomada de decisão",
+  "Estruturação documental e contratual",
+  "Negociação e condução de tratativas",
+  "Atuação contenciosa em primeira instância",
+  "Recursos e sustentações orais",
+  "Acompanhamento pós-decisão e execução",
 ];
 
 const faqs = [
   {
     question: "Como funciona a primeira consulta?",
     answer:
-      "A primeira reuniao e dedicada ao entendimento completo do caso, dos objetivos e dos riscos envolvidos. A partir disso, apresentamos um direcionamento estrategico e o escopo recomendado.",
+      "A primeira reunião é dedicada ao entendimento completo do caso, dos objetivos e dos riscos envolvidos. A partir disso, apresentamos um direcionamento estratégico e o escopo recomendado.",
   },
   {
-    question: "O escritorio atende pessoas fisicas e empresas?",
+    question: "O escritório atende pessoas físicas e empresas?",
     answer:
-      "Sim. Atuamos para pessoas, familias e empresas, com abordagem personalizada para demandas consultivas, preventivas e contenciosas.",
+      "Sim. Atuamos para pessoas, famílias e empresas, com abordagem personalizada para demandas consultivas, preventivas e contenciosas.",
   },
   {
-    question: "E possivel contratar somente consultoria preventiva?",
+    question: "É possível contratar somente consultoria preventiva?",
     answer:
-      "Sim. A consultoria preventiva pode ser contratada de forma independente para reduzir riscos, estruturar decisoes e evitar litigios futuros.",
+      "Sim. A consultoria preventiva pode ser contratada de forma independente para reduzir riscos, estruturar decisões e evitar litígios futuros.",
   },
   {
     question: "Voces atuam em casos urgentes e medidas liminares?",
     answer:
-      "Sim. Em situacoes urgentes, avaliamos a viabilidade juridica imediata e estruturamos a atuacao necessaria para protecao celere dos direitos do cliente.",
+      "Sim. Em situações urgentes, avaliamos a viabilidade jurídica imediata e estruturamos a atuação necessária para proteção célere dos direitos do cliente.",
   },
   {
     question: "O atendimento pode ser remoto?",
     answer:
-      "Sim. O escritorio realiza atendimentos presenciais e remotos, com acompanhamento continuo e comunicacao transparente durante toda a conducao do caso.",
+      "Sim. O escritório realiza atendimentos presenciais e remotos, com acompanhamento contínuo e comunicação transparente durante toda a condução do caso.",
   },
   {
-    question: "Como sao definidos honorarios e escopo?",
+    question: "Como são definidos honorários e escopo?",
     answer:
-      "Honorarios e escopo sao definidos conforme complexidade, volume de trabalho e objetivos do cliente, sempre com proposta clara e alinhada antes do inicio da atuacao.",
+      "Honorários e escopo são definidos conforme complexidade, volume de trabalho e objetivos do cliente, sempre com proposta clara e alinhada antes do início da atuação.",
   },
 ];
 
 const legalAreasSchema = [
   "Direito Civil",
-  "Direito de Familia e Sucessoes",
-  "Direito Tributario",
-  "Direito Imobiliario",
+  "Direito de Família e Sucessões",
+  "Direito Tributário",
+  "Direito Imobiliário",
   "Direito Trabalhista",
   "Direito Empresarial",
-  "Direito da Saude",
+  "Direito da Saúde",
   "Direito Administrativo",
   "Direito Internacional",
   "Direito Desportivo",
   "Direito Penal Empresarial",
   "Direito Digital e Compliance",
+];
+
+const specificServices = [
+  {
+    title: "Direito à Saúde",
+    description:
+      "Convênio médico que nega cobertura ou home care. Estado que deixa de oferecer tratamento necessário. O escritório atua em face de operadoras privadas e do poder público, com estratégia voltada a provimentos urgentes e reparação de danos.",
+    layoutType: "full_text" as const,
+    subCards: [
+      {
+        title: "Convênio Médico",
+        bullets: [
+          "Negativa de cobertura de cirurgia ou procedimento prescrito",
+          "Recusa de internação ou alta antecipada indevida",
+          "Negativa de tratamento oncológico ou de alta complexidade",
+          "Exclusão indevida de medicamentos ou insumos necessários",
+          "Limitação de sessões abaixo do prescrito",
+          "Cobertura recusada por cláusula abusiva ou interpretação indevida",
+        ],
+        href: "/direito-saude#convenio",
+        ctaLabel: "Agendar Consulta",
+      },
+      {
+        title: "Home Care pelo Estado",
+        bullets: [
+          "Paciente com alta hospitalar dependente de cuidados contínuos",
+          "Impossibilidade de locomoção ou internação domiciliar prescrita",
+          "Estado que nega ou retarda o fornecimento do serviço",
+          "Necessidade de equipamentos, medicamentos e equipe de saúde",
+          "Crianças ou idosos sem atendimento adequado garantido pelo SUS",
+          "Tutela de urgência para garantia imediata do tratamento",
+        ],
+        href: "/direito-saude#home-care",
+        ctaLabel: "Agendar Consulta",
+      },
+    ],
+  },
+  {
+    title: "Análise de Apontamentos Indevidos",
+    description:
+      "Análise jurídica de histórico bancário para casos de recusa de crédito, limite ou financiamento, com estratégia consultiva e contenciosa.",
+    href: "/analise-credito",
+    ctaLabel: "Acessar Serviço",
+    disabled: false,
+    layoutType: "card" as const,
+  },
+  {
+    title: "Revisão de Fator K",
+    description:
+      "Análise jurídica e técnica das faturas SABESP para empresas que pagam Fator K, com estratégia de impugnação administrativa ou judicial e pleito de restituição quando cabível.",
+    href: "/fator-k",
+    ctaLabel: "Acessar Serviço",
+    disabled: false,
+    layoutType: "card" as const,
+  },
 ];
 
 export default function Home() {
@@ -114,7 +179,7 @@ export default function Home() {
       "@type": "PostalAddress",
       addressCountry: "BR",
       addressRegion: "SP",
-      addressLocality: "Sao Paulo",
+      addressLocality: "São Paulo",
     },
     contactPoint: {
       "@type": "ContactPoint",
@@ -178,11 +243,11 @@ export default function Home() {
         </div>
 
         <h1 className="mb-8 max-w-4xl text-balance font-serif text-4xl leading-[0.9] tracking-tight sm:mb-10 sm:text-5xl md:text-6xl lg:text-7xl">
-          Assessoria juridica com <br className="hidden md:block" /> estrategia, discricao e precisao tecnica
+          Assessoria jurídica com <br className="hidden md:block" /> estratégia, discrição e precisão técnica
         </h1>
 
         <p className="mb-10 max-w-2xl text-sm leading-7 text-black/65 sm:text-base">
-          Atuacao consultiva e contenciosa para pessoas fisicas e juridicas, com foco em protecao patrimonial, mitigacao de riscos e defesa qualificada de interesses relevantes.
+          Atuação consultiva e contenciosa para pessoas físicas e jurídicas, com foco em proteção patrimonial, mitigação de riscos e defesa qualificada de interesses relevantes.
         </p>
 
         <Button asChild className="z-10 mb-12 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:mb-16 sm:w-auto sm:py-6">
@@ -194,7 +259,7 @@ export default function Home() {
         <div className="relative z-0 mx-auto mt-4 w-full max-w-4xl">
           <Image
             src="/hero-courthouse-notext.png"
-            alt="Representacao institucional do escritorio"
+            alt="Representação institucional do escritório"
             width={1600}
             height={900}
             priority
@@ -223,7 +288,7 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 md:px-20 md:py-24">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Equipe</div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Advogados com formacao solida <br /> e atuacao multidisciplinar
+            Advogados com formação sólida <br /> e atuação multidisciplinar
           </h2>
         </div>
 
@@ -252,19 +317,19 @@ export default function Home() {
 
       <section id="studio" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Escritorio</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Escritório</div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Excelencia tecnica com visao estrategica para decisoes de alta relevancia
+            Excelência técnica com visão estratégica para decisões de alta relevância
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
-            Nossa atuacao combina rigor juridico, discricao absoluta e atendimento personalizado para transformar complexidade em solucoes seguras, eficazes e sustentaveis.
+            Nossa atuação combina rigor jurídico, discrição absoluta e atendimento personalizado para transformar complexidade em soluções seguras, eficazes e sustentáveis.
           </p>
         </div>
 
         <div className="relative mx-auto w-full max-w-2xl px-4 pb-8 sm:px-6 sm:pb-10">
           <Image
             src="/studio-elements-sketch.png"
-            alt="Posicionamento institucional do escritorio"
+            alt="Posicionamento institucional do escritório"
             width={1200}
             height={1200}
             className="h-auto w-full mix-blend-multiply contrast-125"
@@ -272,11 +337,11 @@ export default function Home() {
         </div>
 
         <div className="grid w-full grid-cols-2 border-t border-black/15 text-center text-sm font-medium sm:grid-cols-3 md:grid-cols-5 md:text-base">
-          <div className="border-r border-b border-black/15 py-4 md:border-b-0">Rigor tecnico</div>
-          <div className="border-b border-black/15 py-4 sm:border-r md:border-b-0">Estrategia processual</div>
+          <div className="border-r border-b border-black/15 py-4 md:border-b-0">Rigor técnico</div>
+          <div className="border-b border-black/15 py-4 sm:border-r md:border-b-0">Estratégia processual</div>
           <div className="border-r border-b border-black/15 py-4 md:border-r md:border-b-0">Discricao absoluta</div>
           <div className="border-b border-black/15 py-4 sm:border-r sm:border-b-0 md:border-r">Atendimento personalizado</div>
-          <div className="col-span-2 py-4 sm:col-span-1">Visao multidisciplinar</div>
+          <div className="col-span-2 py-4 sm:col-span-1">Visão multidisciplinar</div>
         </div>
       </section>
 
@@ -284,18 +349,18 @@ export default function Home() {
 
       <section id="process" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Modelos de Atuacao</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Modelos de Atuação</div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Escolha o nivel de acompanhamento juridico que seu caso exige
+            Escolha o nível de acompanhamento jurídico que seu caso exige
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="flex flex-col border-b border-black/15 md:border-r md:border-b-0">
             <div className="flex-1 p-6 sm:p-8 lg:p-12">
-              <h3 className="mb-4 font-serif text-2xl">Consultoria e Prevencao</h3>
+              <h3 className="mb-4 font-serif text-2xl">Consultoria e Prevenção</h3>
               <p className="mb-8 leading-relaxed text-black/60">
-                Ideal para quem busca orientacao estrategica, prevencao de passivos e estruturacao juridica antes do litigio.
+                Ideal para quem busca orientação estratégica, prevenção de passivos e estruturação jurídica antes do litígio.
               </p>
               <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
@@ -318,9 +383,9 @@ export default function Home() {
 
           <div className="flex flex-col">
             <div className="flex-1 p-6 sm:p-8 lg:p-12">
-              <h3 className="mb-4 font-serif text-2xl">Atuacao Completa</h3>
+              <h3 className="mb-4 font-serif text-2xl">Atuação Completa</h3>
               <p className="mb-8 leading-relaxed text-black/60">
-                Recomendado para casos que exigem conducao integral, da estrategia inicial a atuacao contenciosa e fase de execucao.
+                Recomendado para casos que exigem condução integral, da estratégia inicial à atuação contenciosa e fase de execução.
               </p>
               <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
@@ -347,30 +412,30 @@ export default function Home() {
 
       <section id="sectors" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
-          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Areas de Atuacao</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Áreas de Atuação</div>
           <h2 className="mx-auto max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Atuacao juridica abrangente em 12 frentes estrategicas
+            Atuação jurídica abrangente em 12 frentes estratégicas
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col justify-between border-b border-black/15 p-6 sm:p-8 lg:border-r">
             <h3 className="mb-10 font-serif text-xl leading-snug sm:mb-16 sm:text-2xl">
-              Direito Civil e Direito de Familia e Sucessoes.
+              Direito Civil e Direito de Família e Sucessões.
             </h3>
-            <div className="text-sm font-medium">Contratos, responsabilidade civil, inventarios e planejamento patrimonial familiar.</div>
+            <div className="text-sm font-medium">Contratos, responsabilidade civil, inventários e planejamento patrimonial familiar.</div>
           </div>
 
           <div className="grid grid-rows-2 border-b border-black/15 lg:border-r">
             <div className="flex items-center justify-center border-b border-black/15 p-6 sm:p-8">
               <div className="text-center">
                 <div className="text-xs font-bold uppercase tracking-widest text-black/50">Frente Patrimonial</div>
-                <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Tributario + Direito Imobiliario</div>
+                <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Tributário + Direito Imobiliário</div>
               </div>
             </div>
             <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8">
               <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Planejamento</div>
-              <div className="font-serif text-3xl sm:text-4xl">Estruturas e protecao de ativos</div>
+              <div className="font-serif text-3xl sm:text-4xl">Estruturas e proteção de ativos</div>
             </div>
           </div>
 
@@ -378,18 +443,18 @@ export default function Home() {
             <h3 className="mb-10 font-serif text-xl leading-snug sm:mb-16 sm:text-2xl">
               Direito Trabalhista e Direito Empresarial.
             </h3>
-            <div className="text-sm font-medium">Consultoria preventiva, contratos estrategicos e defesa em litigios de alta exposicao.</div>
+            <div className="text-sm font-medium">Consultoria preventiva, contratos estratégicos e defesa em litígios de alta exposição.</div>
           </div>
 
           <div className="flex flex-col justify-end bg-neutral-50 p-6 sm:p-8 md:border-r md:border-black/15">
             <div className="mb-2 text-xs font-bold uppercase tracking-widest text-black/50">Setores Regulados</div>
-            <div className="font-serif text-3xl sm:text-4xl">Direito da Saude + Direito Administrativo</div>
+            <div className="font-serif text-3xl sm:text-4xl">Direito da Saúde + Direito Administrativo</div>
           </div>
 
           <div className="grid grid-rows-2 md:border-r md:border-black/15">
             <div className="flex items-center justify-center border-b border-black/15 p-6 sm:p-8">
               <div className="text-center">
-                <div className="text-xs font-bold uppercase tracking-widest text-black/50">Ambito Internacional</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-black/50">Âmbito Internacional</div>
                 <div className="mt-3 font-serif text-3xl sm:text-4xl">Direito Internacional + Direito Desportivo</div>
               </div>
             </div>
@@ -401,11 +466,84 @@ export default function Home() {
 
           <div className="flex flex-col justify-between p-6 sm:p-8">
             <h3 className="mb-10 font-serif text-xl leading-snug sm:mb-16 sm:text-2xl">
-              Atuacao consultiva e contenciosa com estrategia sob medida para cada cliente.
+              Atuação consultiva e contenciosa com estratégia sob medida para cada cliente.
             </h3>
-            <div className="text-sm font-medium">Pessoas fisicas, familias e empresas com demandas de alta complexidade.</div>
+            <div className="text-sm font-medium">Pessoas físicas, famílias e empresas com demandas de alta complexidade.</div>
           </div>
         </div>
+      </section>
+
+      <section id="specific-services" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
+        <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
+          <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/50">Serviços Específicos</div>
+          <h2 className="mx-auto max-w-3xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
+            Soluções dedicadas para demandas jurídicas específicas
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
+            Conheça frentes específicas de atuação com escopo claro, abordagem técnica e acompanhamento estratégico.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 border-b border-black/15 md:grid-cols-2">
+          {specificServices
+            .filter(service => service.layoutType === "card")
+            .map((service, index) => (
+              <article
+                key={service.title}
+                className={`flex flex-col p-6 sm:p-8 ${index === 0 ? "border-b border-black/15 md:border-r md:border-b-0" : ""}`}
+              >
+                <div className="flex-1">
+                  <h3 className="mb-4 font-serif text-2xl leading-tight">{service.title}</h3>
+                  <p className="mb-8 text-sm leading-7 text-black/60 sm:text-base">{service.description}</p>
+                </div>
+
+                {service.href && !service.disabled ? (
+                  <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
+                    <Link href={service.href}>{service.ctaLabel}</Link>
+                  </Button>
+                ) : (
+                  <Button
+                    disabled
+                    className="w-full rounded-none border border-black/20 bg-neutral-200 py-6 text-xs uppercase tracking-wider text-black/45 hover:bg-neutral-200"
+                  >
+                    {service.ctaLabel}
+                  </Button>
+                )}
+              </article>
+
+            ))}
+        </div>
+
+        {specificServices
+          .filter(service => service.layoutType === "full_text")
+          .map(service => (
+            <article key={service.title} className="border-t border-black/15 px-6 py-12 text-center sm:px-8 sm:py-16 md:px-10">
+              <h3 className="mb-4 font-serif text-2xl leading-tight sm:text-3xl">{service.title}</h3>
+              <p className="mx-auto mb-10 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">{service.description}</p>
+              {"subCards" in service && service.subCards && (
+                <div className="grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
+                  {service.subCards.map(sub => (
+                    <div key={sub.title} className="flex flex-col justify-between border border-black/15 p-5 sm:p-6">
+                      <div>
+                        <h4 className="mb-3 font-serif text-xl leading-snug">{sub.title}</h4>
+                        <ul className="mb-6 space-y-2">
+                          {sub.bullets.map(bullet => (
+                            <li key={bullet} className="flex items-start gap-2 text-sm leading-6 text-black/60">
+                              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-black/30" />
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <Button asChild className="w-full rounded-none bg-black py-5 text-xs uppercase tracking-wider text-white hover:bg-black/80">
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">{sub.ctaLabel}</a>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
       </section>
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
@@ -414,7 +552,7 @@ export default function Home() {
         <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">FAQ</div>
           <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Perguntas frequentes antes do inicio da atuacao juridica
+            Perguntas frequentes antes do início da atuação jurídica
           </h2>
         </div>
 
@@ -440,11 +578,11 @@ export default function Home() {
         <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/50">Agende Sua Consulta</div>
 
         <h2 className="mx-auto mb-10 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-          Fale com uma equipe preparada para decisoes juridicas estrategicas
+          Fale com uma equipe preparada para decisões jurídicas estratégicas
         </h2>
 
         <p className="mb-10 max-w-2xl text-sm leading-7 text-black/60 sm:text-base">
-          Se voce precisa de consultoria preventiva ou representacao contenciosa, estruturamos a atuacao ideal para proteger seus interesses com seguranca juridica.
+          Se você precisa de consultoria preventiva ou representação contenciosa, estruturamos a atuação ideal para proteger seus interesses com segurança jurídica.
         </p>
 
         <Button asChild className="z-10 mb-10 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:w-auto sm:py-6">
