@@ -5,6 +5,7 @@ import { Plus, X } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { VirtualAssistantChat } from "@/components/virtual-assistant-chat";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const navItems = [
@@ -91,11 +92,58 @@ const faqs = [
   },
 ];
 
+const legalAreasSchema = [
+  "Direito Civil",
+  "Direito de Familia e Sucessoes",
+  "Direito Tributario",
+  "Direito Imobiliario",
+  "Direito Trabalhista",
+  "Direito Empresarial",
+  "Direito da Saude",
+  "Direito Administrativo",
+  "Direito Internacional",
+  "Direito Desportivo",
+  "Direito Penal Empresarial",
+  "Direito Digital e Compliance",
+];
+
 export default function Home() {
   const whatsappUrl = buildWhatsAppUrl();
+  const siteUrl = getSiteUrl();
+  const legalServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    name: SITE_NAME,
+    url: siteUrl,
+    description: SITE_DESCRIPTION,
+    image: `${siteUrl}${SITE_OG_IMAGE}`,
+    areaServed: "BR",
+    availableLanguage: ["pt-BR"],
+    serviceType: legalAreasSchema,
+  };
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(item => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 
   return (
     <div className="min-h-screen overflow-x-clip bg-grid-pattern text-black font-sans selection:bg-black selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col bg-white shadow-2xl sm:border-x sm:border-black/15">
         <header className="sticky top-0 z-50 flex items-center justify-between gap-4 border-b border-black/15 bg-white/90 px-4 py-4 backdrop-blur-sm sm:px-6 sm:py-5 md:px-10">
           <div className="font-serif text-base leading-tight font-semibold tracking-[0.22em] uppercase sm:text-lg">
