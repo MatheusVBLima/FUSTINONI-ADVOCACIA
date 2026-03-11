@@ -1,10 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import "streamdown/styles.css";
 import "./globals.css";
 
 import { SiteShell } from "@/components/site-shell";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
+import { Analytics } from "@vercel/analytics/next";
 
 const siteUrl = getSiteUrl();
 const isProduction = process.env.VERCEL_ENV
@@ -78,6 +79,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
       >
         <SiteShell>{children}</SiteShell>
+        <Analytics />
       </body>
     </html>
   );
