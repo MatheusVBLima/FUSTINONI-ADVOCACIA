@@ -146,13 +146,13 @@ export function SiteHeader({
               Serviços Específicos
               <ChevronDown aria-hidden="true" className={`h-3.5 w-3.5 transition-transform duration-200 ${isMobileProductsOpen ? "rotate-180" : ""}`} />
             </button>
-            <div id={mobileProductsId}>
+            <div id={mobileProductsId} className="flex flex-col">
               {isMobileProductsOpen && productNavItems.map(product =>
                 product.status === "active" ? (
                   <Link
                     key={product.href}
                     href={product.href}
-                    className="border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-100"
+                    className="block w-full border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-100"
                     onClick={closeMobileMenu}
                   >
                     {product.label.toUpperCase()}
@@ -160,7 +160,7 @@ export function SiteHeader({
                 ) : (
                   <div
                     key={product.href}
-                    className="border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase text-black/70"
+                    className="block w-full border-b border-black/15 bg-neutral-50 px-6 py-3 text-xs font-medium tracking-wider uppercase text-black/70"
                   >
                     {product.label.toUpperCase()}
                   </div>

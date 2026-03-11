@@ -66,9 +66,9 @@ const faqs = [
       "A primeira reunião é dedicada ao entendimento completo do caso, dos objetivos e dos riscos envolvidos. A partir disso, apresentamos um direcionamento estratégico e o escopo recomendado.",
   },
   {
-    question: "O escritório atende pessoas físicas e empresas?",
+    question: "O escritório atende pessoa física e pessoa jurídica?",
     answer:
-      "Sim. Atuamos para pessoas, famílias e empresas, com abordagem personalizada para demandas consultivas, preventivas e contenciosas.",
+      "Sim. Atuamos para pessoa física e pessoa jurídica, com abordagem personalizada para demandas consultivas, preventivas e contenciosas.",
   },
   {
     question: "É possível contratar somente consultoria preventiva?",

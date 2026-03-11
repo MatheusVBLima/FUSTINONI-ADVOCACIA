@@ -4,7 +4,7 @@ import path from "node:path";
 import { google } from "@ai-sdk/google";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { buildWhatsAppUrl, CHAT_WHATSAPP_PREFILL_MESSAGE } from "@/lib/whatsapp";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
   try {
     const { messages }: { messages: UIMessage[] } = await req.json();
     const projectContext = await loadProjectContext();
-    const whatsappUrl = buildWhatsAppUrl();
+    const whatsappUrl = buildWhatsAppUrl(undefined, CHAT_WHATSAPP_PREFILL_MESSAGE);
 
     const result = streamText({
       model: google("gemini-3.1-flash-lite-preview"),

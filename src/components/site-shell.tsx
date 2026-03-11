@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { PRODUCT_NAV_ITEMS, HOME_NAV_ITEMS } from "@/lib/navigation";
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { buildWhatsAppUrl, CHAT_WHATSAPP_PREFILL_MESSAGE } from "@/lib/whatsapp";
 
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
@@ -13,10 +13,7 @@ type SiteShellProps = {
 
 export function SiteShell({ children }: SiteShellProps) {
   const whatsappUrl = buildWhatsAppUrl();
-  const whatsappUrlChat = buildWhatsAppUrl(
-    undefined,
-    "Olá! Estava usando o assistente virtual do site e gostaria de falar com um atendente da FUSTINONI ADVOCACIA.",
-  );
+  const whatsappUrlChat = buildWhatsAppUrl(undefined, CHAT_WHATSAPP_PREFILL_MESSAGE);
 
   return (
     <div className="min-h-screen overflow-x-clip bg-grid-pattern text-black font-sans selection:bg-black selection:text-white">
