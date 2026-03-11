@@ -6,6 +6,7 @@ import "./globals.css";
 import { SiteShell } from "@/components/site-shell";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const siteUrl = getSiteUrl();
 const isProduction = process.env.VERCEL_ENV
@@ -80,6 +81,7 @@ export default function RootLayout({
       >
         <SiteShell>{children}</SiteShell>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
