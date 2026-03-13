@@ -18,13 +18,13 @@ export function SiteFooter() {
             <div className="mt-10 flex flex-wrap gap-4 text-xs font-medium uppercase tracking-wider text-black/70 sm:mt-12">
               <span>Atendimento confidencial</span>
               <span>Consultas por agendamento</span>
-              <span>Atuacao nacional</span>
+              <span>Atuação nacional</span>
             </div>
           </div>
 
           <div className="border-t border-black/15 p-6 sm:border-t-0 sm:p-8 lg:border-r lg:border-black/15">
             <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">
-              Navegacao
+              Navegação
             </div>
             <ul className="space-y-3 font-medium">
               <li>
@@ -34,12 +34,12 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/#process" className="transition-colors hover:text-black/70">
-                  Modelos de Atuacao
+                  Modelos de Atuação
                 </Link>
               </li>
               <li>
                 <Link href="/analise-credito" className="transition-colors hover:text-black/70">
-                  Analise de Apontamentos Indevidos
+                  Análise de Apontamentos Indevidos
                 </Link>
               </li>
               <li>
