@@ -12,11 +12,13 @@ const VirtualAssistantChat = dynamic(
 
 type VirtualAssistantChatLazyProps = {
   whatsappUrl: string;
+  whatsappPhone: string;
 };
 
 export function VirtualAssistantChatLazy({
   whatsappUrl,
+  whatsappPhone,
 }: VirtualAssistantChatLazyProps) {
-  return <VirtualAssistantChat whatsappUrl={whatsappUrl} />;
+  return <VirtualAssistantChat whatsappUrl={whatsappUrl} whatsappPhone={whatsappPhone} />;
 }
 

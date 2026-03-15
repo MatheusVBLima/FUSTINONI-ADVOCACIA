@@ -12,6 +12,7 @@ type SiteShellProps = {
 };
 
 export function SiteShell({ children }: SiteShellProps) {
+  const whatsappPhone = process.env.WHATSAPP_PHONE_NUMBER ?? "";
   const whatsappUrl = buildWhatsAppUrl();
   const whatsappUrlChat = buildWhatsAppUrl(undefined, CHAT_WHATSAPP_PREFILL_MESSAGE);
 
@@ -29,6 +30,7 @@ export function SiteShell({ children }: SiteShellProps) {
           homeNavItems={HOME_NAV_ITEMS}
           productNavItems={PRODUCT_NAV_ITEMS}
           whatsappUrl={whatsappUrl}
+          whatsappPhone={whatsappPhone}
         />
         <main id="main-content" className="flex-1">
           {children}
@@ -36,7 +38,7 @@ export function SiteShell({ children }: SiteShellProps) {
         <SiteFooter />
       </div>
 
-      <VirtualAssistantChatLazy whatsappUrl={whatsappUrlChat} />
+      <VirtualAssistantChatLazy whatsappUrl={whatsappUrlChat} whatsappPhone={whatsappPhone} />
     </div>
   );
 }

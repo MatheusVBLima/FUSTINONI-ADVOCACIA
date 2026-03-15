@@ -21,3 +21,18 @@ export function buildWhatsAppUrl(
   const encodedMessage = encodeURIComponent(message.trim());
   return `https://wa.me/${normalizedPhone}?text=${encodedMessage}`;
 }
+
+export function buildLeadWhatsAppMessage(
+  nome: string,
+  email: string,
+  resumo: string,
+  baseMessage = DEFAULT_WHATSAPP_MESSAGE,
+): string {
+  const parts = [baseMessage, "", `Nome: ${nome}`, `E-mail: ${email}`];
+
+  if (resumo.trim()) {
+    parts.push("", `Resumo: ${resumo.trim()}`);
+  }
+
+  return parts.join("\n");
+}

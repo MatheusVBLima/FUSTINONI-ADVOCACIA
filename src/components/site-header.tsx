@@ -19,17 +19,20 @@ import {
   type HomeNavItem,
   type ProductNavItem,
 } from "@/lib/navigation";
+import { LeadCaptureDialog } from "@/components/lead-capture-dialog";
 
 type SiteHeaderProps = {
   homeNavItems: HomeNavItem[];
   productNavItems: ProductNavItem[];
   whatsappUrl: string;
+  whatsappPhone: string;
 };
 
 export function SiteHeader({
   homeNavItems,
   productNavItems,
   whatsappUrl,
+  whatsappPhone,
 }: SiteHeaderProps) {
   const mobileMenuId = "mobile-main-navigation";
   const mobileProductsId = "mobile-products-navigation";
@@ -112,14 +115,13 @@ export function SiteHeader({
           {isMobileMenuOpen ? <X className="h-4 w-4" aria-hidden="true" /> : <Menu className="h-4 w-4" aria-hidden="true" />}
         </Button>
 
-        <Button
-          asChild
-          className="hidden shrink-0 rounded-none bg-black px-4 py-4 text-[11px] uppercase tracking-wider text-white hover:bg-black/80 sm:px-6 sm:py-5 sm:text-xs xl:inline-flex"
-        >
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+        <LeadCaptureDialog whatsappPhone={whatsappPhone}>
+          <Button
+            className="hidden shrink-0 rounded-none bg-black px-4 py-4 text-[11px] uppercase tracking-wider text-white hover:bg-black/80 sm:px-6 sm:py-5 sm:text-xs xl:inline-flex"
+          >
             Agendar Consulta
-          </a>
-        </Button>
+          </Button>
+        </LeadCaptureDialog>
       </div>
 
       {isMobileMenuOpen && (
@@ -169,17 +171,11 @@ export function SiteHeader({
             </div>
 
             <div className="p-4">
-              <Button asChild className="w-full rounded-none bg-black text-xs tracking-wider uppercase">
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white"
-                  onClick={closeMobileMenu}
-                >
+              <LeadCaptureDialog whatsappPhone={whatsappPhone}>
+                <Button className="w-full rounded-none bg-black text-xs tracking-wider uppercase text-white" onClick={closeMobileMenu}>
                   Agendar Consulta
-                </a>
-              </Button>
+                </Button>
+              </LeadCaptureDialog>
             </div>
           </nav>
         </div>

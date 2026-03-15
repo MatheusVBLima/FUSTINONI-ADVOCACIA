@@ -16,8 +16,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
 import { SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const siteUrl = getSiteUrl();
 const pagePath = "/analise-credito";
@@ -118,15 +118,11 @@ const heroPreliminarItems = [
   },
 ];
 
+const whatsappPhone = process.env.WHATSAPP_PHONE_NUMBER ?? "";
+const MSG_HERO = "Olá! Gostaria de solicitar uma análise de apontamentos indevidos no meu CPF/CNPJ.";
+const MSG_CTA = "Olá! Vim pelo site e quero agendar uma consulta sobre apontamentos indevidos no meu CPF/CNPJ.";
+
 export default function AnaliseCreditoPage() {
-  const whatsappUrlHero = buildWhatsAppUrl(
-    undefined,
-    "Olá! Gostaria de solicitar uma análise de apontamentos indevidos no meu CPF/CNPJ.",
-  );
-  const whatsappUrlCta = buildWhatsAppUrl(
-    undefined,
-    "Olá! Vim pelo site e quero agendar uma consulta sobre apontamentos indevidos no meu CPF/CNPJ.",
-  );
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -179,16 +175,13 @@ export default function AnaliseCreditoPage() {
             </div>
 
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-              <OpticsButton
-                render={
-                  <a href={whatsappUrlHero} target="_blank" rel="noopener noreferrer" />
-                }
-                variant="decorations"
-                decorationColor="black"
+              <WhatsAppCTAButton
+                whatsappPhone={whatsappPhone}
+                whatsappBaseMessage={MSG_HERO}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
               >
                 Solicitar análise do caso
-              </OpticsButton>
+              </WhatsAppCTAButton>
               <Button
                 asChild
                 variant="outline"
@@ -637,14 +630,13 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
             diagnóstico preciso.
           </p>
           <div className="mt-8 flex justify-center">
-            <OpticsButton
-              render={<a href={whatsappUrlCta} target="_blank" rel="noopener noreferrer" />}
-              variant="decorations"
-              decorationColor="white"
+            <WhatsAppCTAButton
+              whatsappPhone={whatsappPhone}
+              whatsappBaseMessage={MSG_CTA}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
             >
               Agendar consulta
-            </OpticsButton>
+            </WhatsAppCTAButton>
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/85">
             <span>Atendimento por agendamento</span>

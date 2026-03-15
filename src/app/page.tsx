@@ -5,8 +5,8 @@ import { Plus, X } from "lucide-react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -162,19 +162,12 @@ const specificServices = [
   },
 ];
 
+const whatsappPhone = process.env.WHATSAPP_PHONE_NUMBER ?? "";
+const MSG_CONSULTA = "Olá! Gostaria de agendar uma consulta com a equipe da FUSTINONI ADVOCACIA.";
+const MSG_CONSULTORIA = "Olá! Quero falar com a equipe da FUSTINONI ADVOCACIA sobre meu caso.";
+const MSG_SAUDE = "Olá! Gostaria de agendar uma consulta sobre Direito à Saúde (convênio médico ou home care).";
+
 export default function Home() {
-  const whatsappUrl = buildWhatsAppUrl(
-    undefined,
-    "Olá! Gostaria de agendar uma consulta com a equipe da FUSTINONI ADVOCACIA.",
-  );
-  const whatsappUrlConsultoria = buildWhatsAppUrl(
-    undefined,
-    "Olá! Quero falar com a equipe da FUSTINONI ADVOCACIA sobre meu caso.",
-  );
-  const whatsappUrlSaude = buildWhatsAppUrl(
-    undefined,
-    "Olá! Gostaria de agendar uma consulta sobre Direito à Saúde (convênio médico ou home care).",
-  );
   const siteUrl = getSiteUrl();
   const legalServiceSchema = {
     "@context": "https://schema.org",
@@ -261,11 +254,13 @@ export default function Home() {
           Atuação consultiva e contenciosa para pessoas físicas e jurídicas, com foco em proteção patrimonial, mitigação de riscos e defesa qualificada de interesses relevantes.
         </p>
 
-        <Button asChild className="z-10 mb-12 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:mb-16 sm:w-auto sm:py-6">
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            Agendar Consulta
-          </a>
-        </Button>
+        <WhatsAppCTAButton
+          whatsappPhone={whatsappPhone}
+          whatsappBaseMessage={MSG_CONSULTA}
+          className="z-10 mb-12 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:mb-16 sm:w-auto sm:py-6"
+        >
+          Agendar Consulta
+        </WhatsAppCTAButton>
 
         <div className="relative z-0 mx-auto mt-4 w-full max-w-4xl">
           <Image
@@ -373,11 +368,13 @@ export default function Home() {
               <p className="mb-8 leading-relaxed text-black/70">
                 Ideal para quem busca orientação estratégica, prevenção de passivos e estruturação jurídica antes do litígio.
               </p>
-              <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                <a href={whatsappUrlConsultoria} target="_blank" rel="noopener noreferrer">
-                  Falar com a Equipe
-                </a>
-              </Button>
+              <WhatsAppCTAButton
+                whatsappPhone={whatsappPhone}
+                whatsappBaseMessage={MSG_CONSULTORIA}
+                className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80"
+              >
+                Falar com a Equipe
+              </WhatsAppCTAButton>
             </div>
 
             <div className="border-t border-black/15">
@@ -398,11 +395,13 @@ export default function Home() {
               <p className="mb-8 leading-relaxed text-black/70">
                 Recomendado para casos que exigem condução integral, da estratégia inicial à atuação contenciosa e fase de execução.
               </p>
-              <Button asChild className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  Agendar Consulta
-                </a>
-              </Button>
+              <WhatsAppCTAButton
+                whatsappPhone={whatsappPhone}
+                whatsappBaseMessage={MSG_CONSULTA}
+                className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80"
+              >
+                Agendar Consulta
+              </WhatsAppCTAButton>
             </div>
 
             <div className="border-t border-black/15">
@@ -546,9 +545,13 @@ export default function Home() {
                           ))}
                         </ul>
                       </div>
-                      <Button asChild className="w-full rounded-none bg-black py-5 text-xs uppercase tracking-wider text-white hover:bg-black/80">
-                        <a href={whatsappUrlSaude} target="_blank" rel="noopener noreferrer">{sub.ctaLabel}</a>
-                      </Button>
+                      <WhatsAppCTAButton
+                        whatsappPhone={whatsappPhone}
+                        whatsappBaseMessage={MSG_SAUDE}
+                        className="w-full rounded-none bg-black py-5 text-xs uppercase tracking-wider text-white hover:bg-black/80"
+                      >
+                        {sub.ctaLabel}
+                      </WhatsAppCTAButton>
                     </div>
                   ))}
                 </div>
@@ -596,11 +599,13 @@ export default function Home() {
           Se você precisa de consultoria preventiva ou representação contenciosa, estruturamos a atuação ideal para proteger seus interesses com segurança jurídica.
         </p>
 
-        <Button asChild className="z-10 mb-10 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:w-auto sm:py-6">
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            Agendar Consulta
-          </a>
-        </Button>
+        <WhatsAppCTAButton
+          whatsappPhone={whatsappPhone}
+          whatsappBaseMessage={MSG_CONSULTA}
+          className="z-10 mb-10 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:w-auto sm:py-6"
+        >
+          Agendar Consulta
+        </WhatsAppCTAButton>
 
         <div className="relative top-1 mt-auto w-full">
           <Image

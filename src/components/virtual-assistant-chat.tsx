@@ -9,9 +9,12 @@ import { Streamdown } from "streamdown";
 
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Button } from "@/components/ui/button";
+import { LeadCaptureDialog } from "@/components/lead-capture-dialog";
+import { CHAT_WHATSAPP_PREFILL_MESSAGE } from "@/lib/whatsapp";
 
 type VirtualAssistantChatProps = {
   whatsappUrl: string;
+  whatsappPhone: string;
 };
 
 const TABLE_SEPARATOR_PATTERN = /^\s*\|?(?:\s*:?-{3,}:?\s*\|)+\s*(?:\s*:?-{3,}:?\s*)?\|?\s*$/;
@@ -91,7 +94,7 @@ const chatStreamdownComponents = {
   ),
 };
 
-export function VirtualAssistantChat({ whatsappUrl }: VirtualAssistantChatProps) {
+export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssistantChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [streamNotice, setStreamNotice] = useState<string | null>(null);
@@ -332,14 +335,13 @@ export function VirtualAssistantChat({ whatsappUrl }: VirtualAssistantChatProps)
               </Button>
             </form>
 
-            <Button
-              asChild
-              className="mt-3 h-10 w-full rounded-none border border-black bg-white text-xs uppercase tracking-wider text-black hover:bg-neutral-100"
-            >
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <LeadCaptureDialog whatsappPhone={whatsappPhone} whatsappBaseMessage={CHAT_WHATSAPP_PREFILL_MESSAGE}>
+              <Button
+                className="mt-3 h-10 w-full rounded-none border border-black bg-white text-xs uppercase tracking-wider text-black hover:bg-neutral-100"
+              >
                 Falar com a equipe no WhatsApp
-              </a>
-            </Button>
+              </Button>
+            </LeadCaptureDialog>
           </div>
         </div>
       ) : null}

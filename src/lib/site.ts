@@ -1,4 +1,4 @@
-const FALLBACK_SITE_URL = "https://fustinoni-advocacia.vercel.app";
+const FALLBACK_SITE_URL = "https://www.escritoriofustinoni.com.br";
 
 export const SITE_NAME = "FUSTINONI ADVOCACIA";
 export const SITE_DESCRIPTION =
