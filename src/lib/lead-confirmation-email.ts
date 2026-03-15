@@ -17,6 +17,8 @@ export async function sendLeadConfirmationEmail({
 }: SendLeadConfirmationEmailParams) {
   const resend = getResendClient();
   const from = getResendFromEmail();
+  const replyTo =
+    process.env.RESEND_REPLY_TO_EMAIL?.trim() || "contato@fustinoni.adv.br";
   const firstName = nome.trim().split(/\s+/)[0] ?? "Cliente";
   const safeFirstName = escapeHtml(firstName);
   const subject = "Confirmação de e-mail | FUSTINONI ADVOCACIA";
@@ -99,6 +101,7 @@ export async function sendLeadConfirmationEmail({
   const { data, error } = await resend.emails.send(
     {
       from,
+      replyTo: [replyTo],
       to: [to],
       subject,
       html,
