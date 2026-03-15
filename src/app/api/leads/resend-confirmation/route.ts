@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod/v4";
 
+import { type AppLocale } from "@/i18n/routing";
 import {
   buildLeadConfirmationUrl,
   createLeadConfirmationToken,
@@ -18,6 +19,7 @@ type LeadForResend = {
   email_confirm_window_started_at: string | null;
   email_confirmed_at: string | null;
   id: string;
+  locale: AppLocale | null;
   nome: string;
 };
 
@@ -32,14 +34,14 @@ export async function POST(req: Request) {
     .catch(() => null);
 
   if (!payload) {
-    return NextResponse.json({ error: "Requisição inválida." }, { status: 400 });
+    return NextResponse.json({ code: "INVALID_REQUEST" }, { status: 400 });
   }
 
   const supabase = getSupabaseAdminClient() as any;
   const { data, error: fetchError } = await supabase
     .from("leads")
     .select(
-      "id, nome, email, email_confirmed_at, email_confirm_send_count, email_confirm_window_started_at",
+      "id, nome, email, locale, email_confirmed_at, email_confirm_send_count, email_confirm_window_started_at",
     )
     .eq("id", payload.leadId)
     .maybeSingle();
@@ -48,14 +50,11 @@ export async function POST(req: Request) {
 
   if (fetchError || !lead) {
     console.error("Lead resend fetch error:", fetchError);
-    return NextResponse.json({ error: "Lead não encontrado." }, { status: 404 });
+    return NextResponse.json({ code: "LEAD_NOT_FOUND" }, { status: 404 });
   }
 
   if (lead.email_confirmed_at) {
-    return NextResponse.json(
-      { error: "Este e-mail já foi confirmado." },
-      { status: 409 },
-    );
+    return NextResponse.json({ code: "ALREADY_CONFIRMED" }, { status: 409 });
   }
 
   const now = Date.now();
@@ -81,7 +80,7 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json(
-      { error: "Você atingiu o limite de 3 reenvios por hora." },
+      { code: "RATE_LIMITED" },
       {
         status: 429,
         headers: {
@@ -109,27 +108,23 @@ export async function POST(req: Request) {
 
   if (updateError) {
     console.error("Lead resend update error:", updateError);
-    return NextResponse.json(
-      { error: "Não foi possível atualizar a confirmação." },
-      { status: 500 },
-    );
+    return NextResponse.json({ code: "UPDATE_FAILED" }, { status: 500 });
   }
 
-  const confirmationUrl = buildLeadConfirmationUrl(lead.id, token);
+  const locale = lead.locale ?? "pt";
+  const confirmationUrl = buildLeadConfirmationUrl(lead.id, token, locale);
 
   try {
     await sendLeadConfirmationEmail({
       to: lead.email,
       nome: lead.nome,
+      locale,
       confirmUrl: confirmationUrl,
       idempotencyKey: `lead-confirmation-resend/${lead.id}/${nextSendCount}`,
     });
   } catch (error) {
     console.error("Lead confirmation resend error:", error);
-    return NextResponse.json(
-      { error: "Não foi possível reenviar agora. Tente novamente." },
-      { status: 502 },
-    );
+    return NextResponse.json({ code: "RESEND_FAILED" }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });

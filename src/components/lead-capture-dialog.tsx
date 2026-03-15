@@ -1,11 +1,13 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2, Send } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,23 +18,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { buildWhatsAppUrl, buildLeadWhatsAppMessage } from "@/lib/whatsapp";
+import { Textarea } from "@/components/ui/textarea";
+import { type AppLocale } from "@/i18n/routing";
+import { buildLeadWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 
-const step1Schema = z.object({
-  nome: z.string().min(2, "Informe seu nome"),
-  telefone: z.string().min(10, "Informe um telefone válido"),
-  email: z.string().email("Informe um e-mail válido"),
-});
+type Step1Data = {
+  nome: string;
+  telefone: string;
+  email: string;
+};
 
-const step2Schema = z.object({
-  resumo: z.string().min(1, "Descreva brevemente o que deseja tratar"),
-});
-
-type Step1Data = z.infer<typeof step1Schema>;
-type Step2Data = z.infer<typeof step2Schema>;
+type Step2Data = {
+  resumo: string;
+};
 
 type LeadCaptureDialogProps = {
   children: React.ReactNode;
@@ -45,10 +44,22 @@ export function LeadCaptureDialog({
   whatsappPhone,
   whatsappBaseMessage,
 }: LeadCaptureDialogProps) {
+  const t = useTranslations("leadDialog");
+  const locale = useLocale() as AppLocale;
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
   const [step1Data, setStep1Data] = useState<Step1Data | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const step1Schema = z.object({
+    nome: z.string().min(2, t("validation.name")),
+    telefone: z.string().min(10, t("validation.phone")),
+    email: z.string().email(t("validation.email")),
+  });
+
+  const step2Schema = z.object({
+    resumo: z.string().min(1, t("validation.summary")),
+  });
 
   const step1Form = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
@@ -76,7 +87,9 @@ export function LeadCaptureDialog({
   }
 
   async function onStep2Submit(data: Step2Data) {
-    if (!step1Data) return;
+    if (!step1Data) {
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -91,6 +104,7 @@ export function LeadCaptureDialog({
           telefone: step1Data.telefone,
           email: step1Data.email,
           resumo: data.resumo,
+          locale,
         }),
       });
     } catch {
@@ -120,19 +134,17 @@ export function LeadCaptureDialog({
           <form onSubmit={step1Form.handleSubmit(onStep1Submit)}>
             <DialogHeader>
               <DialogTitle className="uppercase tracking-wider text-base">
-                Dados para contato
+                {t("step1.title")}
               </DialogTitle>
-              <DialogDescription>
-                Preencha seus dados para que possamos atendê-lo melhor.
-              </DialogDescription>
+              <DialogDescription>{t("step1.description")}</DialogDescription>
             </DialogHeader>
 
             <div className="mt-4 grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="nome">Nome</Label>
+                <Label htmlFor="nome">{t("fields.name.label")}</Label>
                 <Input
                   id="nome"
-                  placeholder="Seu nome completo"
+                  placeholder={t("fields.name.placeholder")}
                   className="rounded-none"
                   {...step1Form.register("nome")}
                 />
@@ -144,11 +156,11 @@ export function LeadCaptureDialog({
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="telefone">Telefone</Label>
+                <Label htmlFor="telefone">{t("fields.phone.label")}</Label>
                 <Input
                   id="telefone"
                   type="tel"
-                  placeholder="(11) 99999-9999"
+                  placeholder={t("fields.phone.placeholder")}
                   className="rounded-none"
                   {...step1Form.register("telefone")}
                 />
@@ -160,11 +172,11 @@ export function LeadCaptureDialog({
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="email">E-mail</Label>
+                <Label htmlFor="email">{t("fields.email.label")}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="seu@email.com"
+                  placeholder={t("fields.email.placeholder")}
                   className="rounded-none"
                   {...step1Form.register("email")}
                 />
@@ -174,8 +186,7 @@ export function LeadCaptureDialog({
                   </p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  Confirme seu e-mail após o envio - é por ele que entraremos em
-                  contato.
+                  {t("fields.email.help")}
                 </p>
               </div>
             </div>
@@ -185,7 +196,7 @@ export function LeadCaptureDialog({
                 type="submit"
                 className="w-full rounded-none bg-black text-white hover:bg-black/90"
               >
-                Próximo
+                {t("step1.next")}
                 <ArrowRight className="ml-2 size-4" />
               </Button>
             </DialogFooter>
@@ -196,20 +207,17 @@ export function LeadCaptureDialog({
           <form onSubmit={step2Form.handleSubmit(onStep2Submit)}>
             <DialogHeader>
               <DialogTitle className="uppercase tracking-wider text-base">
-                Sobre o que deseja tratar?
+                {t("step2.title")}
               </DialogTitle>
-              <DialogDescription>
-                Descreva brevemente o assunto para que nossa equipe já tenha
-                contexto ao atendê-lo.
-              </DialogDescription>
+              <DialogDescription>{t("step2.description")}</DialogDescription>
             </DialogHeader>
 
             <div className="mt-4 grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="resumo">Resumo</Label>
+                <Label htmlFor="resumo">{t("fields.summary.label")}</Label>
                 <Textarea
                   id="resumo"
-                  placeholder="Ex.: Preciso de orientação sobre um contrato de compra e venda..."
+                  placeholder={t("fields.summary.placeholder")}
                   className="min-h-[120px] rounded-none"
                   {...step2Form.register("resumo")}
                 />
@@ -228,7 +236,7 @@ export function LeadCaptureDialog({
                 className="rounded-none"
                 onClick={() => setStep(1)}
               >
-                Voltar
+                {t("step2.back")}
               </Button>
               <Button
                 type="submit"
@@ -240,7 +248,7 @@ export function LeadCaptureDialog({
                 ) : (
                   <Send className="mr-2 size-4" />
                 )}
-                Enviar e abrir WhatsApp
+                {t("step2.submit")}
               </Button>
             </DialogFooter>
           </form>

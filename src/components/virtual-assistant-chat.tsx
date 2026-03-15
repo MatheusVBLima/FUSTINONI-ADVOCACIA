@@ -5,19 +5,23 @@ import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Brain, MessageCircle, Send, X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Streamdown } from "streamdown";
 
 import { Shimmer } from "@/components/ai-elements/shimmer";
-import { Button } from "@/components/ui/button";
 import { LeadCaptureDialog } from "@/components/lead-capture-dialog";
-import { CHAT_WHATSAPP_PREFILL_MESSAGE } from "@/lib/whatsapp";
+import { Button } from "@/components/ui/button";
+import { type AppLocale } from "@/i18n/routing";
+import { getChatWhatsAppPrefillMessage } from "@/lib/whatsapp";
 
 type VirtualAssistantChatProps = {
+  locale: AppLocale;
   whatsappUrl: string;
   whatsappPhone: string;
 };
 
-const TABLE_SEPARATOR_PATTERN = /^\s*\|?(?:\s*:?-{3,}:?\s*\|)+\s*(?:\s*:?-{3,}:?\s*)?\|?\s*$/;
+const TABLE_SEPARATOR_PATTERN =
+  /^\s*\|?(?:\s*:?-{3,}:?\s*\|)+\s*(?:\s*:?-{3,}:?\s*)?\|?\s*$/;
 
 function getTableCellCount(line: string): number {
   const trimmed = line.trim();
@@ -52,13 +56,18 @@ function normalizeMarkdownTables(markdown: string): string {
     }
 
     let previousNonEmptyIndex = index - 1;
-    while (previousNonEmptyIndex >= 0 && !(lines[previousNonEmptyIndex] ?? "").trim()) {
+    while (
+      previousNonEmptyIndex >= 0 &&
+      !(lines[previousNonEmptyIndex] ?? "").trim()
+    ) {
       previousNonEmptyIndex -= 1;
     }
 
-    const previousNonEmptyLine = previousNonEmptyIndex >= 0 ? lines[previousNonEmptyIndex] ?? "" : "";
+    const previousNonEmptyLine =
+      previousNonEmptyIndex >= 0 ? lines[previousNonEmptyIndex] ?? "" : "";
     const previousLineIsTableLike =
-      TABLE_SEPARATOR_PATTERN.test(previousNonEmptyLine) || getTableCellCount(previousNonEmptyLine) >= 2;
+      TABLE_SEPARATOR_PATTERN.test(previousNonEmptyLine) ||
+      getTableCellCount(previousNonEmptyLine) >= 2;
     if (previousLineIsTableLike) {
       continue;
     }
@@ -94,7 +103,12 @@ const chatStreamdownComponents = {
   ),
 };
 
-export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssistantChatProps) {
+export function VirtualAssistantChat({
+  locale,
+  whatsappPhone,
+}: VirtualAssistantChatProps) {
+  const t = useTranslations("virtualAssistant");
+  const resolvedLocale = (useLocale() as AppLocale) ?? locale;
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [streamNotice, setStreamNotice] = useState<string | null>(null);
@@ -106,34 +120,37 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
   const previouslyOpenRef = useRef(false);
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const { messages, sendMessage, status, error, setMessages, clearError, stop } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-    }),
-    onError: () => {
-      setStreamNotice("A resposta foi interrompida. Tente enviar novamente.");
-    },
-    onFinish: ({ isAbort, isDisconnect, isError, finishReason }) => {
-      if (isAbort) {
-        return;
-      }
+  const { messages, sendMessage, status, error, setMessages, clearError, stop } =
+    useChat({
+      transport: new DefaultChatTransport({
+        api: `/api/chat?locale=${resolvedLocale}`,
+      }),
+      onError: () => {
+        setStreamNotice(t("streamInterrupted"));
+      },
+      onFinish: ({ isAbort, isDisconnect, isError, finishReason }) => {
+        if (isAbort) {
+          return;
+        }
 
-      const streamEndedWithIssue = isDisconnect || isError || finishReason === "length";
-      if (streamEndedWithIssue) {
-        setStreamNotice("A resposta pode ter ficado incompleta. Tente pedir novamente.");
-        return;
-      }
+        const streamEndedWithIssue =
+          isDisconnect || isError || finishReason === "length";
+        if (streamEndedWithIssue) {
+          setStreamNotice(t("streamIncomplete"));
+          return;
+        }
 
-      setStreamNotice(null);
-    },
-  });
+        setStreamNotice(null);
+      },
+    });
 
   useEffect(() => {
     if (!messagesContainerRef.current) {
       return;
     }
 
-    messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    messagesContainerRef.current.scrollTop =
+      messagesContainerRef.current.scrollHeight;
   }, [messages, status]);
 
   useEffect(() => {
@@ -199,11 +216,15 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
           type="button"
           onClick={() => setIsOpen(open => !open)}
           className="size-12 rounded-none border border-black bg-black text-white hover:bg-black/85"
-          aria-label={isOpen ? "Fechar assistente virtual" : "Abrir assistente virtual"}
+          aria-label={isOpen ? t("closeAssistantAria") : t("openAssistantAria")}
           aria-expanded={isOpen}
           aria-controls={panelId}
         >
-          {isOpen ? <X className="h-4 w-4" aria-hidden="true" /> : <MessageCircle className="h-4 w-4" aria-hidden="true" />}
+          {isOpen ? (
+            <X className="h-4 w-4" aria-hidden="true" />
+          ) : (
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
+          )}
         </Button>
       </div>
 
@@ -216,7 +237,7 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
         >
           <div className="flex items-center justify-between border-b border-black/15 px-4 py-3">
             <div id={headingId} className="text-xs font-semibold uppercase tracking-wider">
-              Assistente Virtual
+              {t("title")}
             </div>
             <div className="flex items-center">
               <button
@@ -224,7 +245,7 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
                 onClick={handleNewSession}
                 className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-black/70 transition-colors hover:text-black"
               >
-                Nova sessão
+                {t("newSession")}
               </button>
             </div>
           </div>
@@ -239,13 +260,16 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
           >
             {messages.length === 0 ? (
               <div className="space-y-3 text-sm leading-relaxed text-black/70">
-                <p>Olá. Posso ajudar com informações sobre equipe, áreas de atuação e atendimento do escritório.</p>
-                <p>Se preferir, você também pode falar diretamente com a equipe pelo WhatsApp.</p>
+                <p>{t("introLine1")}</p>
+                <p>{t("introLine2")}</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {messages.map(message => (
-                  <div key={message.id} className={message.role === "user" ? "flex justify-end" : "flex justify-start"}>
+                  <div
+                    key={message.id}
+                    className={message.role === "user" ? "flex justify-end" : "flex justify-start"}
+                  >
                     <div
                       className={
                         message.role === "user"
@@ -261,7 +285,8 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
                         const isLatestAssistantMessage =
                           message.role === "assistant" &&
                           message.id === messages[messages.length - 1]?.id;
-                        const isStreamingAssistantMessage = status === "streaming" && isLatestAssistantMessage;
+                        const isStreamingAssistantMessage =
+                          status === "streaming" && isLatestAssistantMessage;
                         const normalizedMarkdown = normalizeMarkdownTables(part.text);
 
                         return (
@@ -287,25 +312,33 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
             )}
 
             {isSending ? (
-              <div role="status" aria-live="polite" className="mt-4 flex items-center gap-2 text-xs uppercase tracking-wider text-black/70">
+              <div
+                role="status"
+                aria-live="polite"
+                className="mt-4 flex items-center gap-2 text-xs uppercase tracking-wider text-black/70"
+              >
                 <Brain className="h-3.5 w-3.5" aria-hidden="true" />
                 <Shimmer
                   duration={1}
                   className="[--color-background:#111111] [--color-muted-foreground:#6b7280]"
                 >
-                  Pensando...
+                  {t("thinking")}
                 </Shimmer>
               </div>
             ) : null}
 
             {error ? (
               <div role="alert" className="mt-4 border border-black/15 bg-neutral-50 px-3 py-2 text-xs text-black/70">
-                Não consegui responder agora. Tente novamente.
+                {t("errorResponse")}
               </div>
             ) : null}
 
             {streamNotice && !error ? (
-              <div role="status" aria-live="polite" className="mt-4 border border-black/15 bg-neutral-50 px-3 py-2 text-xs text-black/70">
+              <div
+                role="status"
+                aria-live="polite"
+                className="mt-4 border border-black/15 bg-neutral-50 px-3 py-2 text-xs text-black/70"
+              >
                 {streamNotice}
               </div>
             ) : null}
@@ -314,14 +347,14 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
           <div className="border-t border-black/15 p-4">
             <form onSubmit={handleSubmit} className="flex gap-2">
               <label htmlFor={inputId} className="sr-only">
-                Digite sua dúvida
+                {t("inputLabel")}
               </label>
               <input
                 id={inputId}
                 ref={inputRef}
                 value={input}
                 onChange={event => setInput(event.currentTarget.value)}
-                placeholder="Digite sua dúvida..."
+                placeholder={t("inputPlaceholder")}
                 className="h-10 w-full border border-black/20 px-3 text-sm outline-none focus:border-black"
                 disabled={isSending}
               />
@@ -329,17 +362,18 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
                 type="submit"
                 disabled={isSending}
                 className="h-10 rounded-none border border-black bg-black px-3 text-white hover:bg-black/85"
-                aria-label="Enviar mensagem"
+                aria-label={t("sendAria")}
               >
                 <Send className="h-4 w-4" aria-hidden="true" />
               </Button>
             </form>
 
-            <LeadCaptureDialog whatsappPhone={whatsappPhone} whatsappBaseMessage={CHAT_WHATSAPP_PREFILL_MESSAGE}>
-              <Button
-                className="mt-3 h-10 w-full rounded-none border border-black bg-white text-xs uppercase tracking-wider text-black hover:bg-neutral-100"
-              >
-                Falar com a equipe no WhatsApp
+            <LeadCaptureDialog
+              whatsappPhone={whatsappPhone}
+              whatsappBaseMessage={getChatWhatsAppPrefillMessage(resolvedLocale)}
+            >
+              <Button className="mt-3 h-10 w-full rounded-none border border-black bg-white text-xs uppercase tracking-wider text-black hover:bg-neutral-100">
+                {t("ctaWhatsApp")}
               </Button>
             </LeadCaptureDialog>
           </div>
@@ -348,4 +382,3 @@ export function VirtualAssistantChat({ whatsappUrl, whatsappPhone }: VirtualAssi
     </>
   );
 }
-

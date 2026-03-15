@@ -1,0 +1,148 @@
+{
+  "language": {
+    "changeLanguage": "Alterar idioma",
+    "portuguese": "Português",
+    "english": "Inglês",
+    "spanish": "Espanhol",
+    "italian": "Italiano"
+  },
+  "siteShell": {
+    "skipToContent": "Pular para o conteúdo principal"
+  },
+  "siteHeader": {
+    "scheduleConsultation": "Agendar consulta",
+    "specificServices": "Serviços específicos",
+    "openMenuAria": "Abrir menu",
+    "closeMenuAria": "Fechar menu",
+    "primaryNavigationAria": "Navegação principal",
+    "nav": {
+      "home": {
+        "services": "Equipe",
+        "process": "Atuação",
+        "studio": "Escritório",
+        "sectors": "Áreas",
+        "faq": "FAQ"
+      },
+      "shared": {
+        "problem": "Problema",
+        "howWeAct": "Atuação",
+        "irregularity": "Irregularidade",
+        "audience": "Público",
+        "differentials": "Diferenciais",
+        "faq": "FAQ",
+        "questionable": "Questionável"
+      },
+      "products": {
+        "creditReview": "Análise de apontamentos indevidos",
+        "factorKReview": "Revisão de Fator K"
+      }
+    }
+  },
+  "siteFooter": {
+    "rightsReserved": "FUSTINONI ADVOCACIA - Todos os direitos reservados",
+    "navigationTitle": "Navegação",
+    "contactTitle": "Contato",
+    "badges": {
+      "confidential": "Atendimento confidencial",
+      "scheduled": "Consultas por agendamento",
+      "national": "Atuação nacional"
+    },
+    "links": {
+      "team": "Equipe",
+      "workModels": "Modelos de atuação",
+      "creditReview": "Análise de apontamentos indevidos",
+      "faq": "FAQ"
+    }
+  },
+  "leadDialog": {
+    "validation": {
+      "name": "Informe seu nome",
+      "phone": "Informe um telefone válido",
+      "email": "Informe um e-mail válido",
+      "summary": "Descreva brevemente o que deseja tratar"
+    },
+    "step1": {
+      "title": "Dados para contato",
+      "description": "Preencha seus dados para que possamos atendê-lo melhor.",
+      "next": "Próximo"
+    },
+    "step2": {
+      "title": "Sobre o que deseja tratar?",
+      "description": "Descreva brevemente o assunto para que nossa equipe já tenha contexto ao atendê-lo.",
+      "back": "Voltar",
+      "submit": "Enviar e abrir WhatsApp"
+    },
+    "fields": {
+      "name": {
+        "label": "Nome",
+        "placeholder": "Seu nome completo"
+      },
+      "phone": {
+        "label": "Telefone",
+        "placeholder": "(11) 99999-9999"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "seu@email.com",
+        "help": "Confirme seu e-mail após o envio - é por ele que entraremos em contato."
+      },
+      "summary": {
+        "label": "Resumo",
+        "placeholder": "Ex.: Preciso de orientação sobre um contrato de compra e venda..."
+      }
+    }
+  },
+  "virtualAssistant": {
+    "title": "Assistente virtual",
+    "newSession": "Nova sessão",
+    "introLine1": "Olá. Posso ajudar com informações sobre equipe, áreas de atuação e atendimento do escritório.",
+    "introLine2": "Se preferir, você também pode falar diretamente com a equipe pelo WhatsApp.",
+    "thinking": "Pensando...",
+    "errorResponse": "Não consegui responder agora. Tente novamente.",
+    "streamInterrupted": "A resposta foi interrompida. Tente enviar novamente.",
+    "streamIncomplete": "A resposta pode ter ficado incompleta. Tente pedir novamente.",
+    "inputLabel": "Digite sua dúvida",
+    "inputPlaceholder": "Digite sua dúvida...",
+    "sendAria": "Enviar mensagem",
+    "openAssistantAria": "Abrir assistente virtual",
+    "closeAssistantAria": "Fechar assistente virtual",
+    "ctaWhatsApp": "Falar com a equipe no WhatsApp"
+  },
+  "resendConfirmation": {
+    "button": "Reenviar confirmação",
+    "loading": "Reenviando...",
+    "success": "Novo e-mail de confirmação enviado com sucesso.",
+    "errors": {
+      "invalidRequest": "Requisição inválida.",
+      "alreadyConfirmed": "Este e-mail já foi confirmado.",
+      "leadNotFound": "Lead não encontrado.",
+      "rateLimited": "Você atingiu o limite de reenvios. Tente novamente mais tarde.",
+      "updateFailed": "Não foi possível atualizar os dados de confirmação.",
+      "resendFailed": "Não foi possível reenviar agora. Tente novamente.",
+      "network": "Erro de conexão ao tentar reenviar.",
+      "unknown": "Não foi possível reenviar agora. Tente novamente."
+    }
+  },
+  "emailConfirmed": {
+    "backToSite": "Voltar para o site",
+    "talkWhatsApp": "Falar no WhatsApp",
+    "statuses": {
+      "success": {
+        "title": "E-mail confirmado com sucesso",
+        "description": "Seu e-mail foi validado. Nossa equipe poderá seguir com o contato normalmente."
+      },
+      "already_confirmed": {
+        "title": "Este e-mail já foi confirmado",
+        "description": "Seu cadastro já estava validado. Se precisar, você pode falar com nossa equipe agora."
+      },
+      "expired": {
+        "title": "Link expirado",
+        "description": "O link de confirmação venceu. Você pode solicitar um novo envio agora mesmo."
+      },
+      "invalid": {
+        "title": "Link inválido",
+        "description": "Não foi possível validar este link. Solicite um novo e-mail de confirmação."
+      }
+    }
+  }
+}

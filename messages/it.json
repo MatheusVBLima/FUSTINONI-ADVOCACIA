@@ -1,0 +1,148 @@
+{
+  "language": {
+    "changeLanguage": "Cambia lingua",
+    "portuguese": "Portoghese",
+    "english": "Inglese",
+    "spanish": "Spagnolo",
+    "italian": "Italiano"
+  },
+  "siteShell": {
+    "skipToContent": "Vai al contenuto principale"
+  },
+  "siteHeader": {
+    "scheduleConsultation": "Prenota consulenza",
+    "specificServices": "Servizi specifici",
+    "openMenuAria": "Apri menu",
+    "closeMenuAria": "Chiudi menu",
+    "primaryNavigationAria": "Navigazione principale",
+    "nav": {
+      "home": {
+        "services": "Team",
+        "process": "Attuazione",
+        "studio": "Studio",
+        "sectors": "Aree",
+        "faq": "FAQ"
+      },
+      "shared": {
+        "problem": "Problema",
+        "howWeAct": "Attuazione",
+        "irregularity": "Irregolarità",
+        "audience": "Pubblico",
+        "differentials": "Differenziali",
+        "faq": "FAQ",
+        "questionable": "Contestabile"
+      },
+      "products": {
+        "creditReview": "Analisi di segnalazioni indebite",
+        "factorKReview": "Revisione del Fattore K"
+      }
+    }
+  },
+  "siteFooter": {
+    "rightsReserved": "FUSTINONI ADVOCACIA - Tutti i diritti riservati",
+    "navigationTitle": "Navigazione",
+    "contactTitle": "Contatto",
+    "badges": {
+      "confidential": "Assistenza riservata",
+      "scheduled": "Consulenze su appuntamento",
+      "national": "Operatività nazionale"
+    },
+    "links": {
+      "team": "Team",
+      "workModels": "Modelli di attuazione",
+      "creditReview": "Analisi di segnalazioni indebite",
+      "faq": "FAQ"
+    }
+  },
+  "leadDialog": {
+    "validation": {
+      "name": "Inserisca il suo nome",
+      "phone": "Inserisca un telefono valido",
+      "email": "Inserisca un'e-mail valida",
+      "summary": "Descriva brevemente ciò che desidera trattare"
+    },
+    "step1": {
+      "title": "Dati di contatto",
+      "description": "Compili i suoi dati per consentirci di assisterla al meglio.",
+      "next": "Avanti"
+    },
+    "step2": {
+      "title": "Di cosa desidera parlare?",
+      "description": "Descriva brevemente l'argomento così il nostro team avrà già il contesto.",
+      "back": "Indietro",
+      "submit": "Invia e apri WhatsApp"
+    },
+    "fields": {
+      "name": {
+        "label": "Nome",
+        "placeholder": "Il suo nome completo"
+      },
+      "phone": {
+        "label": "Telefono",
+        "placeholder": "+39 320 123 4567"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "suo@email.com",
+        "help": "Confermi la sua e-mail dopo l'invio: sarà il canale di contatto."
+      },
+      "summary": {
+        "label": "Riepilogo",
+        "placeholder": "Es.: Ho bisogno di orientamento su un contratto di compravendita..."
+      }
+    }
+  },
+  "virtualAssistant": {
+    "title": "Assistente virtuale",
+    "newSession": "Nuova sessione",
+    "introLine1": "Buongiorno. Posso aiutare con informazioni sul team, sulle aree di attività e sull'assistenza dello studio.",
+    "introLine2": "Se preferisce, può anche parlare direttamente con il team su WhatsApp.",
+    "thinking": "Sto pensando...",
+    "errorResponse": "Non sono riuscito a rispondere ora. Riprovi.",
+    "streamInterrupted": "La risposta è stata interrotta. Provi a inviare di nuovo.",
+    "streamIncomplete": "La risposta potrebbe essere incompleta. Provi a chiedere di nuovo.",
+    "inputLabel": "Scriva il suo dubbio",
+    "inputPlaceholder": "Scriva il suo dubbio...",
+    "sendAria": "Invia messaggio",
+    "openAssistantAria": "Apri assistente virtuale",
+    "closeAssistantAria": "Chiudi assistente virtuale",
+    "ctaWhatsApp": "Parla con il team su WhatsApp"
+  },
+  "resendConfirmation": {
+    "button": "Invia di nuovo la conferma",
+    "loading": "Reinvio in corso...",
+    "success": "Nuova e-mail di conferma inviata con successo.",
+    "errors": {
+      "invalidRequest": "Richiesta non valida.",
+      "alreadyConfirmed": "Questa e-mail è già stata confermata.",
+      "leadNotFound": "Contatto non trovato.",
+      "rateLimited": "Ha raggiunto il limite di reinvio. Riprovi più tardi.",
+      "updateFailed": "Non è stato possibile aggiornare i dati di conferma.",
+      "resendFailed": "Non è stato possibile reinviare ora. Riprovi.",
+      "network": "Errore di connessione durante il reinvio.",
+      "unknown": "Non è stato possibile reinviare ora. Riprovi."
+    }
+  },
+  "emailConfirmed": {
+    "backToSite": "Torna al sito",
+    "talkWhatsApp": "Parla su WhatsApp",
+    "statuses": {
+      "success": {
+        "title": "E-mail confermata con successo",
+        "description": "La sua e-mail è stata validata. Il nostro team potrà proseguire con il contatto normalmente."
+      },
+      "already_confirmed": {
+        "title": "Questa e-mail è già stata confermata",
+        "description": "Il suo registro era già validato. Se necessario, può parlare subito con il nostro team."
+      },
+      "expired": {
+        "title": "Link scaduto",
+        "description": "Il link di conferma è scaduto. Può richiederne subito uno nuovo."
+      },
+      "invalid": {
+        "title": "Link non valido",
+        "description": "Non è stato possibile validare questo link. Richieda una nuova e-mail di conferma."
+      }
+    }
+  }
+}

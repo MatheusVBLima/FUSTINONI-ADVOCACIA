@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { Link } from "@/i18n/navigation";
+import { type AppLocale } from "@/i18n/routing";
 import { OpticsButton } from "@/components/optics/optics-button";
 import {
   OpticsCard,
@@ -17,47 +19,63 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
-import { SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
+import { OG_LOCALE_BY_APP_LOCALE } from "@/lib/i18n";
+import { getAlternatesLanguages, getLocalizedUrl } from "@/lib/seo";
+import { SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 
-const siteUrl = getSiteUrl();
 const pagePath = "/analise-credito";
-const pageUrl = `${siteUrl}${pagePath}`;
 const BCB_REPORT_URL =
   "https://www.bcb.gov.br/meubc/relatorioemprestimofinanciamento";
-const pageTitle =
-  "Análise jurídica de histórico bancário e acesso ao crédito | FUSTINONI ADVOCACIA";
-const pageDescription =
-  "Recusa de crédito, financiamento, limite bancário ou aprovação cadastral pode envolver informação desatualizada, distorcida ou indevida. O escritório realiza análise técnica e define a medida jurídica cabível.";
-
-export const metadata: Metadata = {
-  title: pageTitle,
-  description: pageDescription,
-  alternates: {
-    canonical: pagePath,
-  },
-  openGraph: {
-    type: "website",
-    url: pageUrl,
-    title: pageTitle,
-    description: pageDescription,
-    siteName: SITE_NAME,
-    locale: "pt_BR",
-    images: [
-      {
-        url: SITE_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: SITE_NAME,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: pageTitle,
-    description: pageDescription,
-    images: [SITE_OG_IMAGE],
-  },
+const ANALISE_TITLE_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Análise jurídica de histórico bancário e acesso ao crédito | FUSTINONI ADVOCACIA",
+  en: "Credit record legal review and credit access strategy | FUSTINONI ADVOCACIA",
+  es: "Análisis jurídico del historial bancario y acceso al crédito | FUSTINONI ADVOCACIA",
+  it: "Analisi legale dello storico bancario e accesso al credito | FUSTINONI ADVOCACIA",
 };
+
+const ANALISE_DESCRIPTION_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Recusa de crédito, financiamento, limite bancário ou aprovação cadastral pode envolver informação desatualizada, distorcida ou indevida. O escritório realiza análise técnica e define a medida jurídica cabível.",
+  en: "Credit denial, financing refusal or limit reduction may involve outdated or improper banking data. The firm performs technical legal review and defines the proper legal strategy.",
+  es: "El rechazo de crédito, financiación o límite bancario puede involucrar información desactualizada o indebida. El despacho realiza análisis técnico-jurídico y define la medida aplicable.",
+  it: "Il rifiuto del credito, del finanziamento o la riduzione del limite può dipendere da dati bancari non aggiornati o indebiti. Lo studio esegue analisi tecnico-legale e definisce la misura adeguata.",
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const title = ANALISE_TITLE_BY_LOCALE[locale];
+  const description = ANALISE_DESCRIPTION_BY_LOCALE[locale];
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: getLocalizedUrl(pagePath, locale),
+      languages: getAlternatesLanguages(pagePath),
+    },
+    openGraph: {
+      type: "website",
+      url: getLocalizedUrl(pagePath, locale),
+      title,
+      description,
+      siteName: SITE_NAME,
+      locale: OG_LOCALE_BY_APP_LOCALE[locale],
+      images: [
+        {
+          url: SITE_OG_IMAGE,
+          width: 1200,
+          height: 630,
+          alt: SITE_NAME,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [SITE_OG_IMAGE],
+    },
+  };
+}
 
 const productFaqs = [
   {
@@ -119,14 +137,308 @@ const heroPreliminarItems = [
 ];
 
 const whatsappPhone = process.env.WHATSAPP_PHONE_NUMBER ?? "";
-const MSG_HERO = "Olá! Gostaria de solicitar uma análise de apontamentos indevidos no meu CPF/CNPJ.";
-const MSG_CTA = "Olá! Vim pelo site e quero agendar uma consulta sobre apontamentos indevidos no meu CPF/CNPJ.";
+const MSG_HERO_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Olá! Gostaria de solicitar uma análise de apontamentos indevidos no meu CPF/CNPJ.",
+  en: "Hello! I would like to request a legal review of improper entries in my tax ID history.",
+  es: "¡Hola! Me gustaría solicitar un análisis jurídico de registros indebidos en mi historial crediticio.",
+  it: "Buongiorno! Vorrei richiedere un'analisi legale di segnalazioni indebite nel mio storico creditizio.",
+};
 
-export default function AnaliseCreditoPage() {
+const MSG_CTA_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Olá! Vim pelo site e quero agendar uma consulta sobre apontamentos indevidos no meu CPF/CNPJ.",
+  en: "Hello! I came from the website and want to schedule a consultation about improper credit listings.",
+  es: "¡Hola! Vengo del sitio y quiero agendar una consulta sobre registros indebidos de crédito.",
+  it: "Buongiorno! Sono arrivato dal sito e voglio fissare una consulenza su segnalazioni indebite di credito.",
+};
+
+type LocalizedAnaliseCopy = {
+  eyebrow: string;
+  heroTitle: string;
+  heroDescription1: string;
+  heroDescription2: string;
+  docLabel: string;
+  docCta: string;
+  primaryCta: string;
+  secondaryCta: string;
+  problemTitle: string;
+  problemDescription: string;
+  howTitle: string;
+  howItems: string[];
+  irregularityTitle: string;
+  irregularityItems: string[];
+  audienceTitle: string;
+  audienceItems: string[];
+  differentialsTitle: string;
+  differentialsItems: string[];
+  faqTitle: string;
+  finalTitle: string;
+  finalDescription: string;
+  finalCta: string;
+  faqs: typeof productFaqs;
+};
+
+const ANALISE_COPY_BY_LOCALE: Record<
+  Exclude<AppLocale, "pt">,
+  LocalizedAnaliseCopy
+> = {
+  en: {
+    eyebrow: "Credit record legal review and credit access",
+    heroTitle: "Credit denied even without visible default records?",
+    heroDescription1:
+      "Repeated denials of credit, financing or banking limits may come from outdated or improper entries in financial systems, including SCR data.",
+    heroDescription2:
+      "The firm reviews your records and documents to define the proper measure: correction of entries, interruption of harmful effects and accountability when legally applicable.",
+    docLabel: "Key document for initial review",
+    docCta: "Generate Loans and Financing Report (Central Bank)",
+    primaryCta: "Request case review",
+    secondaryCta: "Understand our approach",
+    problemTitle: "When your name looks clear, but the market still blocks you",
+    problemDescription:
+      "Many clients arrive with no classic blacklist record, but still face repeated credit denials. In many situations, controversial or outdated banking data affects limits, financing and business reputation.",
+    howTitle: "How we act",
+    howItems: [
+      "Document intake and legal-technical screening",
+      "Identification of inconsistent, outdated or improper entries",
+      "Definition of extrajudicial or judicial strategy",
+      "Follow-up until correction or legal resolution",
+    ],
+    irregularityTitle: "Indicators of potential irregularity",
+    irregularityItems: [
+      "Repeated credit denial without clear grounds",
+      "Limit reduction or blocking without transparent basis",
+      "Financing refusal despite regular payment history",
+      "Operational losses caused by restricted credit access",
+    ],
+    audienceTitle: "Who this service is for",
+    audienceItems: [
+      "Individuals with denied personal credit or financing",
+      "Entrepreneurs facing banking approval barriers",
+      "Families preparing for major financing operations",
+      "Clients suspecting persistence of data after debt settlement",
+    ],
+    differentialsTitle: "Why choose legal review instead of operational review only",
+    differentialsItems: [
+      "Technical legal analysis focused on evidence",
+      "Strategy proportional to each concrete case",
+      "Confidential and personalized handling",
+      "Advisory and litigation capability when necessary",
+    ],
+    faqTitle: "Frequently asked questions",
+    finalTitle: "Talk to a team ready to review your case with technical rigor",
+    finalDescription:
+      "If you are facing unexplained credit denials, financing barriers or suspected improper banking data, the first step is a careful legal document review.",
+    finalCta: "Schedule consultation",
+    faqs: [
+      {
+        question: "Does a clean name always mean my banking history is regular?",
+        answer:
+          "Not always. You may have no classic default listing and still face banking records that negatively influence credit analysis.",
+      },
+      {
+        question: "Is every credit denial illegal?",
+        answer:
+          "No. Credit decisions involve internal criteria. However, when denial is based on improper, inaccurate or outdated data, legal action may be applicable.",
+      },
+      {
+        question: "Does the firm review documents before any legal action?",
+        answer:
+          "Yes. Technical document review is the starting point to assess feasibility and define the proper strategy.",
+      },
+      {
+        question: "Can compensation be requested?",
+        answer:
+          "In legally supported scenarios, yes. It depends on the irregularity, the damage and available evidence.",
+      },
+      {
+        question: "Can assistance be remote?",
+        answer:
+          "Yes. The firm provides remote and in-person assistance according to case needs.",
+      },
+      {
+        question: "Can urgent relief be necessary?",
+        answer:
+          "Yes. In some cases, especially with imminent financial harm, urgent judicial relief may be required.",
+      },
+    ],
+  },
+  es: {
+    eyebrow: "Análisis jurídico del historial bancario y acceso al crédito",
+    heroTitle: "¿Crédito rechazado incluso sin negativación aparente?",
+    heroDescription1:
+      "Los rechazos reiterados de crédito, financiación o límite bancario pueden derivar de datos desactualizados o indebidos en sistemas financieros, incluido el SCR.",
+    heroDescription2:
+      "El despacho analiza historial y documentación para definir la medida adecuada: corrección de registros, cese de efectos lesivos y responsabilidad cuando exista base legal.",
+    docLabel: "Documento esencial para análisis inicial",
+    docCta: "Generar Informe de Préstamos y Financiaciones (Banco Central)",
+    primaryCta: "Solicitar análisis del caso",
+    secondaryCta: "Entender la actuación",
+    problemTitle: "Cuando el nombre parece regular, pero el mercado sigue cerrado",
+    problemDescription:
+      "Muchos clientes no identifican restricción clásica y, aun así, sufren rechazos reiterados. En varios casos, datos bancarios controvertidos o desactualizados afectan límite, financiación y reputación comercial.",
+    howTitle: "Cómo actuamos",
+    howItems: [
+      "Recepción documental y análisis técnico-jurídico",
+      "Identificación de registros inconsistentes o indebidos",
+      "Definición de estrategia extrajudicial o judicial",
+      "Seguimiento hasta la corrección o solución jurídica",
+    ],
+    irregularityTitle: "Indicios de posible irregularidad",
+    irregularityItems: [
+      "Rechazo reiterado sin justificación clara",
+      "Reducción o bloqueo de límite sin fundamento transparente",
+      "Financiación negada pese a historial regular",
+      "Perjuicios operativos por restricción de acceso al crédito",
+    ],
+    audienceTitle: "Para quién es este servicio",
+    audienceItems: [
+      "Personas con crédito personal o financiación rechazada",
+      "Empresarios con barreras de aprobación bancaria",
+      "Familias en preparación para operaciones de financiación",
+      "Clientes que sospechan mantenimiento indebido tras pago",
+    ],
+    differentialsTitle: "Por qué el análisis debe ser jurídico",
+    differentialsItems: [
+      "Rigor técnico-jurídico basado en evidencia",
+      "Estrategia proporcional al caso concreto",
+      "Atención confidencial y personalizada",
+      "Capacidad consultiva y contenciosa cuando sea necesario",
+    ],
+    faqTitle: "Preguntas frecuentes",
+    finalTitle: "Hable con un equipo preparado para evaluar su caso con rigor técnico",
+    finalDescription:
+      "Si enfrenta rechazo de crédito sin motivo claro, dificultad de financiación o sospecha de datos bancarios indebidos, el primer paso es una revisión jurídica cuidadosa de la documentación.",
+    finalCta: "Agendar consulta",
+    faqs: [
+      {
+        question: "¿Nombre limpio significa historial bancario regular?",
+        answer:
+          "No siempre. Puede no existir negativación clásica y aun así haber datos bancarios que afecten el análisis de crédito.",
+      },
+      {
+        question: "¿Todo rechazo de crédito es ilegal?",
+        answer:
+          "No. La concesión de crédito tiene criterios internos. Pero si la negativa se basa en datos indebidos o desactualizados, puede existir medida jurídica.",
+      },
+      {
+        question: "¿El despacho analiza documentos antes de actuar?",
+        answer:
+          "Sí. El análisis documental técnico es la base para evaluar viabilidad y definir estrategia.",
+      },
+      {
+        question: "¿Se puede reclamar indemnización?",
+        answer:
+          "Sí, cuando exista fundamento jurídico y prueba suficiente del perjuicio.",
+      },
+      {
+        question: "¿La atención puede ser remota?",
+        answer:
+          "Sí. La atención puede ser remota o presencial, según necesidad del caso.",
+      },
+      {
+        question: "¿Puede requerirse medida urgente?",
+        answer:
+          "Sí. En casos con daño inminente, puede ser necesaria tutela de urgencia.",
+      },
+    ],
+  },
+  it: {
+    eyebrow: "Analisi legale dello storico bancario e accesso al credito",
+    heroTitle: "Credito negato anche senza segnalazioni apparenti?",
+    heroDescription1:
+      "Rifiuti ripetuti di credito, finanziamento o limiti bancari possono derivare da dati non aggiornati o indebiti nei sistemi finanziari, incluso lo SCR.",
+    heroDescription2:
+      "Lo studio analizza storico e documenti per definire la misura corretta: rettifica delle segnalazioni, cessazione degli effetti dannosi e responsabilità quando prevista dalla legge.",
+    docLabel: "Documento essenziale per la valutazione iniziale",
+    docCta: "Genera Report Prestiti e Finanziamenti (Banca Centrale)",
+    primaryCta: "Richiedi analisi del caso",
+    secondaryCta: "Scopri come operiamo",
+    problemTitle: "Quando il profilo appare regolare, ma il mercato resta chiuso",
+    problemDescription:
+      "Molti clienti non risultano formalmente segnalati e tuttavia subiscono rifiuti ripetuti. In diversi casi, dati bancari controversi o non aggiornati incidono su limiti, finanziamenti e reputazione commerciale.",
+    howTitle: "Come operiamo",
+    howItems: [
+      "Raccolta documentale e screening tecnico-legale",
+      "Identificazione di dati incoerenti o indebiti",
+      "Definizione della strategia stragiudiziale o giudiziale",
+      "Monitoraggio fino alla rettifica o soluzione legale",
+    ],
+    irregularityTitle: "Indicatori di possibile irregolarità",
+    irregularityItems: [
+      "Rifiuto reiterato senza motivazione chiara",
+      "Riduzione o blocco del limite senza base trasparente",
+      "Finanziamento negato nonostante storico regolare",
+      "Danni operativi causati da restrizioni al credito",
+    ],
+    audienceTitle: "A chi si rivolge il servizio",
+    audienceItems: [
+      "Privati con credito o finanziamento negato",
+      "Imprenditori con ostacoli all'approvazione bancaria",
+      "Famiglie in fase di nuove operazioni finanziarie",
+      "Clienti che sospettano persistenza di dati dopo estinzione",
+    ],
+    differentialsTitle: "Perché serve un'analisi legale, non solo operativa",
+    differentialsItems: [
+      "Analisi tecnico-legale basata su prove",
+      "Strategia proporzionata al caso concreto",
+      "Gestione riservata e personalizzata",
+      "Assistenza consulenziale e contenziosa quando necessario",
+    ],
+    faqTitle: "Domande frequenti",
+    finalTitle: "Parla con un team pronto a valutare il tuo caso con rigore tecnico",
+    finalDescription:
+      "Se affronti rifiuti di credito senza motivazione chiara, difficoltà di finanziamento o sospetto di dati bancari indebiti, il primo passo è una revisione legale accurata dei documenti.",
+    finalCta: "Prenota consulenza",
+    faqs: [
+      {
+        question: "Nome pulito significa sempre storico bancario regolare?",
+        answer:
+          "Non sempre. È possibile non avere segnalazioni classiche e comunque subire effetti negativi da dati bancari.",
+      },
+      {
+        question: "Ogni rifiuto di credito è illegittimo?",
+        answer:
+          "No. Le banche adottano criteri interni. Tuttavia, se il rifiuto deriva da dati indebiti o non aggiornati, può essere azionabile legalmente.",
+      },
+      {
+        question: "Lo studio analizza i documenti prima di agire?",
+        answer:
+          "Sì. L'analisi documentale è il punto di partenza per verificare la fattibilità e definire la strategia.",
+      },
+      {
+        question: "Si può richiedere risarcimento?",
+        answer:
+          "Sì, nei casi giuridicamente fondati con elementi probatori adeguati.",
+      },
+      {
+        question: "L'assistenza può essere da remoto?",
+        answer:
+          "Sì. Lo studio assiste da remoto e in presenza in base alle necessità del caso.",
+      },
+      {
+        question: "Può servire una misura urgente?",
+        answer:
+          "Sì. In caso di pregiudizio imminente può essere necessaria tutela d'urgenza.",
+      },
+    ],
+  },
+};
+
+type PageProps = {
+  params: Promise<{
+    locale: AppLocale;
+  }>;
+};
+
+export default async function AnaliseCreditoPage({ params }: PageProps) {
+  const { locale } = await params;
+  const msgHero = MSG_HERO_BY_LOCALE[locale];
+  const msgCta = MSG_CTA_BY_LOCALE[locale];
+  const localizedFaqs =
+    locale === "pt" ? productFaqs : ANALISE_COPY_BY_LOCALE[locale].faqs;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: productFaqs.map(item => ({
+    mainEntity: localizedFaqs.map(item => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -135,6 +447,148 @@ export default function AnaliseCreditoPage() {
       },
     })),
   };
+
+  if (locale !== "pt") {
+    const copy = ANALISE_COPY_BY_LOCALE[locale];
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+
+        <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
+          <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
+            {copy.eyebrow}
+          </p>
+          <h1 className="mb-8 max-w-4xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
+            {copy.heroTitle}
+          </h1>
+          <p className="mb-5 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.heroDescription1}
+          </p>
+          <p className="mb-8 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.heroDescription2}
+          </p>
+
+          <div className="mb-8 max-w-4xl border border-black/15 bg-neutral-50 px-4 py-3 text-left text-sm leading-6 text-black/70">
+            <p className="font-medium text-black">{copy.docLabel}</p>
+            <a
+              href={BCB_REPORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 inline-block underline underline-offset-2"
+            >
+              {copy.docCta}
+            </a>
+          </div>
+
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row">
+            <WhatsAppCTAButton
+              whatsappPhone={whatsappPhone}
+              whatsappBaseMessage={msgHero}
+              className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
+            >
+              {copy.primaryCta}
+            </WhatsAppCTAButton>
+            <Button
+              asChild
+              variant="outline"
+              className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
+            >
+              <Link href={{ pathname: "/analise-credito", hash: "como-atuamos" }}>
+                {copy.secondaryCta}
+              </Link>
+            </Button>
+          </div>
+        </section>
+
+        <section id="problema" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-4 font-serif text-3xl leading-tight">{copy.problemTitle}</h2>
+          <p className="max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.problemDescription}
+          </p>
+        </section>
+
+        <section id="como-atuamos" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.howTitle}</h2>
+          <ul className="space-y-3">
+            {copy.howItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="irregularidade" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.irregularityTitle}</h2>
+          <ul className="space-y-3">
+            {copy.irregularityItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="publico" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.audienceTitle}</h2>
+          <ul className="space-y-3">
+            {copy.audienceItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="diferenciais" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.differentialsTitle}</h2>
+          <ul className="space-y-3">
+            {copy.differentialsItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="faq" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.faqTitle}</h2>
+          <Accordion type="single" collapsible className="w-full">
+            {localizedFaqs.map((item, index) => (
+              <AccordionItem key={item.question} value={`item-${index}`}>
+                <AccordionTrigger className="text-left text-sm md:text-base">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-7 text-black/70 sm:text-base">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+
+        <section className="px-4 py-14 text-center sm:px-6 md:px-10">
+          <h2 className="mx-auto mb-5 max-w-3xl font-serif text-3xl leading-tight sm:text-4xl">
+            {copy.finalTitle}
+          </h2>
+          <p className="mx-auto mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.finalDescription}
+          </p>
+          <WhatsAppCTAButton
+            whatsappPhone={whatsappPhone}
+            whatsappBaseMessage={msgCta}
+            className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
+          >
+            {copy.finalCta}
+          </WhatsAppCTAButton>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -177,7 +631,7 @@ export default function AnaliseCreditoPage() {
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <WhatsAppCTAButton
                 whatsappPhone={whatsappPhone}
-                whatsappBaseMessage={MSG_HERO}
+                whatsappBaseMessage={msgHero}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
               >
                 Solicitar análise do caso
@@ -187,7 +641,11 @@ export default function AnaliseCreditoPage() {
                 variant="outline"
                 className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
               >
-                <a href="#como-atuamos">Entender a atuação</a>
+                <Link
+                  href={{ pathname: "/analise-credito", hash: "como-atuamos" }}
+                >
+                  Entender a atuação
+                </Link>
               </Button>
             </div>
 
@@ -632,7 +1090,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <div className="mt-8 flex justify-center">
             <WhatsAppCTAButton
               whatsappPhone={whatsappPhone}
-              whatsappBaseMessage={MSG_CTA}
+              whatsappBaseMessage={msgCta}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
             >
               Agendar consulta
@@ -648,4 +1106,3 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
     </>
   );
 }
-

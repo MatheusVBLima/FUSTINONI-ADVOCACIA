@@ -1,0 +1,148 @@
+{
+  "language": {
+    "changeLanguage": "Change language",
+    "portuguese": "Portuguese",
+    "english": "English",
+    "spanish": "Spanish",
+    "italian": "Italian"
+  },
+  "siteShell": {
+    "skipToContent": "Skip to main content"
+  },
+  "siteHeader": {
+    "scheduleConsultation": "Schedule consultation",
+    "specificServices": "Specific services",
+    "openMenuAria": "Open menu",
+    "closeMenuAria": "Close menu",
+    "primaryNavigationAria": "Main navigation",
+    "nav": {
+      "home": {
+        "services": "Team",
+        "process": "Approach",
+        "studio": "Firm",
+        "sectors": "Practice areas",
+        "faq": "FAQ"
+      },
+      "shared": {
+        "problem": "Problem",
+        "howWeAct": "Approach",
+        "irregularity": "Irregularity",
+        "audience": "Audience",
+        "differentials": "Differentials",
+        "faq": "FAQ",
+        "questionable": "Questionable"
+      },
+      "products": {
+        "creditReview": "Improper listing review",
+        "factorKReview": "Factor K review"
+      }
+    }
+  },
+  "siteFooter": {
+    "rightsReserved": "FUSTINONI ADVOCACIA - All rights reserved",
+    "navigationTitle": "Navigation",
+    "contactTitle": "Contact",
+    "badges": {
+      "confidential": "Confidential service",
+      "scheduled": "Scheduled consultations",
+      "national": "Nationwide practice"
+    },
+    "links": {
+      "team": "Team",
+      "workModels": "Practice models",
+      "creditReview": "Improper listing review",
+      "faq": "FAQ"
+    }
+  },
+  "leadDialog": {
+    "validation": {
+      "name": "Please enter your name",
+      "phone": "Please enter a valid phone number",
+      "email": "Please enter a valid email",
+      "summary": "Briefly describe what you need help with"
+    },
+    "step1": {
+      "title": "Contact information",
+      "description": "Fill in your details so we can better assist you.",
+      "next": "Next"
+    },
+    "step2": {
+      "title": "What would you like to discuss?",
+      "description": "Briefly describe the matter so our team already has context when assisting you.",
+      "back": "Back",
+      "submit": "Send and open WhatsApp"
+    },
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your full name"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "+1 (555) 123-4567"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@email.com",
+        "help": "Please confirm your email after submitting - it is how we will contact you."
+      },
+      "summary": {
+        "label": "Summary",
+        "placeholder": "Example: I need guidance regarding a purchase and sale contract..."
+      }
+    }
+  },
+  "virtualAssistant": {
+    "title": "Virtual assistant",
+    "newSession": "New session",
+    "introLine1": "Hello. I can help with information about our team, practice areas and how the firm works.",
+    "introLine2": "If you prefer, you can also speak directly with our team on WhatsApp.",
+    "thinking": "Thinking...",
+    "errorResponse": "I couldn't respond right now. Please try again.",
+    "streamInterrupted": "The answer was interrupted. Please send again.",
+    "streamIncomplete": "The response may be incomplete. Please ask again.",
+    "inputLabel": "Type your question",
+    "inputPlaceholder": "Type your question...",
+    "sendAria": "Send message",
+    "openAssistantAria": "Open virtual assistant",
+    "closeAssistantAria": "Close virtual assistant",
+    "ctaWhatsApp": "Talk to the team on WhatsApp"
+  },
+  "resendConfirmation": {
+    "button": "Resend confirmation",
+    "loading": "Resending...",
+    "success": "A new confirmation email was sent successfully.",
+    "errors": {
+      "invalidRequest": "Invalid request.",
+      "alreadyConfirmed": "This email has already been confirmed.",
+      "leadNotFound": "Lead not found.",
+      "rateLimited": "You reached the resend limit. Please try again later.",
+      "updateFailed": "Could not update confirmation details.",
+      "resendFailed": "Could not resend now. Please try again.",
+      "network": "Connection error while trying to resend.",
+      "unknown": "Could not resend now. Please try again."
+    }
+  },
+  "emailConfirmed": {
+    "backToSite": "Back to website",
+    "talkWhatsApp": "Talk on WhatsApp",
+    "statuses": {
+      "success": {
+        "title": "Email confirmed successfully",
+        "description": "Your email was validated. Our team can now proceed with regular contact."
+      },
+      "already_confirmed": {
+        "title": "This email has already been confirmed",
+        "description": "Your record was already validated. If needed, you can contact our team now."
+      },
+      "expired": {
+        "title": "Expired link",
+        "description": "The confirmation link expired. You can request a new one right now."
+      },
+      "invalid": {
+        "title": "Invalid link",
+        "description": "We could not validate this link. Request a new confirmation email."
+      }
+    }
+  }
+}

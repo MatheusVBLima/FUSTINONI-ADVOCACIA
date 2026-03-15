@@ -2,6 +2,7 @@ import "server-only";
 
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 
+import { type AppLocale } from "@/i18n/routing";
 import { getSiteUrl } from "@/lib/site";
 
 export const LEAD_CONFIRMATION_TTL_MS = 24 * 60 * 60 * 1000;
@@ -45,9 +46,14 @@ export function tokensMatch(storedTokenHash: string, token: string) {
   }
 }
 
-export function buildLeadConfirmationUrl(leadId: string, token: string) {
+export function buildLeadConfirmationUrl(
+  leadId: string,
+  token: string,
+  locale: AppLocale,
+) {
   const url = new URL("/api/leads/confirm", getSiteUrl());
   url.searchParams.set("lead", leadId);
   url.searchParams.set("token", token);
+  url.searchParams.set("locale", locale);
   return url.toString();
 }

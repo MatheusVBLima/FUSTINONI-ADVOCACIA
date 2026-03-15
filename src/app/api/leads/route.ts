@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod/v4";
 
+import { type AppLocale } from "@/i18n/routing";
 import {
   buildLeadConfirmationUrl,
   createLeadConfirmationToken,
@@ -13,14 +14,16 @@ export const runtime = "nodejs";
 type InsertedLeadRow = {
   email: string;
   id: string;
+  locale: AppLocale;
   nome: string;
 };
 
 const createLeadSchema = z.object({
-  nome: z.string().trim().min(2, "Informe seu nome").max(120),
-  telefone: z.string().trim().min(8, "Informe um telefone válido").max(40),
-  email: z.string().trim().email("Informe um e-mail válido").max(320),
+  nome: z.string().trim().min(2).max(120),
+  telefone: z.string().trim().min(8).max(40),
+  email: z.string().trim().email().max(320),
   resumo: z.string().trim().max(4000).optional().default(""),
+  locale: z.enum(["pt", "en", "es", "it"]).optional().default("pt"),
 });
 
 export async function POST(req: Request) {
@@ -30,7 +33,7 @@ export async function POST(req: Request) {
     .catch(() => null);
 
   if (!payload) {
-    return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
+    return NextResponse.json({ code: "INVALID_DATA" }, { status: 400 });
   }
 
   const supabase = getSupabaseAdminClient() as any;
@@ -44,6 +47,7 @@ export async function POST(req: Request) {
       telefone: payload.telefone,
       email: payload.email.toLowerCase(),
       resumo: payload.resumo || null,
+      locale: payload.locale,
       email_confirmed_at: null,
       email_confirm_token_hash: tokenHash,
       email_confirm_token_expires_at: expiresAt.toISOString(),
@@ -51,25 +55,23 @@ export async function POST(req: Request) {
       email_confirm_window_started_at: null,
       email_confirm_last_sent_at: nowIso,
     })
-    .select("id, nome, email")
+    .select("id, nome, email, locale")
     .single();
 
   const lead = (data ?? null) as InsertedLeadRow | null;
 
   if (insertError || !lead) {
     console.error("Lead insert error:", insertError);
-    return NextResponse.json(
-      { error: "Não foi possível registrar seu contato agora." },
-      { status: 500 },
-    );
+    return NextResponse.json({ code: "INSERT_FAILED" }, { status: 500 });
   }
 
-  const confirmationUrl = buildLeadConfirmationUrl(lead.id, token);
+  const confirmationUrl = buildLeadConfirmationUrl(lead.id, token, lead.locale);
 
   try {
     await sendLeadConfirmationEmail({
       to: lead.email,
       nome: lead.nome,
+      locale: lead.locale,
       confirmUrl: confirmationUrl,
       idempotencyKey: `lead-confirmation/${lead.id}`,
     });

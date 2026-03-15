@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import React from "react";
 
+import { Link } from "@/i18n/navigation";
+import { type AppLocale } from "@/i18n/routing";
 import { OpticsButton } from "@/components/optics/optics-button";
 import {
   OpticsCard,
@@ -17,45 +19,61 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
-import { SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
+import { OG_LOCALE_BY_APP_LOCALE } from "@/lib/i18n";
+import { getAlternatesLanguages, getLocalizedUrl } from "@/lib/seo";
+import { SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 
-const siteUrl = getSiteUrl();
 const pagePath = "/fator-k";
-const pageUrl = `${siteUrl}${pagePath}`;
-const pageTitle =
-  "Revisão jurídica de cobrança de Fator K da SABESP | FUSTINONI ADVOCACIA";
-const pageDescription =
-  "Empresas que pagam Fator K nas faturas SABESP podem ter direito a revisão tarifária e restituição de valores. O escritório realiza análise jurídica e técnica com estratégia extrajudicial ou judicial.";
-
-export const metadata: Metadata = {
-  title: pageTitle,
-  description: pageDescription,
-  alternates: {
-    canonical: pagePath,
-  },
-  openGraph: {
-    type: "website",
-    url: pageUrl,
-    title: pageTitle,
-    description: pageDescription,
-    siteName: SITE_NAME,
-    locale: "pt_BR",
-    images: [
-      {
-        url: SITE_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: SITE_NAME,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: pageTitle,
-    description: pageDescription,
-    images: [SITE_OG_IMAGE],
-  },
+const FATOR_K_TITLE_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Revisão jurídica de cobrança de Fator K da SABESP | FUSTINONI ADVOCACIA",
+  en: "SABESP Factor K legal review and tariff strategy | FUSTINONI ADVOCACIA",
+  es: "Revisión jurídica del Factor K de SABESP | FUSTINONI ADVOCACIA",
+  it: "Revisione legale del Fattore K SABESP | FUSTINONI ADVOCACIA",
 };
+
+const FATOR_K_DESCRIPTION_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Empresas que pagam Fator K nas faturas SABESP podem ter direito a revisão tarifária e restituição de valores. O escritório realiza análise jurídica e técnica com estratégia extrajudicial ou judicial.",
+  en: "Companies charged with SABESP Factor K may have grounds for tariff review and reimbursement. The firm provides legal and technical analysis with administrative or judicial strategy.",
+  es: "Las empresas que pagan Factor K en facturas SABESP pueden tener derecho a revisión tarifaria y restitución de valores. El despacho realiza análisis jurídico y técnico con estrategia administrativa o judicial.",
+  it: "Le aziende che pagano il Fattore K nelle fatture SABESP possono avere diritto a revisione tariffaria e rimborso. Lo studio svolge analisi legale e tecnica con strategia amministrativa o giudiziale.",
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const title = FATOR_K_TITLE_BY_LOCALE[locale];
+  const description = FATOR_K_DESCRIPTION_BY_LOCALE[locale];
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: getLocalizedUrl(pagePath, locale),
+      languages: getAlternatesLanguages(pagePath),
+    },
+    openGraph: {
+      type: "website",
+      url: getLocalizedUrl(pagePath, locale),
+      title,
+      description,
+      siteName: SITE_NAME,
+      locale: OG_LOCALE_BY_APP_LOCALE[locale],
+      images: [
+        {
+          url: SITE_OG_IMAGE,
+          width: 1200,
+          height: 630,
+          alt: SITE_NAME,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [SITE_OG_IMAGE],
+    },
+  };
+}
 
 const productFaqs = [
   {
@@ -125,14 +143,300 @@ const heroPreliminarItems = [
 ];
 
 const whatsappPhone = process.env.WHATSAPP_PHONE_NUMBER ?? "";
-const MSG_HERO = "Olá! Gostaria de solicitar uma análise jurídica sobre o Fator K na minha fatura da SABESP.";
-const MSG_CTA = "Olá! Vim pelo site e quero agendar uma consulta sobre o Fator K da SABESP.";
+const MSG_HERO_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Olá! Gostaria de solicitar uma análise jurídica sobre o Fator K na minha fatura da SABESP.",
+  en: "Hello! I would like to request a legal review regarding Factor K on my SABESP invoice.",
+  es: "¡Hola! Me gustaría solicitar un análisis jurídico sobre el Factor K en mi factura de SABESP.",
+  it: "Buongiorno! Vorrei richiedere un'analisi legale sul Fattore K nella mia fattura SABESP.",
+};
 
-export default function FatorKPage() {
+const MSG_CTA_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Olá! Vim pelo site e quero agendar uma consulta sobre o Fator K da SABESP.",
+  en: "Hello! I came from the website and want to schedule a consultation about SABESP Factor K.",
+  es: "¡Hola! Vengo del sitio y quiero agendar una consulta sobre el Factor K de SABESP.",
+  it: "Buongiorno! Sono arrivato dal sito e voglio fissare una consulenza sul Fattore K di SABESP.",
+};
+
+type LocalizedFatorKCopy = {
+  eyebrow: string;
+  heroTitle: string;
+  heroDescription1: string;
+  heroDescription2: string;
+  primaryCta: string;
+  secondaryCta: string;
+  problemTitle: string;
+  problemDescription: string;
+  howTitle: string;
+  howItems: string[];
+  questionableTitle: string;
+  questionableItems: string[];
+  audienceTitle: string;
+  audienceItems: string[];
+  differentialsTitle: string;
+  differentialsItems: string[];
+  faqTitle: string;
+  finalTitle: string;
+  finalDescription: string;
+  finalCta: string;
+  faqs: typeof productFaqs;
+};
+
+const FATOR_K_COPY_BY_LOCALE: Record<
+  Exclude<AppLocale, "pt">,
+  LocalizedFatorKCopy
+> = {
+  en: {
+    eyebrow: "SABESP Factor K legal review",
+    heroTitle: "Is your company paying Factor K to SABESP?",
+    heroDescription1:
+      "Factor K is a tariff item applied to certain business categories. In many cases, methodology and parameters are not transparent or audit-friendly.",
+    heroDescription2:
+      "The firm performs legal and technical invoice review to verify if classification and charged values have contractual and legal grounds, and structures the best challenge strategy when applicable.",
+    primaryCta: "Request case review",
+    secondaryCta: "Understand our approach",
+    problemTitle: "Relevant charge with low transparency",
+    problemDescription:
+      "Many companies pay this charge for years without legal review of tariff classification, calculation memory and technical assumptions used by the utility.",
+    howTitle: "How we operate",
+    howItems: [
+      "Collection of invoices, contracts and business documents",
+      "Legal and technical diagnosis of classification and methodology",
+      "Definition of administrative or judicial strategy",
+      "Follow-up through full resolution and value recovery, when viable",
+    ],
+    questionableTitle: "When the charge may be questionable",
+    questionableItems: [
+      "Missing or incomplete monthly calculation memory",
+      "Tariff category assigned without individualized verification",
+      "Technical parameters applied without documentary support",
+      "Long-term financial impact without legal audit",
+    ],
+    audienceTitle: "Who this service is for",
+    audienceItems: [
+      "Companies with recurring Factor K on SABESP invoices",
+      "Businesses reviewing operating costs and utility exposure",
+      "Operations with high water consumption and tariff complexity",
+      "Organizations seeking reimbursement and future tariff correction",
+    ],
+    differentialsTitle: "Why legal review matters",
+    differentialsItems: [
+      "Integrated legal and technical analysis",
+      "Proportional strategy for each business profile",
+      "Confidential and personalized support",
+      "Administrative and judicial capability when needed",
+    ],
+    faqTitle: "Frequently asked questions",
+    finalTitle: "Review Factor K before sustaining avoidable losses",
+    finalDescription:
+      "Before bearing a relevant recurring cost indefinitely, assess with technical criteria whether the charge is correctly constituted and if there is viable legal action.",
+    finalCta: "Schedule consultation",
+    faqs: [
+      {
+        question: "Is every Factor K charge improper?",
+        answer:
+          "No. Some charges are legitimate. Legal review verifies if classification, applied parameters and calculation memory are adequate to the concrete case.",
+      },
+      {
+        question: "My company has paid this for years. Can it still be reviewed?",
+        answer:
+          "Yes. Long-term charging often increases the relevance of legal-technical review and may support correction and reimbursement claims within legal limits.",
+      },
+      {
+        question: "Can past payments be recovered?",
+        answer:
+          "Depending on the case, yes. Reimbursement may be claimed when improper payment is proven, observing applicable limitation periods.",
+      },
+      {
+        question: "What documents are needed for the initial review?",
+        answer:
+          "Usually SABESP invoices, supply contract, company documents and registration data.",
+      },
+      {
+        question: "Can this be challenged without filing a lawsuit?",
+        answer:
+          "Yes. Administrative challenge is often the first step and can be sufficient in many scenarios.",
+      },
+      {
+        question: "Can assistance be remote?",
+        answer:
+          "Yes. The firm provides remote and in-person assistance with continuous communication.",
+      },
+    ],
+  },
+  es: {
+    eyebrow: "Revisión jurídica del Factor K de SABESP",
+    heroTitle: "¿Su empresa está pagando Factor K a SABESP?",
+    heroDescription1:
+      "El Factor K es una cobranza tarifaria aplicada a determinadas categorías empresariales. En muchos casos, la metodología y los parámetros no son transparentes.",
+    heroDescription2:
+      "El despacho realiza análisis jurídico y técnico de facturas para verificar si encuadre y valores cobrados tienen respaldo legal y contractual, y define la estrategia de impugnación adecuada.",
+    primaryCta: "Solicitar análisis del caso",
+    secondaryCta: "Entender la actuación",
+    problemTitle: "Cobranza relevante con baja transparencia técnica",
+    problemDescription:
+      "Muchas empresas pagan este concepto durante años sin análisis jurídico del encuadre tarifario ni de la memoria de cálculo aplicada.",
+    howTitle: "Cómo actuamos",
+    howItems: [
+      "Levantamiento de facturas, contratos y documentos societarios",
+      "Diagnóstico jurídico y técnico del encuadre y metodología",
+      "Definición de estrategia administrativa o judicial",
+      "Seguimiento integral hasta resolución y eventual restitución",
+    ],
+    questionableTitle: "Cuando la cobranza puede ser cuestionable",
+    questionableItems: [
+      "Memoria de cálculo ausente o incompleta",
+      "Categoría tarifaria aplicada sin verificación individual",
+      "Parámetros técnicos sin soporte documental",
+      "Impacto financiero prolongado sin auditoría jurídica",
+    ],
+    audienceTitle: "Para quién es este servicio",
+    audienceItems: [
+      "Empresas con cobranza recurrente de Factor K en SABESP",
+      "Negocios en revisión de costos operativos",
+      "Operaciones con alto consumo de agua y complejidad tarifaria",
+      "Sociedades que buscan restitución y revisión futura de tarifa",
+    ],
+    differentialsTitle: "Por qué el análisis debe ser jurídico",
+    differentialsItems: [
+      "Lectura integrada jurídica y técnica",
+      "Estrategia proporcional al perfil empresarial",
+      "Atención confidencial y personalizada",
+      "Capacidad administrativa y judicial cuando sea necesario",
+    ],
+    faqTitle: "Preguntas frecuentes",
+    finalTitle: "Revise el Factor K antes de sostener pérdidas evitables",
+    finalDescription:
+      "Antes de asumir indefinidamente un costo relevante, conviene verificar con criterio técnico si la cobranza fue constituida correctamente y si existe medida jurídica viable.",
+    finalCta: "Agendar consulta",
+    faqs: [
+      {
+        question: "¿Toda cobranza de Factor K es indebida?",
+        answer:
+          "No. Puede ser legítima. El análisis verifica si encuadre, parámetros y memoria de cálculo son adecuados al caso concreto.",
+      },
+      {
+        question: "Mi empresa paga este concepto hace años. ¿Aún puede analizarse?",
+        answer:
+          "Sí. La cobranza prolongada suele justificar revisión técnica y jurídica, con posibilidad de corrección y restitución dentro de límites legales.",
+      },
+      {
+        question: "¿Es posible recuperar valores ya pagados?",
+        answer:
+          "Dependiendo del caso, sí. La repetición puede pedirse cuando se comprueba pago indebido, observando plazos aplicables.",
+      },
+      {
+        question: "¿Qué documentos se requieren para análisis inicial?",
+        answer:
+          "Generalmente facturas SABESP, contrato de suministro, documentos societarios y datos registrales.",
+      },
+      {
+        question: "¿Puede impugnarse sin demanda judicial?",
+        answer:
+          "Sí. La vía administrativa suele ser el primer paso y en muchos casos es suficiente.",
+      },
+      {
+        question: "¿La atención puede ser remota?",
+        answer:
+          "Sí. El despacho atiende de forma remota o presencial con seguimiento continuo.",
+      },
+    ],
+  },
+  it: {
+    eyebrow: "Revisione legale del Fattore K SABESP",
+    heroTitle: "La tua azienda sta pagando il Fattore K a SABESP?",
+    heroDescription1:
+      "Il Fattore K è una voce tariffaria applicata ad alcune categorie d'impresa. In molti casi, metodologia e parametri non sono pienamente trasparenti.",
+    heroDescription2:
+      "Lo studio effettua analisi legale e tecnica delle fatture per verificare se inquadramento e importi hanno base contrattuale e normativa, definendo la strategia di contestazione più adeguata.",
+    primaryCta: "Richiedi analisi del caso",
+    secondaryCta: "Scopri come operiamo",
+    problemTitle: "Voce rilevante con trasparenza tecnica limitata",
+    problemDescription:
+      "Molte aziende sostengono questa voce per anni senza revisione legale dell'inquadramento tariffario e della memoria di calcolo.",
+    howTitle: "Come operiamo",
+    howItems: [
+      "Raccolta di fatture, contratti e documenti societari",
+      "Diagnosi legale e tecnica di inquadramento e metodologia",
+      "Definizione della strategia amministrativa o giudiziale",
+      "Monitoraggio fino alla soluzione e possibile recupero importi",
+    ],
+    questionableTitle: "Quando la voce può essere contestabile",
+    questionableItems: [
+      "Memoria di calcolo assente o incompleta",
+      "Categoria tariffaria senza verifica individuale",
+      "Parametri tecnici senza supporto documentale",
+      "Impatto economico protratto senza audit legale",
+    ],
+    audienceTitle: "A chi si rivolge il servizio",
+    audienceItems: [
+      "Aziende con addebito ricorrente di Fattore K in SABESP",
+      "Imprese in revisione dei costi operativi",
+      "Attività con consumo idrico elevato e tariffazione complessa",
+      "Società che puntano a rimborso e revisione futura della tariffa",
+    ],
+    differentialsTitle: "Perché serve un'analisi legale",
+    differentialsItems: [
+      "Analisi integrata legale e tecnica",
+      "Strategia proporzionata al profilo aziendale",
+      "Assistenza riservata e personalizzata",
+      "Capacità amministrativa e giudiziale quando necessaria",
+    ],
+    faqTitle: "Domande frequenti",
+    finalTitle: "Verifica il Fattore K prima di sostenere perdite evitabili",
+    finalDescription:
+      "Prima di sopportare a tempo indeterminato un costo rilevante, è opportuno verificare con criterio tecnico se l'addebito è corretto e se esiste un'azione legale praticabile.",
+    finalCta: "Prenota consulenza",
+    faqs: [
+      {
+        question: "Ogni addebito di Fattore K è indebito?",
+        answer:
+          "No. Può essere legittimo. L'analisi verifica se inquadramento, parametri e memoria di calcolo sono adeguati al caso concreto.",
+      },
+      {
+        question: "La mia azienda paga da anni: si può ancora analizzare?",
+        answer:
+          "Sì. La protrazione nel tempo rende la revisione spesso più rilevante e può supportare rettifica e recupero entro i limiti di legge.",
+      },
+      {
+        question: "È possibile recuperare importi già pagati?",
+        answer:
+          "In base al caso, sì. Il recupero è valutabile quando il pagamento indebito è comprovato, nel rispetto dei termini applicabili.",
+      },
+      {
+        question: "Quali documenti servono per la valutazione iniziale?",
+        answer:
+          "In generale fatture SABESP, contratto di fornitura, documenti societari e dati anagrafici aziendali.",
+      },
+      {
+        question: "Si può contestare senza causa giudiziale?",
+        answer:
+          "Sì. La via amministrativa è spesso il primo passo e, in diversi casi, può essere sufficiente.",
+      },
+      {
+        question: "L'assistenza può essere da remoto?",
+        answer:
+          "Sì. Lo studio segue il caso da remoto o in presenza con comunicazione continua.",
+      },
+    ],
+  },
+};
+
+type PageProps = {
+  params: Promise<{
+    locale: AppLocale;
+  }>;
+};
+
+export default async function FatorKPage({ params }: PageProps) {
+  const { locale } = await params;
+  const msgHero = MSG_HERO_BY_LOCALE[locale];
+  const msgCta = MSG_CTA_BY_LOCALE[locale];
+  const localizedFaqs =
+    locale === "pt" ? productFaqs : FATOR_K_COPY_BY_LOCALE[locale].faqs;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: productFaqs.map(item => ({
+    mainEntity: localizedFaqs.map(item => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -141,6 +445,136 @@ export default function FatorKPage() {
       },
     })),
   };
+
+  if (locale !== "pt") {
+    const copy = FATOR_K_COPY_BY_LOCALE[locale];
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+
+        <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
+          <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
+            {copy.eyebrow}
+          </p>
+          <h1 className="mb-8 max-w-4xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
+            {copy.heroTitle}
+          </h1>
+          <p className="mb-5 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.heroDescription1}
+          </p>
+          <p className="mb-8 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.heroDescription2}
+          </p>
+
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row">
+            <WhatsAppCTAButton
+              whatsappPhone={whatsappPhone}
+              whatsappBaseMessage={msgHero}
+              className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
+            >
+              {copy.primaryCta}
+            </WhatsAppCTAButton>
+            <Button
+              asChild
+              variant="outline"
+              className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
+            >
+              <Link href={{ pathname: "/fator-k", hash: "como-atuamos" }}>
+                {copy.secondaryCta}
+              </Link>
+            </Button>
+          </div>
+        </section>
+
+        <section id="problema" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-4 font-serif text-3xl leading-tight">{copy.problemTitle}</h2>
+          <p className="max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.problemDescription}
+          </p>
+        </section>
+
+        <section id="como-atuamos" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.howTitle}</h2>
+          <ul className="space-y-3">
+            {copy.howItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="questionavel" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.questionableTitle}</h2>
+          <ul className="space-y-3">
+            {copy.questionableItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="publico" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.audienceTitle}</h2>
+          <ul className="space-y-3">
+            {copy.audienceItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="diferenciais" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.differentialsTitle}</h2>
+          <ul className="space-y-3">
+            {copy.differentialsItems.map(item => (
+              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
+                - {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="faq" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
+          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.faqTitle}</h2>
+          <Accordion type="single" collapsible className="w-full">
+            {localizedFaqs.map((item, index) => (
+              <AccordionItem key={item.question} value={`item-${index}`}>
+                <AccordionTrigger className="text-left text-sm md:text-base">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-7 text-black/70 sm:text-base">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+
+        <section className="px-4 py-14 text-center sm:px-6 md:px-10">
+          <h2 className="mx-auto mb-5 max-w-3xl font-serif text-3xl leading-tight sm:text-4xl">
+            {copy.finalTitle}
+          </h2>
+          <p className="mx-auto mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
+            {copy.finalDescription}
+          </p>
+          <WhatsAppCTAButton
+            whatsappPhone={whatsappPhone}
+            whatsappBaseMessage={msgCta}
+            className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
+          >
+            {copy.finalCta}
+          </WhatsAppCTAButton>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -173,7 +607,7 @@ export default function FatorKPage() {
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <WhatsAppCTAButton
                 whatsappPhone={whatsappPhone}
-                whatsappBaseMessage={MSG_HERO}
+                whatsappBaseMessage={msgHero}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
               >
                 Solicitar análise do caso
@@ -183,7 +617,9 @@ export default function FatorKPage() {
                 variant="outline"
                 className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
               >
-                <a href="#como-atuamos">Entender a atuação</a>
+                <Link href={{ pathname: "/fator-k", hash: "como-atuamos" }}>
+                  Entender a atuação
+                </Link>
               </Button>
             </div>
 
@@ -642,7 +1078,7 @@ export default function FatorKPage() {
           <div className="mt-8 flex justify-center">
             <WhatsAppCTAButton
               whatsappPhone={whatsappPhone}
-              whatsappBaseMessage={MSG_CTA}
+              whatsappBaseMessage={msgCta}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
             >
               Agendar consulta
@@ -658,4 +1094,3 @@ export default function FatorKPage() {
     </>
   );
 }
-

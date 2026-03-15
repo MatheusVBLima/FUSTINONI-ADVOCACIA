@@ -3,10 +3,9 @@ import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import "streamdown/styles.css";
 import "./globals.css";
 
-import { SiteShell } from "@/components/site-shell";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, getSiteUrl } from "@/lib/site";
+import { SITE_NAME, getSiteUrl } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const siteUrl = getSiteUrl();
 const isProduction = process.env.VERCEL_ENV
@@ -34,7 +33,6 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(`${siteUrl}/`),
   title: SITE_NAME,
-  description: SITE_DESCRIPTION,
   icons: {
     icon: [
       { url: "/favicon.ico", type: "image/x-icon" },
@@ -42,28 +40,6 @@ export const metadata: Metadata = {
     ],
     shortcut: "/favicon.ico",
     apple: "/icon.svg",
-  },
-  openGraph: {
-    type: "website",
-    url: siteUrl,
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
-    siteName: SITE_NAME,
-    locale: "pt_BR",
-    images: [
-      {
-        url: SITE_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: SITE_NAME,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
-    images: [SITE_OG_IMAGE],
   },
   robots: isProduction
     ? {
@@ -87,7 +63,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
       >
-        <SiteShell>{children}</SiteShell>
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>

@@ -4,7 +4,8 @@ import path from "node:path";
 import { google } from "@ai-sdk/google";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
-import { buildWhatsAppUrl, CHAT_WHATSAPP_PREFILL_MESSAGE } from "@/lib/whatsapp";
+import { type AppLocale } from "@/i18n/routing";
+import { buildWhatsAppUrl, getChatWhatsAppPrefillMessage } from "@/lib/whatsapp";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -14,8 +15,21 @@ const BCB_REPORT_URL =
 const CHAT_TOTAL_TIMEOUT_MS = 25_000;
 const CHAT_CHUNK_TIMEOUT_MS = 8_000;
 
-
 let cachedContext: string | null = null;
+
+const LANGUAGE_INSTRUCTION_BY_LOCALE: Record<AppLocale, string> = {
+  pt: "Responda sempre em português do Brasil.",
+  en: "Respond in English.",
+  es: "Responde siempre en español.",
+  it: "Rispondi sempre in italiano.",
+};
+
+function resolveLocale(raw: string | null): AppLocale {
+  if (raw === "en" || raw === "es" || raw === "it") {
+    return raw;
+  }
+  return "pt";
+}
 
 async function loadProjectContext(): Promise<string> {
   if (cachedContext) {
@@ -40,12 +54,15 @@ async function loadProjectContext(): Promise<string> {
     }),
   );
 
-  cachedContext = ["# CONTEXTO DO PROJETO (FONTE ÚNICA)", ...blocks].join("\n\n");
+  cachedContext = ["# CONTEXTO DO PROJETO (FONTE ÚNICA)", ...blocks].join(
+    "\n\n",
+  );
 
   return cachedContext;
 }
 
 function buildSystemPrompt(
+  locale: AppLocale,
   projectContext: string,
   whatsappUrl: string,
   bcbReportUrl: string,
@@ -85,7 +102,7 @@ Regras obrigatórias:
 - Não exiba o endereço completo "https://wa.me/..." em texto puro.
 - Ao listar itens, use listas Markdown (- item) em vez de tabelas. Reserve tabelas apenas quando o usuário pedir explicitamente ("tabela", "em formato de tabela").
 - Se o usuário pedir tabela, responda em tabela Markdown válida.
-- Responda sempre em português do Brasil.
+- ${LANGUAGE_INSTRUCTION_BY_LOCALE[locale]}
 - Mantenha respostas claras, objetivas e profissionais.
 
 Contexto oficial:
@@ -95,13 +112,18 @@ ${projectContext}
 
 export async function POST(req: Request) {
   try {
+    const url = new URL(req.url);
+    const locale = resolveLocale(url.searchParams.get("locale"));
     const { messages }: { messages: UIMessage[] } = await req.json();
     const projectContext = await loadProjectContext();
-    const whatsappUrl = buildWhatsAppUrl(undefined, CHAT_WHATSAPP_PREFILL_MESSAGE);
+    const whatsappUrl = buildWhatsAppUrl(
+      undefined,
+      getChatWhatsAppPrefillMessage(locale),
+    );
 
     const result = streamText({
       model: google("gemini-3.1-flash-lite-preview"),
-      system: buildSystemPrompt(projectContext, whatsappUrl, BCB_REPORT_URL),
+      system: buildSystemPrompt(locale, projectContext, whatsappUrl, BCB_REPORT_URL),
       messages: await convertToModelMessages(messages),
       temperature: 0.1,
       maxRetries: 0,
@@ -127,7 +149,13 @@ export async function POST(req: Request) {
     return result.toUIMessageStreamResponse({
       onError: error => {
         console.error("Chat UI stream error:", error);
-        return "Não consegui concluir a resposta agora. Tente novamente.";
+        return locale === "en"
+          ? "I couldn't complete the response now. Please try again."
+          : locale === "es"
+            ? "No pude completar la respuesta ahora. Inténtelo de nuevo."
+            : locale === "it"
+              ? "Non sono riuscito a completare la risposta ora. Riprovi."
+              : "Não consegui concluir a resposta agora. Tente novamente.";
       },
     });
   } catch (error) {
