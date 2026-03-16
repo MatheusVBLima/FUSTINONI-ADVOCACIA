@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { LanguageToggle } from "@/components/language-toggle";
 import { LeadCaptureDialog } from "@/components/lead-capture-dialog";
+import NextLink from "next/link";
+import { useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import {
   ANALISE_CREDITO_NAV_ITEMS,
@@ -36,6 +38,7 @@ export function SiteHeader({
   const t = useTranslations("siteHeader");
   const mobileMenuId = "mobile-main-navigation";
   const mobileProductsId = "mobile-products-navigation";
+  const locale = useLocale();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
@@ -57,14 +60,14 @@ export function SiteHeader({
   return (
     <header className="sticky top-0 z-50 border-b border-black/15 bg-white/90 px-4 py-4 backdrop-blur-sm sm:px-6 sm:py-5 md:px-10">
       <div className="flex items-center justify-between gap-3">
-        <Link
-          href="/"
+        <NextLink
+          href={locale === "pt" ? "/" : `/${locale}`}
           className="font-serif text-base leading-[1.05] font-semibold tracking-[0.22em] uppercase sm:text-lg"
           onClick={closeMobileMenu}
         >
           <span className="block">FUSTINONI</span>
           <span className="block">ADVOCACIA</span>
-        </Link>
+        </NextLink>
 
         <nav className="hidden items-center gap-8 text-xs font-medium uppercase tracking-wider text-black/70 xl:flex">
           {activeNavItems.map(item => {
