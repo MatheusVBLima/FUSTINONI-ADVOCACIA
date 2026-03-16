@@ -448,147 +448,190 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
     })),
   };
 
-  if (locale !== "pt") {
-    const copy = ANALISE_COPY_BY_LOCALE[locale];
+  const copy = locale === "pt" ? null : ANALISE_COPY_BY_LOCALE[locale];
 
-    return (
-      <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
+  const heroEyebrow = copy?.eyebrow ?? "Análise jurídica de histórico bancário e acesso ao crédito";
+  const heroTitle = copy?.heroTitle ?? "Crédito negado, mesmo sem negativação aparente?";
+  const heroDescription1 =
+    copy?.heroDescription1 ??
+    "Recusas de crédito, financiamento e limite bancário podem decorrer de dados desatualizados ou indevidos em sistemas do mercado financeiro, inclusive no SCR.";
+  const heroDescription2 =
+    copy?.heroDescription2 ??
+    "O escritório realiza análise jurídica do histórico e da documentação para definir a medida cabível: correção de apontamentos, cessação de efeitos lesivos e responsabilização quando houver base legal.";
+  const docLabel = copy?.docLabel ?? "Documento essencial para análise inicial";
+  const docCta = copy?.docCta ?? "Gerar Relatório de Empréstimos e Financiamentos (Banco Central)";
+  const heroPrimaryCta = copy?.primaryCta ?? "Solicitar análise do caso";
+  const heroSecondaryCta = copy?.secondaryCta ?? "Entender a atuação";
 
-        <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
-          <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
-            {copy.eyebrow}
-          </p>
-          <h1 className="mb-8 max-w-4xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
-            {copy.heroTitle}
-          </h1>
-          <p className="mb-5 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.heroDescription1}
-          </p>
-          <p className="mb-8 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.heroDescription2}
-          </p>
+  const sectionProblemEyebrow =
+    locale === "en" ? "Problem" : locale === "es" ? "Problema" : locale === "it" ? "Problema" : "O problema";
+  const sectionHowEyebrow =
+    locale === "en" ? "How we operate" : locale === "es" ? "Cómo actuamos" : locale === "it" ? "Come operiamo" : "Como atuamos";
+  const sectionIrregularityEyebrow =
+    locale === "en"
+      ? "When there is irregularity"
+      : locale === "es"
+        ? "Cuando hay irregularidad"
+        : locale === "it"
+          ? "Quando c'è irregolarità"
+          : "Quando há irregularidade";
+  const sectionAudienceEyebrow =
+    locale === "en" ? "Who this page is for" : locale === "es" ? "Para quién es esta página" : locale === "it" ? "A chi è rivolta questa pagina" : "Para quem é esta página";
+  const sectionDifferentialsEyebrow =
+    locale === "en" ? "Firm differentiators" : locale === "es" ? "Diferenciales del despacho" : locale === "it" ? "Punti di forza dello studio" : "Diferenciais do escritório";
 
-          <div className="mb-8 max-w-4xl border border-black/15 bg-neutral-50 px-4 py-3 text-left text-sm leading-6 text-black/70">
-            <p className="font-medium text-black">{copy.docLabel}</p>
-            <a
-              href={BCB_REPORT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-1 inline-block underline underline-offset-2"
-            >
-              {copy.docCta}
-            </a>
-          </div>
+  const problemTitle = copy?.problemTitle ?? "Quando o nome parece regular, mas o mercado continua fechado";
+  const problemParagraph1 =
+    copy?.problemDescription ??
+    "Muitos clientes chegam com o nome aparentemente regular, mas com recusas repetidas em bancos e financeiras.";
+  const problemParagraph2 =
+    copy?.irregularityItems?.[3] ??
+    "Em vários casos, o bloqueio está ligado a registros bancários controvertidos ou desatualizados, afetando limite, financiamento e reputação negocial.";
 
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-            <WhatsAppCTAButton
-              whatsappPhone={whatsappPhone}
-              whatsappBaseMessage={msgHero}
-              className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
-            >
-              {copy.primaryCta}
-            </WhatsAppCTAButton>
-            <Button
-              asChild
-              variant="outline"
-              className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
-            >
-              <Link href={{ pathname: "/analise-credito", hash: "como-atuamos" }}>
-                {copy.secondaryCta}
-              </Link>
-            </Button>
-          </div>
-        </section>
+  const problemCards = copy
+    ? [...copy.irregularityItems, ...copy.audienceItems]
+        .slice(0, 6)
+        .map((label, index) => ({ label, index: String(index + 1).padStart(2, "0") }))
+    : [
+        { label: "Recusa reiterada de crédito sem justificativa clara", index: "01" },
+        { label: "Financiamento negado apesar de nome aparentemente regular", index: "02" },
+        { label: "Redução ou bloqueio de limite bancário", index: "03" },
+        { label: "Dados bancários desatualizados ou controvertidos", index: "04" },
+        { label: "Dificuldade em operações empresariais e pessoais", index: "05" },
+        { label: "Necessidade de correção e responsabilização jurídica", index: "06" },
+      ];
 
-        <section id="problema" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-4 font-serif text-3xl leading-tight">{copy.problemTitle}</h2>
-          <p className="max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.problemDescription}
-          </p>
-        </section>
+  const heroTagsLocalized = copy
+    ? locale === "en"
+      ? ["Confidential service", "Document review", "Consulting and litigation"]
+      : locale === "es"
+        ? ["Atención confidencial", "Análisis documental", "Actuación consultiva y contenciosa"]
+        : ["Assistenza riservata", "Analisi documentale", "Attività consulenziale e contenziosa"]
+    : heroTags;
 
-        <section id="como-atuamos" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.howTitle}</h2>
-          <ul className="space-y-3">
-            {copy.howItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const heroPreliminarItemsLocalized = copy
+    ? [
+        { text: copy.irregularityItems[0], tone: "default" as const, order: 1 },
+        { text: copy.irregularityItems[1], tone: "default" as const, order: 2 },
+        { text: copy.irregularityItems[2], tone: "default" as const, order: 3 },
+        { text: copy.audienceItems[0], tone: "default" as const, order: 4 },
+        { text: copy.problemDescription, tone: "inverse" as const, order: 5 },
+      ]
+    : heroPreliminarItems;
 
-        <section id="irregularidade" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.irregularityTitle}</h2>
-          <ul className="space-y-3">
-            {copy.irregularityItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const preliminarEyebrow =
+    locale === "en" ? "Preliminary review" : locale === "es" ? "Evaluación preliminar" : locale === "it" ? "Valutazione preliminare" : "Avaliação preliminar";
+  const preliminarTitle =
+    locale === "en" ? "Signs that require technical review" : locale === "es" ? "Indicios que requieren análisis técnico" : locale === "it" ? "Indizi che richiedono analisi tecnica" : "Indícios que merecem exame técnico";
+  const preliminarTag = locale === "en" ? "SCR / Registrato" : locale === "es" ? "SCR / Registrato" : locale === "it" ? "SCR / Registrato" : "SCR / Registrato";
 
-        <section id="publico" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.audienceTitle}</h2>
-          <ul className="space-y-3">
-            {copy.audienceItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const howTitle = copy?.howTitle ?? "Atuação jurídica estruturada, com estratégia e precisão técnica";
+  const howParagraph =
+    copy?.heroDescription2 ??
+    "Cada caso exige leitura jurídica individual. Cruzamos relatórios, contratos e histórico bancário para definir a estratégia extrajudicial ou judicial mais adequada.";
+  const howDocLinePrefix =
+    locale === "en"
+      ? "For initial screening, prioritize the official Central Bank report:"
+      : locale === "es"
+        ? "Para la revisión inicial, priorice el informe oficial del Banco Central:"
+        : locale === "it"
+          ? "Per la valutazione iniziale, dia priorità al report ufficiale della Banca Centrale:"
+          : "Para triagem inicial, priorize a emissão do relatório oficial do Banco Central:";
 
-        <section id="diferenciais" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.differentialsTitle}</h2>
-          <ul className="space-y-3">
-            {copy.differentialsItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const howSteps = copy
+    ? copy.howItems.slice(0, 4).map((item, index) => ({
+        step: String(index + 1).padStart(2, "0"),
+        title: item,
+        description:
+          locale === "en"
+            ? "Execution aligned with legal and technical evidence in the specific case."
+            : locale === "es"
+              ? "Ejecución alineada con elementos jurídicos y técnicos del caso concreto."
+              : "Esecuzione allineata agli elementi legali e tecnici del caso concreto.",
+      }))
+    : [
+        { step: "01", title: "Recebimento da documentação", description: "Relatórios, contratos e comprovantes essenciais, com prioridade ao relatório do Banco Central." },
+        { step: "02", title: "Diagnóstico jurídico", description: "Mapeamento de inconsistências e dados indevidos." },
+        { step: "03", title: "Definição da medida cabível", description: "Notificação, ação, tutela de urgência ou pedido indenizatório." },
+        { step: "04", title: "Acompanhamento completo", description: "Condução até a conclusão com discrição e estratégia." },
+      ];
 
-        <section id="faq" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.faqTitle}</h2>
-          <Accordion type="single" collapsible className="w-full">
-            {localizedFaqs.map((item, index) => (
-              <AccordionItem key={item.question} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-sm md:text-base">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm leading-7 text-black/70 sm:text-base">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </section>
+  const irregularityTitle = copy?.irregularityTitle ?? "O que pode ser discutido juridicamente";
+  const irregularityParagraph =
+    copy?.finalDescription ??
+    "Comprovada irregularidade, a atuação pode buscar correção cadastral, retirada de apontamentos, tutela de urgência e reparação indenizatória, conforme o caso.";
+  const irregularityNote =
+    locale === "en"
+      ? "There is no single formula or guaranteed result: the strategy depends on available documentation and legal elements of the concrete case."
+      : locale === "es"
+        ? "No existe una fórmula única ni promesa de resultado: la estrategia depende de la documentación disponible y de los elementos jurídicos del caso concreto."
+        : locale === "it"
+          ? "Non esiste una formula unica né promessa di risultato: la strategia dipende dalla documentazione disponibile e dagli elementi giuridici del caso concreto."
+          : "Não há fórmula única nem promessa de resultado: a estratégia depende da documentação e dos elementos jurídicos do caso concreto.";
+  const irregularityList = copy
+    ? copy.irregularityItems
+    : [
+        "Correção ou exclusão da informação irregular",
+        "Adequação do histórico cadastral e bancário à realidade documental",
+        "Cessação dos efeitos lesivos sobre o acesso ao crédito",
+        "Tutela de urgência para impedir a perpetuação do dano",
+        "Reparação indenizatória, quando presentes os requisitos legais",
+      ];
 
-        <section className="px-4 py-14 text-center sm:px-6 md:px-10">
-          <h2 className="mx-auto mb-5 max-w-3xl font-serif text-3xl leading-tight sm:text-4xl">
-            {copy.finalTitle}
-          </h2>
-          <p className="mx-auto mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.finalDescription}
-          </p>
-          <WhatsAppCTAButton
-            whatsappPhone={whatsappPhone}
-            whatsappBaseMessage={msgCta}
-            className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
-          >
-            {copy.finalCta}
-          </WhatsAppCTAButton>
-        </section>
-      </>
-    );
-  }
+  const audienceTitle = copy?.audienceTitle ?? "Atendimento para pessoas físicas, empresários e estruturas familiares";
+  const audienceParagraph =
+    copy?.problemDescription ??
+    "A página foi pensada para atender clientes que, embora não identifiquem restrições evidentes, percebem efeitos concretos de bloqueio negocial no mercado.";
+  const audienceCards = copy
+    ? copy.audienceItems
+    : [
+        "Pessoas físicas com crédito pessoal ou financiamento recusado",
+        "Empresários com dificuldade de obtenção de limite, capital de giro ou aprovação bancária",
+        "Famílias em fase de aquisição imobiliária e clientes que revisam o histórico antes de nova operação",
+        "Pessoas que suspeitam de manutenção indevida de informações após quitação",
+      ];
+
+  const differentialsTitle = copy?.differentialsTitle ?? "Por que a análise deve ser jurídica, e não apenas operacional";
+  const differentialsParagraph =
+    copy?.heroDescription2 ??
+    "Nosso diferencial está em separar recusa legítima de restrição irregular, com leitura jurídica técnica e estratégia proporcional a cada caso.";
+
+  const differentialsCards = copy
+    ? [
+        { title: copy.differentialsItems[0], description: copy.differentialsItems[0] },
+        { title: copy.differentialsItems[1], description: copy.differentialsItems[1] },
+        { title: copy.differentialsItems[2], description: copy.differentialsItems[2] },
+        { title: copy.differentialsItems[3], description: copy.differentialsItems[3] },
+        { title: copy.howItems[0], description: copy.howItems[1] ?? copy.howItems[0] },
+        { title: copy.audienceItems[0], description: copy.audienceItems[1] ?? copy.audienceItems[0] },
+      ]
+    : [
+        { title: "Rigor técnico", description: "Análise documental criteriosa, sem generalizações ou atalhos." },
+        { title: "Estratégia processual", description: "Cada caso recebe estratégia proporcional - extrajudicial, judicial ou de urgência - conforme o que a situação exige." },
+        { title: "Atendimento personalizado", description: "Nenhum caso é tratado como padrão. A atuação é moldada ao perfil, ao histórico e aos objetivos de cada cliente." },
+        { title: "Discrição absoluta", description: "Sigilo total no tratamento de dados e informações sensíveis." },
+        { title: "Atuação consultiva e contenciosa", description: "Capacidade de atuar tanto na prevenção quanto no litígio, conforme o momento do caso." },
+        { title: "Análise individual de alta complexidade", description: "Casos que envolvem SCR, Registrato e histórico bancário exigem leitura técnica aprofundada - não apenas operacional." },
+      ];
+
+  const faqHeading = copy?.faqTitle ?? "Perguntas frequentes antes do início da atuação jurídica";
+
+  const ctaEyebrow =
+    locale === "en" ? "Schedule your consultation" : locale === "es" ? "Agende su consulta" : locale === "it" ? "Prenoti la sua consulenza" : "Agende sua consulta";
+  const ctaTitle = copy?.finalTitle ?? "Fale com uma equipe preparada para examinar seu caso com seriedade técnica";
+  const ctaDescription =
+    copy?.finalDescription ??
+    "Se você enfrenta negativa de crédito sem justificativa clara, dificuldade de financiamento ou suspeita de informação bancária indevida, o primeiro passo é uma análise jurídica criteriosa da documentação. A estratégia correta começa com diagnóstico preciso.";
+  const ctaButtonLabel = copy?.finalCta ?? "Agendar consulta";
+
+  const ctaBadges =
+    locale === "en"
+      ? ["Scheduled service", "Individual legal review", "Nationwide practice"]
+      : locale === "es"
+        ? ["Atención con cita previa", "Análisis individual", "Actuación nacional"]
+        : locale === "it"
+          ? ["Assistenza su appuntamento", "Analisi individuale", "Operatività nazionale"]
+          : ["Atendimento por agendamento", "Análise individualizada", "Atuação nacional"];
 
   return (
     <>
@@ -601,30 +644,27 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
         <div className="grid items-start gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div className="min-w-0">
             <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
-              Análise jurídica de histórico bancário e acesso ao crédito
+              {heroEyebrow}
             </p>
             <h1 className="mb-8 max-w-3xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
-              Crédito negado, mesmo sem negativação aparente?
+              {heroTitle}
             </h1>
             <p className="mb-5 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-              Recusas de crédito, financiamento e limite bancário podem decorrer de dados
-              desatualizados ou indevidos em sistemas do mercado financeiro, inclusive no SCR.
+              {heroDescription1}
             </p>
             <p className="mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-              O escritório realiza análise jurídica do histórico e da documentação para definir a
-              medida cabível: correção de apontamentos, cessação de efeitos lesivos e
-              responsabilização quando houver base legal.
+              {heroDescription2}
             </p>
 
             <div className="mb-8 max-w-3xl border border-black/15 bg-neutral-50 px-4 py-3 text-left text-sm leading-6 text-black/70">
-              <p className="font-medium text-black">Documento essencial para análise inicial</p>
+              <p className="font-medium text-black">{docLabel}</p>
               <a
                 href={BCB_REPORT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-1 inline-block underline underline-offset-2"
               >
-                Gerar Relatório de Empréstimos e Financiamentos (Banco Central)
+                {docCta}
               </a>
             </div>
 
@@ -634,7 +674,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
                 whatsappBaseMessage={msgHero}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
               >
-                Solicitar análise do caso
+                {heroPrimaryCta}
               </WhatsAppCTAButton>
               <Button
                 asChild
@@ -644,7 +684,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
                 <Link
                   href={{ pathname: "/analise-credito", hash: "como-atuamos" }}
                 >
-                  Entender a atuação
+                  {heroSecondaryCta}
                 </Link>
               </Button>
             </div>
@@ -654,7 +694,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
                 className="w-full max-w-full overflow-hidden [--duration:28s] [--gap:0.5rem] p-0"
                 repeat={6}
               >
-                {heroTags.map(tag => (
+                {heroTagsLocalized.map(tag => (
                   <Card
                     key={tag}
                     className="min-w-56 shrink-0 rounded-none border-black/15 px-4 py-3 text-xs font-medium shadow-none"
@@ -673,21 +713,21 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
             >
               <OpticsCardHeader className="mb-6 border-b border-black/15 pb-4">
                 <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
-                  Avaliação preliminar
+                  {preliminarEyebrow}
                 </OpticsCardDescription>
                 <OpticsCardTitle className="mt-2 font-serif text-2xl leading-tight font-normal">
-                  Indícios que merecem exame técnico
+                  {preliminarTitle}
                 </OpticsCardTitle>
                 <OpticsCardAction>
                   <div className="border border-black/20 px-3 py-1 text-[11px] font-medium uppercase tracking-wider">
-                    SCR / Registrato
+                    {preliminarTag}
                   </div>
                 </OpticsCardAction>
               </OpticsCardHeader>
 
               <OpticsCardContent className="px-0">
                 <AnimatedList delay={650} newestOnTop={false} className="w-full items-stretch gap-2">
-                  {heroPreliminarItems.map(item => (
+                  {heroPreliminarItemsLocalized.map(item => (
                     <Card
                       key={item.text}
                       style={{ order: item.order }}
@@ -713,33 +753,20 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-end">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              O problema
+              {sectionProblemEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Quando o nome parece regular, mas o mercado continua fechado
+              {problemTitle}
             </h2>
           </div>
           <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/70 sm:text-base">
-            <p>
-              Muitos clientes chegam com o nome aparentemente regular, mas com recusas repetidas em
-              bancos e financeiras.
-            </p>
-            <p>
-              Em vários casos, o bloqueio está ligado a registros bancários controvertidos ou
-              desatualizados, afetando limite, financiamento e reputação negocial.
-            </p>
+            <p>{problemParagraph1}</p>
+            <p>{problemParagraph2}</p>
           </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            { label: "Recusa reiterada de crédito sem justificativa clara", index: "01" },
-            { label: "Financiamento negado apesar de nome aparentemente regular", index: "02" },
-            { label: "Redução ou bloqueio de limite bancário", index: "03" },
-            { label: "Dados bancários desatualizados ou controvertidos", index: "04" },
-            { label: "Dificuldade em operações empresariais e pessoais", index: "05" },
-            { label: "Necessidade de correção e responsabilização jurídica", index: "06" },
-          ].map(item => (
+          {problemCards.map(item => (
             <OpticsCard
               key={item.label}
               decorations
@@ -765,24 +792,21 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
         <div className="grid gap-10 md:grid-cols-2 md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              Como atuamos
+              {sectionHowEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Atuação jurídica estruturada, com estratégia e precisão técnica
+              {howTitle}
             </h2>
-            <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-              Cada caso exige leitura jurídica individual. Cruzamos relatórios, contratos e histórico
-              bancário para definir a estratégia extrajudicial ou judicial mais adequada.
-            </p>
+            <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">{howParagraph}</p>
             <p className="mt-4 text-sm leading-7 text-black/65 sm:text-base">
-              Para triagem inicial, priorize a emissão do relatório oficial do Banco Central:{" "}
+              {howDocLinePrefix}{" "}
               <a
                 href={BCB_REPORT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium underline underline-offset-2"
               >
-                Relatório de Empréstimos e Financiamentos
+                {docCta}
               </a>
               .
             </p>
@@ -794,10 +818,16 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
               <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
-                Etapas da atuação
+                {sectionHowEyebrow}
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
-                Do diagnóstico ao acompanhamento completo
+                {locale === "en"
+                  ? "From diagnosis to full follow-up"
+                  : locale === "es"
+                    ? "Del diagnóstico al seguimiento integral"
+                    : locale === "it"
+                      ? "Dalla diagnosi al monitoraggio completo"
+                      : "Do diagnóstico ao acompanhamento completo"}
               </OpticsCardTitle>
             </OpticsCardHeader>
             <div
@@ -806,12 +836,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
             />
             <OpticsCardContent className="px-0">
               <AnimatedList delay={400} newestOnTop={false} className="w-full items-stretch gap-2">
-                {[
-                  { step: "01", title: "Recebimento da documentação", description: "Relatórios, contratos e comprovantes essenciais, com prioridade ao relatório do Banco Central." },
-                  { step: "02", title: "Diagnóstico jurídico", description: "Mapeamento de inconsistências e dados indevidos." },
-                  { step: "03", title: "Definição da medida cabível", description: "Notificação, ação, tutela de urgência ou pedido indenizatório." },
-                  { step: "04", title: "Acompanhamento completo", description: "Condução até a conclusão com discrição e estratégia." },
-                ].map((item, i) => (
+                {howSteps.map((item, i) => (
                   <Card
                     key={item.step}
                     style={{ order: i + 1 }}
@@ -843,18 +868,16 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
         <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              Quando há irregularidade
+              {sectionIrregularityEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              O que pode ser discutido juridicamente
+              {irregularityTitle}
             </h2>
             <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-              Comprovada irregularidade, a atuação pode buscar correção cadastral, retirada de
-              apontamentos, tutela de urgência e reparação indenizatória, conforme o caso.
+              {irregularityParagraph}
             </p>
             <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/70 shadow-none">
-              Não há fórmula única nem promessa de resultado: a estratégia depende da documentação
-              e dos elementos jurídicos do caso concreto.
+              {irregularityNote}
             </Card>
           </div>
 
@@ -864,10 +887,22 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
               <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
-                Providências possíveis
+                {locale === "en"
+                  ? "Available legal actions"
+                  : locale === "es"
+                    ? "Medidas posibles"
+                    : locale === "it"
+                      ? "Misure possibili"
+                      : "Providências possíveis"}
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
-                O que pode ser buscado juridicamente
+                {locale === "en"
+                  ? "What can be legally pursued"
+                  : locale === "es"
+                    ? "Qué puede buscarse jurídicamente"
+                    : locale === "it"
+                      ? "Cosa può essere richiesto legalmente"
+                      : "O que pode ser buscado juridicamente"}
               </OpticsCardTitle>
             </OpticsCardHeader>
             <div
@@ -876,13 +911,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
             />
             <OpticsCardContent className="px-0">
               <AnimatedList delay={300} newestOnTop={false} className="w-full items-stretch gap-2">
-                {[
-                  "Correção ou exclusão da informação irregular",
-                  "Adequação do histórico cadastral e bancário à realidade documental",
-                  "Cessação dos efeitos lesivos sobre o acesso ao crédito",
-                  "Tutela de urgência para impedir a perpetuação do dano",
-                  "Reparação indenizatória, quando presentes os requisitos legais",
-                ].map((item, i) => (
+                {irregularityList.map((item, i) => (
                   <Card
                     key={item}
                     style={{ order: i + 1 }}
@@ -902,14 +931,13 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
       <section id="publico" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="max-w-4xl">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-            Para quem é esta página
+            {sectionAudienceEyebrow}
           </div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Atendimento para pessoas físicas, empresários e estruturas familiares
+            {audienceTitle}
           </h2>
           <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-A página foi pensada para atender clientes que, embora não identifiquem restrições
-              evidentes, percebem efeitos concretos de bloqueio negocial no mercado.
+            {audienceParagraph}
           </p>
         </div>
 
@@ -917,7 +945,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Pessoas físicas com crédito pessoal ou financiamento recusado
+                {audienceCards[0]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -925,7 +953,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Empresários com dificuldade de obtenção de limite, capital de giro ou aprovação bancária
+                {audienceCards[1]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -933,7 +961,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Famílias em fase de aquisição imobiliária e clientes que revisam o histórico antes de nova operação
+                {audienceCards[2]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -941,7 +969,7 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Pessoas que suspeitam de manutenção indevida de informações após quitação
+                {audienceCards[3]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -957,15 +985,14 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              Diferenciais do escritório
+              {sectionDifferentialsEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Por que a análise deve ser jurídica, e não apenas operacional
+              {differentialsTitle}
             </h2>
           </div>
           <p className="mt-[calc(1rem+1lh)] border-l border-black/15 pl-8 text-sm leading-7 text-black/65 sm:text-base">
-            Nosso diferencial está em separar recusa legítima de restrição irregular, com leitura
-            jurídica técnica e estratégia proporcional a cada caso.
+            {differentialsParagraph}
           </p>
         </div>
 
@@ -973,10 +1000,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Rigor técnico
+                {differentialsCards[0].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Análise documental criteriosa, sem generalizações ou atalhos.
+                {differentialsCards[0].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -984,10 +1011,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Estratégia processual
+                {differentialsCards[1].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Cada caso recebe estratégia proporcional — extrajudicial, judicial ou de urgência — conforme o que a situação exige.
+                {differentialsCards[1].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -995,10 +1022,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atendimento personalizado
+                {differentialsCards[2].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Nenhum caso é tratado como padrão. A atuação é moldada ao perfil, ao histórico e aos objetivos de cada cliente.
+                {differentialsCards[2].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1006,10 +1033,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Discrição absoluta
+                {differentialsCards[3].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Sigilo total no tratamento de dados e informações sensíveis.
+                {differentialsCards[3].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1017,10 +1044,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atuação consultiva e contenciosa
+                {differentialsCards[4].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Capacidade de atuar tanto na prevenção quanto no litígio, conforme o momento do caso.
+                {differentialsCards[4].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1028,10 +1055,10 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Análise individual de alta complexidade
+                {differentialsCards[5].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Casos que envolvem SCR, Registrato e histórico bancário exigem leitura técnica aprofundada — não apenas operacional.
+                {differentialsCards[5].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1045,13 +1072,13 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
             <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
             <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Perguntas frequentes antes do início da atuação jurídica
+              {faqHeading}
             </h2>
           </div>
 
           <div className="flex flex-col">
             <Accordion type="single" collapsible className="w-full">
-              {productFaqs.map((item, index) => (
+              {localizedFaqs.map((item, index) => (
                 <AccordionItem
                   key={item.question}
                   value={`item-${index}`}
@@ -1076,16 +1103,13 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
         <BackgroundBeams className="absolute inset-0 z-0" />
         <div className="relative z-10 mx-auto max-w-3xl">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-white/85">
-            Agende sua consulta
+            {ctaEyebrow}
           </div>
           <h2 className="mx-auto mb-6 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl">
-            Fale com uma equipe preparada para examinar seu caso com seriedade técnica
+            {ctaTitle}
           </h2>
           <p className="mx-auto max-w-2xl text-sm leading-7 text-white/90 sm:text-base">
-            Se você enfrenta negativa de crédito sem justificativa clara, dificuldade de
-            financiamento ou suspeita de informação bancária indevida, o primeiro passo é uma
-            análise jurídica criteriosa da documentação. A estratégia correta começa com
-            diagnóstico preciso.
+            {ctaDescription}
           </p>
           <div className="mt-8 flex justify-center">
             <WhatsAppCTAButton
@@ -1093,16 +1117,17 @@ A página foi pensada para atender clientes que, embora não identifiquem restri
               whatsappBaseMessage={msgCta}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
             >
-              Agendar consulta
+              {ctaButtonLabel}
             </WhatsAppCTAButton>
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/85">
-            <span>Atendimento por agendamento</span>
-            <span>Análise individualizada</span>
-            <span>Atuação nacional</span>
+            {ctaBadges.map(item => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
         </div>
       </section>
     </>
   );
 }
+

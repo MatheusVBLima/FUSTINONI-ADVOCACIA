@@ -446,135 +446,183 @@ export default async function FatorKPage({ params }: PageProps) {
     })),
   };
 
-  if (locale !== "pt") {
-    const copy = FATOR_K_COPY_BY_LOCALE[locale];
+  const copy = locale === "pt" ? null : FATOR_K_COPY_BY_LOCALE[locale];
 
-    return (
-      <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
+  const heroEyebrow = copy?.eyebrow ?? "Revisão jurídica de cobrança de Fator K — SABESP";
+  const heroTitle = copy?.heroTitle ?? "Sua empresa está pagando Fator K à SABESP?";
+  const heroDescription1 =
+    copy?.heroDescription1 ??
+    "O Fator K é uma cobrança tarifária aplicada pela SABESP sobre determinadas categorias de empresas, calculada com base em parâmetros técnicos que nem sempre são transparentes ou auditáveis.";
+  const heroDescription2 =
+    copy?.heroDescription2 ??
+    "O escritório realiza análise jurídica e técnica das faturas e do contrato de fornecimento para verificar se o enquadramento e os valores cobrados têm amparo legal e contratual — e, quando cabível, estrutura a impugnação adequada.";
+  const heroPrimaryCta = copy?.primaryCta ?? "Solicitar análise do caso";
+  const heroSecondaryCta = copy?.secondaryCta ?? "Entender a atuação";
 
-        <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
-          <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
-            {copy.eyebrow}
-          </p>
-          <h1 className="mb-8 max-w-4xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
-            {copy.heroTitle}
-          </h1>
-          <p className="mb-5 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.heroDescription1}
-          </p>
-          <p className="mb-8 max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.heroDescription2}
-          </p>
+  const sectionProblemEyebrow =
+    locale === "en" ? "Problem" : locale === "es" ? "Problema" : locale === "it" ? "Problema" : "O problema";
+  const sectionHowEyebrow =
+    locale === "en" ? "How we operate" : locale === "es" ? "Cómo actuamos" : locale === "it" ? "Come operiamo" : "Como atuamos";
+  const sectionQuestionableEyebrow =
+    locale === "en"
+      ? "When the charge is questionable"
+      : locale === "es"
+        ? "Cuando la cobranza es cuestionable"
+        : locale === "it"
+          ? "Quando l'addebito è contestabile"
+          : "Quando a cobrança é questionável";
+  const sectionAudienceEyebrow =
+    locale === "en" ? "Who this page is for" : locale === "es" ? "Para quién es esta página" : locale === "it" ? "A chi è rivolta questa pagina" : "Para quem é esta página";
+  const sectionDifferentialsEyebrow =
+    locale === "en" ? "Firm differentiators" : locale === "es" ? "Diferenciales del despacho" : locale === "it" ? "Punti di forza dello studio" : "Diferenciais do escritório";
 
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-            <WhatsAppCTAButton
-              whatsappPhone={whatsappPhone}
-              whatsappBaseMessage={msgHero}
-              className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
-            >
-              {copy.primaryCta}
-            </WhatsAppCTAButton>
-            <Button
-              asChild
-              variant="outline"
-              className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
-            >
-              <Link href={{ pathname: "/fator-k", hash: "como-atuamos" }}>
-                {copy.secondaryCta}
-              </Link>
-            </Button>
-          </div>
-        </section>
+  const problemTitle = copy?.problemTitle ?? "Cobrança relevante, técnica opaca e sem auditoria regular";
+  const problemParagraph1 =
+    copy?.problemDescription ??
+    "Muitas empresas pagam o Fator K há anos sem questionar o enquadramento tarifário ou verificar se os parâmetros aplicados pela SABESP correspondem à realidade operacional.";
+  const problemParagraph2 =
+    copy?.questionableItems?.[3] ??
+    "A ausência de auditoria jurídica das faturas pode representar pagamento a maior durante anos, sem possibilidade de recuperação futura por decurso do prazo.";
 
-        <section id="problema" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-4 font-serif text-3xl leading-tight">{copy.problemTitle}</h2>
-          <p className="max-w-4xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.problemDescription}
-          </p>
-        </section>
+  const problemCards = copy
+    ? [...copy.questionableItems, ...copy.audienceItems]
+        .slice(0, 6)
+        .map((label, index) => ({ label, index: String(index + 1).padStart(2, "0") }))
+    : [
+        { label: "Cobrança calculada com base em parâmetros técnicos opacos e não auditados", index: "01" },
+        { label: "Memória de cálculo ausente ou incompleta nas faturas mensais", index: "02" },
+        { label: "Enquadramento em categorias tarifárias sem verificação individualizada", index: "03" },
+        { label: "Aceitação passiva de valores sem análise jurídica prévia", index: "04" },
+        { label: "Ausência de impugnação administrativa durante o prazo decadencial", index: "05" },
+        { label: "Potencial de revisão e recuperação de valores pagos indevidamente", index: "06" },
+      ];
 
-        <section id="como-atuamos" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.howTitle}</h2>
-          <ul className="space-y-3">
-            {copy.howItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const heroTagsLocalized = copy
+    ? locale === "en"
+      ? ["Business advisory", "Document review", "Consulting and litigation"]
+      : locale === "es"
+        ? ["Atención empresarial", "Análisis documental", "Actuación consultiva y contenciosa"]
+        : ["Assistenza aziendale", "Analisi documentale", "Attività consulenziale e contenziosa"]
+    : heroTags;
 
-        <section id="questionavel" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.questionableTitle}</h2>
-          <ul className="space-y-3">
-            {copy.questionableItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const heroPreliminarItemsLocalized = copy
+    ? [
+        { text: copy.questionableItems[0], tone: "default" as const, order: 1 },
+        { text: copy.questionableItems[1], tone: "default" as const, order: 2 },
+        { text: copy.questionableItems[2], tone: "default" as const, order: 3 },
+        { text: copy.audienceItems[0], tone: "default" as const, order: 4 },
+        { text: copy.problemDescription, tone: "inverse" as const, order: 5 },
+      ]
+    : heroPreliminarItems;
 
-        <section id="publico" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.audienceTitle}</h2>
-          <ul className="space-y-3">
-            {copy.audienceItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const preliminarEyebrow =
+    locale === "en" ? "Preliminary review" : locale === "es" ? "Evaluación preliminar" : locale === "it" ? "Valutazione preliminare" : "Avaliação preliminar";
+  const preliminarTitle =
+    locale === "en" ? "Signs that require technical review" : locale === "es" ? "Indicios que requieren análisis técnico" : locale === "it" ? "Indizi che richiedono analisi tecnica" : "Indícios que merecem exame técnico";
+  const preliminarTag = locale === "en" ? "SABESP / Factor K" : locale === "es" ? "SABESP / Factor K" : locale === "it" ? "SABESP / Fattore K" : "SABESP / Fator K";
 
-        <section id="diferenciais" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.differentialsTitle}</h2>
-          <ul className="space-y-3">
-            {copy.differentialsItems.map(item => (
-              <li key={item} className="text-sm leading-7 text-black/70 sm:text-base">
-                - {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+  const howTitle = copy?.howTitle ?? "Atuação jurídica estruturada, com análise técnica e estratégia proporcional";
+  const howParagraph =
+    copy?.heroDescription2 ??
+    "Cada caso exige leitura individualizada das faturas, contratos e dados de consumo. Cruzamos informações técnicas e jurídicas para definir a estratégia mais adequada — administrativa ou judicial.";
 
-        <section id="faq" className="border-b border-black/15 px-4 py-14 sm:px-6 md:px-10">
-          <h2 className="mb-6 font-serif text-3xl leading-tight">{copy.faqTitle}</h2>
-          <Accordion type="single" collapsible className="w-full">
-            {localizedFaqs.map((item, index) => (
-              <AccordionItem key={item.question} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-sm md:text-base">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm leading-7 text-black/70 sm:text-base">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </section>
+  const howSteps = copy
+    ? copy.howItems.slice(0, 4).map((item, index) => ({
+        step: String(index + 1).padStart(2, "0"),
+        title: item,
+        description:
+          locale === "en"
+            ? "Execution aligned with legal and technical evidence in the specific case."
+            : locale === "es"
+              ? "Ejecución alineada con elementos jurídicos y técnicos del caso concreto."
+              : "Esecuzione allineata agli elementi legali e tecnici del caso concreto.",
+      }))
+    : [
+        { step: "01", title: "Levantamento documental", description: "Faturas, histórico de consumo, contratos, documentos societários e CNAE." },
+        { step: "02", title: "Diagnóstico jurídico e técnico", description: "Avaliação do enquadramento tarifário, memória de cálculo e histórico de faturamento." },
+        { step: "03", title: "Definição da estratégia", description: "Impugnação administrativa, ação revisional ou pleito de repetição de indébito, conforme o caso." },
+        { step: "04", title: "Acompanhamento integral", description: "Condução do caso até a conclusão com discrição e precisão técnica." },
+      ];
 
-        <section className="px-4 py-14 text-center sm:px-6 md:px-10">
-          <h2 className="mx-auto mb-5 max-w-3xl font-serif text-3xl leading-tight sm:text-4xl">
-            {copy.finalTitle}
-          </h2>
-          <p className="mx-auto mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-            {copy.finalDescription}
-          </p>
-          <WhatsAppCTAButton
-            whatsappPhone={whatsappPhone}
-            whatsappBaseMessage={msgCta}
-            className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
-          >
-            {copy.finalCta}
-          </WhatsAppCTAButton>
-        </section>
-      </>
-    );
-  }
+  const questionableTitle = copy?.questionableTitle ?? "O que pode ser discutido juridicamente";
+  const questionableParagraph =
+    copy?.finalDescription ??
+    "Identificada irregularidade no enquadramento ou na metodologia de cálculo, a atuação pode buscar revisão tarifária, restituição de valores e compensação dos efeitos financeiros do pagamento indevido.";
+  const questionableNote =
+    locale === "en"
+      ? "There is no single formula or guaranteed result: the strategy depends on available documentation and legal-technical elements of the concrete case."
+      : locale === "es"
+        ? "No existe una fórmula única ni promesa de resultado: la estrategia depende de la documentación disponible y de los elementos técnicos y jurídicos del caso concreto."
+        : locale === "it"
+          ? "Non esiste una formula unica né promessa di risultato: la strategia dipende dalla documentazione disponibile e dagli elementi tecnici e giuridici del caso concreto."
+          : "Não há fórmula única nem promessa de resultado: a estratégia depende da documentação disponível e dos elementos técnicos e jurídicos do caso concreto.";
+  const questionableList = copy
+    ? copy.questionableItems
+    : [
+        "Enquadramento em categoria tarifária sem verificação individualizada da empresa",
+        "Aplicação de parâmetros sem comprovação da metodologia de cálculo",
+        "Ausência de memória de cálculo acessível e auditável nas faturas",
+        "Majoração tarifária suportada por longo período sem base documental compreensível",
+        "Necessidade de cessação ou revisão da cobrança futura",
+        "Viabilidade de recuperação de valores pagos, quando juridicamente cabível",
+      ];
+
+  const audienceTitle = copy?.audienceTitle ?? "Empresas que pagam Fator K e nunca questionaram o enquadramento";
+  const audienceParagraph =
+    copy?.problemDescription ??
+    "A página foi pensada para empresas que recebem cobrança de Fator K na fatura SABESP e nunca realizaram análise jurídica do enquadramento tarifário ou da metodologia aplicada.";
+  const audienceCards = copy
+    ? [...copy.audienceItems, ...copy.questionableItems].slice(0, 6)
+    : [
+        "Restaurantes, padarias e operações de alimentação com alto consumo de água",
+        "Shoppings, condomínios comerciais e centros empresariais com múltiplos usuários",
+        "Frigoríficos, lavanderias e prestadores de serviço com processo produtivo intensivo em água",
+        "Empresas industriais que nunca auditaram suas faturas SABESP",
+        "Negócios que pagam Fator K há anos sem impugnar ou questionar",
+        "Sociedades em revisão de custos operacionais ou planejamento estratégico que identificaram a rubrica nas faturas",
+      ];
+
+  const differentialsTitle = copy?.differentialsTitle ?? "Por que a análise deve ser jurídica, e não apenas operacional";
+  const differentialsParagraph =
+    copy?.heroDescription2 ??
+    "A revisão da cobrança do Fator K exige estruturação jurídica da tese, leitura regulatória, análise das faturas em série e definição da medida adequada — sempre à luz da documentação do caso.";
+
+  const differentialsCards = copy
+    ? [
+        { title: copy.differentialsItems[0], description: copy.differentialsItems[0] },
+        { title: copy.differentialsItems[1], description: copy.differentialsItems[1] },
+        { title: copy.differentialsItems[2], description: copy.differentialsItems[2] },
+        { title: copy.differentialsItems[3], description: copy.differentialsItems[3] },
+        { title: copy.howItems[0], description: copy.howItems[1] ?? copy.howItems[0] },
+        { title: copy.audienceItems[0], description: copy.audienceItems[1] ?? copy.audienceItems[0] },
+      ]
+    : [
+        { title: "Análise técnica e jurídica integrada", description: "Avaliação da cobrança sob perspectiva regulatória, contratual e legal, sem atalhos." },
+        { title: "Estratégia proporcional ao caso", description: "Cada empresa recebe encaminhamento adequado — impugnação administrativa, revisional ou pleito indenizatório — conforme o que os documentos suportam." },
+        { title: "Atuação preventiva e contenciosa", description: "Capacidade de atuar antes do litígio, estruturando defesas administrativas, e na fase judicial quando necessário." },
+        { title: "Sigilo absoluto", description: "Tratamento confidencial de dados operacionais, contratos e histórico de consumo." },
+        { title: "Atendimento personalizado", description: "Nenhuma empresa é tratada como caso padrão. O porte, o setor e o histórico de cobrança determinam a estratégia." },
+        { title: "Experiência em demandas regulatórias de alta complexidade", description: "Cobranças da SABESP envolvem metodologia técnica específica — a leitura jurídica exige domínio do marco regulatório do saneamento." },
+      ];
+
+  const faqHeading = copy?.faqTitle ?? "Perguntas frequentes antes do início da atuação jurídica";
+
+  const ctaEyebrow =
+    locale === "en" ? "Schedule your consultation" : locale === "es" ? "Agende su consulta" : locale === "it" ? "Prenoti la sua consulenza" : "Agende sua consulta";
+  const ctaTitle = copy?.finalTitle ?? "Sua empresa paga Fator K e nunca verificou se a cobrança é exigível?";
+  const ctaDescription =
+    copy?.finalDescription ??
+    "Antes de suportar indefinidamente um custo relevante, convém apurar com critério técnico se a cobrança foi corretamente constituída, se o enquadramento está adequado e se há medida jurídica viável para revisão, cessação ou restituição de valores.";
+  const ctaButtonLabel = copy?.finalCta ?? "Agendar consulta";
+
+  const ctaBadges =
+    locale === "en"
+      ? ["Scheduled service", "Individual legal review", "Nationwide practice"]
+      : locale === "es"
+        ? ["Atención con cita previa", "Análisis individual", "Actuación nacional"]
+        : locale === "it"
+          ? ["Assistenza su appuntamento", "Analisi individuale", "Operatività nazionale"]
+          : ["Atendimento por agendamento", "Análise individualizada", "Atuação nacional"];
 
   return (
     <>
@@ -587,22 +635,12 @@ export default async function FatorKPage({ params }: PageProps) {
       <section className="border-b border-black/15 px-4 pt-16 pb-12 sm:px-6 sm:pt-20 md:px-10 md:pt-24">
         <div className="grid items-start gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div className="min-w-0">
-            <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">
-              Revisão jurídica de cobrança de Fator K — SABESP
-            </p>
+            <p className="mb-5 text-xs font-bold uppercase tracking-widest text-black/70">{heroEyebrow}</p>
             <h1 className="mb-8 max-w-3xl font-serif text-4xl leading-[0.95] tracking-tight sm:text-5xl md:text-6xl">
-              Sua empresa está pagando Fator K à SABESP?
+              {heroTitle}
             </h1>
-            <p className="mb-5 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-              O Fator K é uma cobrança tarifária aplicada pela SABESP sobre determinadas categorias
-              de empresas, calculada com base em parâmetros técnicos que nem sempre são
-              transparentes ou auditáveis.
-            </p>
-            <p className="mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">
-              O escritório realiza análise jurídica e técnica das faturas e do contrato de
-              fornecimento para verificar se o enquadramento e os valores cobrados têm amparo legal
-              e contratual — e, quando cabível, estrutura a impugnação adequada.
-            </p>
+            <p className="mb-5 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">{heroDescription1}</p>
+            <p className="mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">{heroDescription2}</p>
 
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <WhatsAppCTAButton
@@ -610,7 +648,7 @@ export default async function FatorKPage({ params }: PageProps) {
                 whatsappBaseMessage={msgHero}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
               >
-                Solicitar análise do caso
+                {heroPrimaryCta}
               </WhatsAppCTAButton>
               <Button
                 asChild
@@ -618,7 +656,7 @@ export default async function FatorKPage({ params }: PageProps) {
                 className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
               >
                 <Link href={{ pathname: "/fator-k", hash: "como-atuamos" }}>
-                  Entender a atuação
+                  {heroSecondaryCta}
                 </Link>
               </Button>
             </div>
@@ -628,7 +666,7 @@ export default async function FatorKPage({ params }: PageProps) {
                 className="w-full max-w-full overflow-hidden [--duration:28s] [--gap:0.5rem] p-0"
                 repeat={6}
               >
-                {heroTags.map(tag => (
+                {heroTagsLocalized.map(tag => (
                   <Card
                     key={tag}
                     className="min-w-56 shrink-0 rounded-none border-black/15 px-4 py-3 text-xs font-medium shadow-none"
@@ -647,21 +685,21 @@ export default async function FatorKPage({ params }: PageProps) {
             >
               <OpticsCardHeader className="mb-6 border-b border-black/15 pb-4">
                 <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
-                  Avaliação preliminar
+                  {preliminarEyebrow}
                 </OpticsCardDescription>
                 <OpticsCardTitle className="mt-2 font-serif text-2xl leading-tight font-normal">
-                  Indícios que merecem exame técnico
+                  {preliminarTitle}
                 </OpticsCardTitle>
                 <OpticsCardAction>
                   <div className="border border-black/20 px-3 py-1 text-[11px] font-medium uppercase tracking-wider">
-                    SABESP / Fator K
+                    {preliminarTag}
                   </div>
                 </OpticsCardAction>
               </OpticsCardHeader>
 
               <OpticsCardContent className="px-0">
                 <AnimatedList delay={650} newestOnTop={false} className="w-full items-stretch gap-2">
-                  {heroPreliminarItems.map(item => (
+                  {heroPreliminarItemsLocalized.map(item => (
                     <Card
                       key={item.text}
                       style={{ order: item.order }}
@@ -688,33 +726,20 @@ export default async function FatorKPage({ params }: PageProps) {
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-end">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              O problema
+              {sectionProblemEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Cobrança relevante, técnica opaca e sem auditoria regular
+              {problemTitle}
             </h2>
           </div>
           <div className="space-y-4 border-l border-black/15 pl-8 text-sm leading-7 text-black/70 sm:text-base">
-            <p>
-              Muitas empresas pagam o Fator K há anos sem questionar o enquadramento tarifário ou
-              verificar se os parâmetros aplicados pela SABESP correspondem à realidade operacional.
-            </p>
-            <p>
-              A ausência de auditoria jurídica das faturas pode representar pagamento a maior
-              durante anos, sem possibilidade de recuperação futura por decurso do prazo.
-            </p>
+            <p>{problemParagraph1}</p>
+            <p>{problemParagraph2}</p>
           </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            { label: "Cobrança calculada com base em parâmetros técnicos opacos e não auditados", index: "01" },
-            { label: "Memória de cálculo ausente ou incompleta nas faturas mensais", index: "02" },
-            { label: "Enquadramento em categorias tarifárias sem verificação individualizada", index: "03" },
-            { label: "Aceitação passiva de valores sem análise jurídica prévia", index: "04" },
-            { label: "Ausência de impugnação administrativa durante o prazo decadencial", index: "05" },
-            { label: "Potencial de revisão e recuperação de valores pagos indevidamente", index: "06" },
-          ].map(item => (
+          {problemCards.map(item => (
             <OpticsCard
               key={item.label}
               decorations
@@ -741,16 +766,12 @@ export default async function FatorKPage({ params }: PageProps) {
         <div className="grid gap-10 md:grid-cols-2 md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              Como atuamos
+              {sectionHowEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Atuação jurídica estruturada, com análise técnica e estratégia proporcional
+              {howTitle}
             </h2>
-            <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-              Cada caso exige leitura individualizada das faturas, contratos e dados de consumo.
-              Cruzamos informações técnicas e jurídicas para definir a estratégia mais adequada —
-              administrativa ou judicial.
-            </p>
+            <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">{howParagraph}</p>
           </div>
 
           <OpticsCard
@@ -759,10 +780,16 @@ export default async function FatorKPage({ params }: PageProps) {
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
               <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
-                Etapas da atuação
+                {sectionHowEyebrow}
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
-                Do diagnóstico ao acompanhamento integral
+                {locale === "en"
+                  ? "From diagnosis to full follow-up"
+                  : locale === "es"
+                    ? "Del diagnóstico al seguimiento integral"
+                    : locale === "it"
+                      ? "Dalla diagnosi al monitoraggio completo"
+                      : "Do diagnóstico ao acompanhamento integral"}
               </OpticsCardTitle>
             </OpticsCardHeader>
             <div
@@ -771,12 +798,7 @@ export default async function FatorKPage({ params }: PageProps) {
             />
             <OpticsCardContent className="px-0">
               <AnimatedList delay={400} newestOnTop={false} className="w-full items-stretch gap-2">
-                {[
-                  { step: "01", title: "Levantamento documental", description: "Faturas, histórico de consumo, contratos, documentos societários e CNAE." },
-                  { step: "02", title: "Diagnóstico jurídico e técnico", description: "Avaliação do enquadramento tarifário, memória de cálculo e histórico de faturamento." },
-                  { step: "03", title: "Definição da estratégia", description: "Impugnação administrativa, ação revisional ou pleito de repetição de indébito, conforme o caso." },
-                  { step: "04", title: "Acompanhamento integral", description: "Condução do caso até a conclusão com discrição e precisão técnica." },
-                ].map((item, i) => (
+                {howSteps.map((item, i) => (
                   <Card
                     key={item.step}
                     style={{ order: i + 1 }}
@@ -809,19 +831,16 @@ export default async function FatorKPage({ params }: PageProps) {
         <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              Quando a cobrança é questionável
+              {sectionQuestionableEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              O que pode ser discutido juridicamente
+              {questionableTitle}
             </h2>
             <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-              Identificada irregularidade no enquadramento ou na metodologia de cálculo, a atuação
-              pode buscar revisão tarifária, restituição de valores e compensação dos efeitos
-              financeiros do pagamento indevido.
+              {questionableParagraph}
             </p>
             <Card className="mt-6 rounded-none border-black/15 bg-neutral-50 p-4 text-sm leading-7 text-black/70 shadow-none">
-              Não há fórmula única nem promessa de resultado: a estratégia depende da documentação
-              disponível e dos elementos técnicos e jurídicos do caso concreto.
+              {questionableNote}
             </Card>
           </div>
 
@@ -831,10 +850,22 @@ export default async function FatorKPage({ params }: PageProps) {
           >
             <OpticsCardHeader className="border-b border-black/15 pb-4">
               <OpticsCardDescription className="text-xs font-bold uppercase tracking-widest text-black/70">
-                Hipóteses de questionamento
+                {locale === "en"
+                  ? "Challenge scenarios"
+                  : locale === "es"
+                    ? "Supuestos de impugnación"
+                    : locale === "it"
+                      ? "Ipotesi di contestazione"
+                      : "Hipóteses de questionamento"}
               </OpticsCardDescription>
               <OpticsCardTitle className="mt-1 font-serif text-xl font-normal leading-tight">
-                O que pode ser impugnado juridicamente
+                {locale === "en"
+                  ? "What can be legally challenged"
+                  : locale === "es"
+                    ? "Qué puede impugnarse jurídicamente"
+                    : locale === "it"
+                      ? "Cosa può essere contestato legalmente"
+                      : "O que pode ser impugnado juridicamente"}
               </OpticsCardTitle>
             </OpticsCardHeader>
             <div
@@ -843,14 +874,7 @@ export default async function FatorKPage({ params }: PageProps) {
             />
             <OpticsCardContent className="px-0">
               <AnimatedList delay={300} newestOnTop={false} className="w-full items-stretch gap-2">
-                {[
-                  "Enquadramento em categoria tarifária sem verificação individualizada da empresa",
-                  "Aplicação de parâmetros sem comprovação da metodologia de cálculo",
-                  "Ausência de memória de cálculo acessível e auditável nas faturas",
-                  "Majoração tarifária suportada por longo período sem base documental compreensível",
-                  "Necessidade de cessação ou revisão da cobrança futura",
-                  "Viabilidade de recuperação de valores pagos, quando juridicamente cabível",
-                ].map((item, i) => (
+                {questionableList.map((item, i) => (
                   <Card
                     key={item}
                     style={{ order: i + 1 }}
@@ -871,14 +895,13 @@ export default async function FatorKPage({ params }: PageProps) {
       <section id="publico" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="max-w-4xl">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-            Para quem é esta página
+            {sectionAudienceEyebrow}
           </div>
           <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-            Empresas que pagam Fator K e nunca questionaram o enquadramento
+            {audienceTitle}
           </h2>
           <p className="mt-6 text-sm leading-7 text-black/65 sm:text-base">
-            A página foi pensada para empresas que recebem cobrança de Fator K na fatura SABESP e
-            nunca realizaram análise jurídica do enquadramento tarifário ou da metodologia aplicada.
+            {audienceParagraph}
           </p>
         </div>
 
@@ -886,7 +909,7 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Restaurantes, padarias e operações de alimentação com alto consumo de água
+                {audienceCards[0]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -894,7 +917,7 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Shoppings, condomínios comerciais e centros empresariais com múltiplos usuários
+                {audienceCards[1]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -902,7 +925,7 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Frigoríficos, lavanderias e prestadores de serviço com processo produtivo intensivo em água
+                {audienceCards[2]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -910,7 +933,7 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Empresas industriais que nunca auditaram suas faturas SABESP
+                {audienceCards[3]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -918,7 +941,7 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Negócios que pagam Fator K há anos sem impugnar ou questionar
+                {audienceCards[4]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -926,7 +949,7 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Sociedades em revisão de custos operacionais ou planejamento estratégico que identificaram a rubrica nas faturas
+                {audienceCards[5]}
               </OpticsCardTitle>
             </OpticsCardHeader>
           </OpticsCard>
@@ -943,16 +966,14 @@ export default async function FatorKPage({ params }: PageProps) {
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-start">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
-              Diferenciais do escritório
+              {sectionDifferentialsEyebrow}
             </div>
             <h2 className="font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Por que a análise deve ser jurídica, e não apenas operacional
+              {differentialsTitle}
             </h2>
           </div>
           <p className="mt-[calc(1rem+1lh)] border-l border-black/15 pl-8 text-sm leading-7 text-black/65 sm:text-base">
-            A revisão da cobrança do Fator K exige estruturação jurídica da tese, leitura
-            regulatória, análise das faturas em série e definição da medida adequada — sempre à
-            luz da documentação do caso.
+            {differentialsParagraph}
           </p>
         </div>
 
@@ -960,10 +981,10 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Análise técnica e jurídica integrada
+                {differentialsCards[0].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Avaliação da cobrança sob perspectiva regulatória, contratual e legal, sem atalhos.
+                {differentialsCards[0].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -971,10 +992,10 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Estratégia proporcional ao caso
+                {differentialsCards[1].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Cada empresa recebe encaminhamento adequado — impugnação administrativa, revisional ou pleito indenizatório — conforme o que os documentos suportam.
+                {differentialsCards[1].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -982,10 +1003,10 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atuação preventiva e contenciosa
+                {differentialsCards[2].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Capacidade de atuar antes do litígio, estruturando defesas administrativas, e na fase judicial quando necessário.
+                {differentialsCards[2].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -993,10 +1014,10 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Sigilo absoluto
+                {differentialsCards[3].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Tratamento confidencial de dados operacionais, contratos e histórico de consumo.
+                {differentialsCards[3].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1004,10 +1025,10 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-1">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Atendimento personalizado
+                {differentialsCards[4].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Nenhuma empresa é tratada como caso padrão. O porte, o setor e o histórico de cobrança determinam a estratégia.
+                {differentialsCards[4].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1015,10 +1036,10 @@ export default async function FatorKPage({ params }: PageProps) {
           <OpticsCard decorations className="col-span-2 rounded-none border border-black/15 bg-white shadow-none ring-0 lg:col-span-2">
             <OpticsCardHeader>
               <OpticsCardTitle className="font-serif text-base font-normal leading-snug">
-                Experiência em demandas regulatórias de alta complexidade
+                {differentialsCards[5].title}
               </OpticsCardTitle>
               <OpticsCardDescription className="text-xs leading-relaxed text-black/70">
-                Cobranças da SABESP envolvem metodologia técnica específica — a leitura jurídica exige domínio do marco regulatório do saneamento.
+                {differentialsCards[5].description}
               </OpticsCardDescription>
             </OpticsCardHeader>
           </OpticsCard>
@@ -1033,13 +1054,13 @@ export default async function FatorKPage({ params }: PageProps) {
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
             <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
             <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-              Perguntas frequentes antes do início da atuação jurídica
+              {faqHeading}
             </h2>
           </div>
 
           <div className="flex flex-col">
             <Accordion type="single" collapsible className="w-full">
-              {productFaqs.map((item, index) => (
+              {localizedFaqs.map((item, index) => (
                 <AccordionItem
                   key={item.question}
                   value={`item-${index}`}
@@ -1065,15 +1086,13 @@ export default async function FatorKPage({ params }: PageProps) {
         <BackgroundBeams className="absolute inset-0 z-0" />
         <div className="relative z-10 mx-auto max-w-3xl">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-white/85">
-            Agende sua consulta
+            {ctaEyebrow}
           </div>
           <h2 className="mx-auto mb-6 max-w-2xl font-serif text-3xl leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl">
-            Sua empresa paga Fator K e nunca verificou se a cobrança é exigível?
+            {ctaTitle}
           </h2>
           <p className="mx-auto max-w-2xl text-sm leading-7 text-white/90 sm:text-base">
-            Antes de suportar indefinidamente um custo relevante, convém apurar com critério técnico
-            se a cobrança foi corretamente constituída, se o enquadramento está adequado e se há
-            medida jurídica viável para revisão, cessação ou restituição de valores.
+            {ctaDescription}
           </p>
           <div className="mt-8 flex justify-center">
             <WhatsAppCTAButton
@@ -1081,16 +1100,17 @@ export default async function FatorKPage({ params }: PageProps) {
               whatsappBaseMessage={msgCta}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"
             >
-              Agendar consulta
+              {ctaButtonLabel}
             </WhatsAppCTAButton>
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-wider text-white/85">
-            <span>Atendimento por agendamento</span>
-            <span>Análise individualizada</span>
-            <span>Atuação nacional</span>
+            {ctaBadges.map(item => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
         </div>
       </section>
     </>
   );
 }
+
