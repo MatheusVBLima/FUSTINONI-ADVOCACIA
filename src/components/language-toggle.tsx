@@ -33,7 +33,6 @@ export function LanguageToggle() {
         getPathname({
           href: pathname,
           locale: option,
-          forcePrefix: option !== routing.defaultLocale,
         }),
       ]),
     ) as Record<AppLocale, string>;

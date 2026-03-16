@@ -30,62 +30,51 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/email-confirmed",
-        destination: "/email-confirmado",
+        source: "/",
+        destination: "/pt",
         permanent: true,
       },
       {
-        source: "/:locale(en|es|it)/email-confirmado",
-        destination: "/:locale/email-confirmed",
+        source: "/analise-credito",
+        destination: "/pt/analise-credito",
+        permanent: true,
+      },
+      {
+        source: "/fator-k",
+        destination: "/pt/fator-k",
+        permanent: true,
+      },
+      {
+        source: "/email-confirmado",
+        destination: "/pt/email-confirmado",
+        permanent: true,
+      },
+      {
+        source: "/email-confirmed",
+        destination: "/pt/email-confirmado",
+        permanent: true,
+      },
+      {
+        source: "/en/email-confirmado",
+        destination: "/en/email-confirmed",
+        permanent: true,
+      },
+      {
+        source: "/es/email-confirmado",
+        destination: "/es/correo-confirmado",
+        permanent: true,
+      },
+      {
+        source: "/it/email-confirmado",
+        destination: "/it/email-confermata",
+        permanent: true,
+      },
+      {
+        source: "/pt/email-confirmed",
+        destination: "/pt/email-confirmado",
         permanent: true,
       },
     ];
-  },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        { source: "/", destination: "/pt" },
-        { source: "/analise-credito", destination: "/pt/analise-credito" },
-        { source: "/fator-k", destination: "/pt/fator-k" },
-        { source: "/email-confirmado", destination: "/pt/email-confirmado" },
-        {
-          source: "/en/credit-record-review",
-          destination: "/en/analise-credito",
-        },
-        {
-          source: "/es/analisis-registro-crediticio",
-          destination: "/es/analise-credito",
-        },
-        {
-          source: "/it/analisi-registro-creditizio",
-          destination: "/it/analise-credito",
-        },
-        {
-          source: "/en/sabesp-factor-k-review",
-          destination: "/en/fator-k",
-        },
-        {
-          source: "/es/revision-factor-k-sabesp",
-          destination: "/es/fator-k",
-        },
-        {
-          source: "/it/revisione-fattore-k-sabesp",
-          destination: "/it/fator-k",
-        },
-        {
-          source: "/en/email-confirmed",
-          destination: "/en/email-confirmado",
-        },
-        {
-          source: "/es/correo-confirmado",
-          destination: "/es/email-confirmado",
-        },
-        {
-          source: "/it/email-confermata",
-          destination: "/it/email-confirmado",
-        },
-      ],
-    };
   },
 };
 
