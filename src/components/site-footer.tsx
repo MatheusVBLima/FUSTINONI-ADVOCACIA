@@ -1,9 +1,15 @@
 import { Mail } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import { type AppLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
+import { getLocalizedHash } from "@/lib/navigation";
 
-export async function SiteFooter() {
+type SiteFooterProps = {
+  locale: AppLocale;
+};
+
+export async function SiteFooter({ locale }: SiteFooterProps) {
   const t = await getTranslations("siteFooter");
 
   return (
@@ -31,7 +37,10 @@ export async function SiteFooter() {
             <ul className="space-y-3 font-medium">
               <li>
                 <Link
-                  href={{ pathname: "/", hash: "services" }}
+                  href={{
+                    pathname: "/",
+                    hash: getLocalizedHash("/", "services", locale),
+                  }}
                   className="transition-colors hover:text-black/70"
                 >
                   {t("links.team")}
@@ -39,7 +48,10 @@ export async function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href={{ pathname: "/", hash: "process" }}
+                  href={{
+                    pathname: "/",
+                    hash: getLocalizedHash("/", "process", locale),
+                  }}
                   className="transition-colors hover:text-black/70"
                 >
                   {t("links.workModels")}
@@ -55,7 +67,10 @@ export async function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href={{ pathname: "/", hash: "faq" }}
+                  href={{
+                    pathname: "/",
+                    hash: getLocalizedHash("/", "faq", locale),
+                  }}
                   className="transition-colors hover:text-black/70"
                 >
                   {t("links.faq")}

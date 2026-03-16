@@ -1,3 +1,5 @@
+import { type AppLocale } from "@/i18n/routing";
+
 export type NavPathname = "/" | "/analise-credito" | "/fator-k";
 
 export type HomeNavItem = {
@@ -74,3 +76,156 @@ export const PRODUCT_NAV_ITEMS: ProductNavItem[] = [
   },
   { href: "/fator-k", labelKey: "products.factorKReview", status: "active" },
 ];
+
+const LOCALIZED_HASHES = {
+  "/": {
+    services: {
+      pt: "equipe",
+      en: "team",
+      es: "equipo",
+      it: "team",
+    },
+    process: {
+      pt: "atuacao",
+      en: "approach",
+      es: "actuacion",
+      it: "attuazione",
+    },
+    firm: {
+      pt: "escritorio",
+      en: "firm",
+      es: "despacho",
+      it: "studio",
+    },
+    sectors: {
+      pt: "areas",
+      en: "practice-areas",
+      es: "areas",
+      it: "aree",
+    },
+    faq: {
+      pt: "faq",
+      en: "faq",
+      es: "faq",
+      it: "faq",
+    },
+  },
+  "/analise-credito": {
+    problema: {
+      pt: "problema",
+      en: "problem",
+      es: "problema",
+      it: "problema",
+    },
+    "como-atuamos": {
+      pt: "atuacao",
+      en: "approach",
+      es: "actuacion",
+      it: "attuazione",
+    },
+    irregularidade: {
+      pt: "irregularidade",
+      en: "irregularity",
+      es: "irregularidad",
+      it: "irregolarita",
+    },
+    publico: {
+      pt: "publico",
+      en: "audience",
+      es: "publico",
+      it: "pubblico",
+    },
+    diferenciais: {
+      pt: "diferenciais",
+      en: "differentials",
+      es: "diferenciales",
+      it: "differenziali",
+    },
+    faq: {
+      pt: "faq",
+      en: "faq",
+      es: "faq",
+      it: "faq",
+    },
+  },
+  "/fator-k": {
+    problema: {
+      pt: "problema",
+      en: "problem",
+      es: "problema",
+      it: "problema",
+    },
+    "como-atuamos": {
+      pt: "atuacao",
+      en: "approach",
+      es: "actuacion",
+      it: "attuazione",
+    },
+    questionavel: {
+      pt: "questionavel",
+      en: "questionable",
+      es: "cuestionable",
+      it: "contestabile",
+    },
+    publico: {
+      pt: "publico",
+      en: "audience",
+      es: "publico",
+      it: "pubblico",
+    },
+    diferenciais: {
+      pt: "diferenciais",
+      en: "differentials",
+      es: "diferenciales",
+      it: "differenziali",
+    },
+    faq: {
+      pt: "faq",
+      en: "faq",
+      es: "faq",
+      it: "faq",
+    },
+  },
+} as const satisfies Record<string, Record<string, Record<AppLocale, string>>>;
+
+export function getLocalizedHash(
+  pathname: string,
+  hash: string,
+  locale: AppLocale,
+) {
+  const hashesByPathname =
+    LOCALIZED_HASHES[pathname as keyof typeof LOCALIZED_HASHES];
+
+  if (!hashesByPathname) {
+    return hash;
+  }
+
+  const localizedHash = hashesByPathname[hash as keyof typeof hashesByPathname];
+
+  return localizedHash?.[locale] ?? hash;
+}
+
+export function getInternalHash(
+  pathname: string,
+  hash: string,
+  locale: AppLocale,
+) {
+  const hashesByPathname =
+    LOCALIZED_HASHES[pathname as keyof typeof LOCALIZED_HASHES];
+
+  if (!hashesByPathname) {
+    return hash;
+  }
+
+  if (hash in hashesByPathname) {
+    return hash;
+  }
+
+  for (const [internalHash, localizedHashes] of Object.entries(hashesByPathname)) {
+    if (localizedHashes[locale] === hash) {
+      return internalHash;
+    }
+  }
+
+  return hash;
+}
