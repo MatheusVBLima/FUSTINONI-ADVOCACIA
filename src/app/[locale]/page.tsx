@@ -1178,7 +1178,7 @@ export default async function Home({ params }: HomePageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="studio" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
+      <section id="firm" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="px-4 py-16 text-center sm:px-6 sm:py-20">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             {text.studioLabel}

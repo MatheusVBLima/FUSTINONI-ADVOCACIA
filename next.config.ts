@@ -41,6 +41,50 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      { source: "/", destination: "/pt" },
+      { source: "/analise-credito", destination: "/pt/analise-credito" },
+      { source: "/fator-k", destination: "/pt/fator-k" },
+      { source: "/email-confirmado", destination: "/pt/email-confirmado" },
+      {
+        source: "/en/credit-record-review",
+        destination: "/en/analise-credito",
+      },
+      {
+        source: "/es/analisis-registro-crediticio",
+        destination: "/es/analise-credito",
+      },
+      {
+        source: "/it/analisi-registro-creditizio",
+        destination: "/it/analise-credito",
+      },
+      {
+        source: "/en/sabesp-factor-k-review",
+        destination: "/en/fator-k",
+      },
+      {
+        source: "/es/revision-factor-k-sabesp",
+        destination: "/es/fator-k",
+      },
+      {
+        source: "/it/revisione-fattore-k-sabesp",
+        destination: "/it/fator-k",
+      },
+      {
+        source: "/en/email-confirmed",
+        destination: "/en/email-confirmado",
+      },
+      {
+        source: "/es/correo-confirmado",
+        destination: "/es/email-confirmado",
+      },
+      {
+        source: "/it/email-confermata",
+        destination: "/it/email-confirmado",
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

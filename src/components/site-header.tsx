@@ -67,15 +67,26 @@ export function SiteHeader({
         </Link>
 
         <nav className="hidden items-center gap-8 text-xs font-medium uppercase tracking-wider text-black/70 xl:flex">
-          {activeNavItems.map(item => (
-            <Link
-              key={`${item.pathname}#${item.hash}`}
-              href={{ pathname: item.pathname, hash: item.hash }}
-              className="transition-colors hover:text-black"
-            >
-              {t(`nav.${item.labelKey}`)}
-            </Link>
-          ))}
+          {activeNavItems.map(item => {
+            const isSamePage = item.pathname === pathname;
+            return isSamePage ? (
+              <a
+                key={`${item.pathname}#${item.hash}`}
+                href={`#${item.hash}`}
+                className="transition-colors hover:text-black"
+              >
+                {t(`nav.${item.labelKey}`)}
+              </a>
+            ) : (
+              <Link
+                key={`${item.pathname}#${item.hash}`}
+                href={{ pathname: item.pathname, hash: item.hash }}
+                className="transition-colors hover:text-black"
+              >
+                {t(`nav.${item.labelKey}`)}
+              </Link>
+            );
+          })}
 
           <NavigationMenu viewport={false}>
             <NavigationMenuList>
@@ -155,16 +166,28 @@ export function SiteHeader({
               <LanguageToggle />
             </div>
 
-            {activeNavItems.map(item => (
-              <Link
-                key={`${item.pathname}#${item.hash}`}
-                href={{ pathname: item.pathname, hash: item.hash }}
-                className="border-b border-black/15 px-4 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-50"
-                onClick={closeMobileMenu}
-              >
-                {t(`nav.${item.labelKey}`)}
-              </Link>
-            ))}
+            {activeNavItems.map(item => {
+              const isSamePage = item.pathname === pathname;
+              return isSamePage ? (
+                <a
+                  key={`${item.pathname}#${item.hash}`}
+                  href={`#${item.hash}`}
+                  className="border-b border-black/15 px-4 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-50"
+                  onClick={closeMobileMenu}
+                >
+                  {t(`nav.${item.labelKey}`)}
+                </a>
+              ) : (
+                <Link
+                  key={`${item.pathname}#${item.hash}`}
+                  href={{ pathname: item.pathname, hash: item.hash }}
+                  className="border-b border-black/15 px-4 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-50"
+                  onClick={closeMobileMenu}
+                >
+                  {t(`nav.${item.labelKey}`)}
+                </Link>
+              );
+            })}
 
             <button
               type="button"

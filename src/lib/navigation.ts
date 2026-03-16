@@ -15,7 +15,7 @@ export type ProductNavItem = {
 export const HOME_NAV_ITEMS: HomeNavItem[] = [
   { pathname: "/", hash: "services", labelKey: "home.services" },
   { pathname: "/", hash: "process", labelKey: "home.process" },
-  { pathname: "/", hash: "studio", labelKey: "home.studio" },
+  { pathname: "/", hash: "firm", labelKey: "home.studio" },
   { pathname: "/", hash: "sectors", labelKey: "home.sectors" },
   { pathname: "/", hash: "faq", labelKey: "home.faq" },
 ];
