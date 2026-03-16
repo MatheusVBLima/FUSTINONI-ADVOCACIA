@@ -39,12 +39,13 @@ export function SiteHeader({
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
+  const safeProductNavItems = productNavItems ?? [];
   const activeNavItems =
     pathname === "/analise-credito"
       ? ANALISE_CREDITO_NAV_ITEMS
       : pathname === "/fator-k"
         ? FATOR_K_NAV_ITEMS
-        : homeNavItems;
+        : homeNavItems ?? [];
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
@@ -84,7 +85,7 @@ export function SiteHeader({
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="w-max min-w-56 rounded-none border border-black/15 bg-white p-2 shadow-xl">
                   <ul className="w-full">
-                    {productNavItems.map(product =>
+                    {safeProductNavItems.map(product =>
                       product.status === "active" ? (
                         <li key={product.href}>
                           <Link
@@ -180,7 +181,7 @@ export function SiteHeader({
             </button>
             <div id={mobileProductsId} className="flex flex-col">
               {isMobileProductsOpen &&
-                productNavItems.map(product =>
+                safeProductNavItems.map(product =>
                   product.status === "active" ? (
                     <Link
                       key={product.href}

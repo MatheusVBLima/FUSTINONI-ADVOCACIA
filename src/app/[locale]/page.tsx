@@ -1005,24 +1005,24 @@ const SCHEMA_LANGUAGE_LABEL_BY_LOCALE: Record<AppLocale, string> = {
 
 export default async function Home({ params }: HomePageProps) {
   const { locale } = await params;
-  const msgConsulta = MSG_CONSULTA_BY_LOCALE[locale];
-  const msgConsultoria = MSG_CONSULTORIA_BY_LOCALE[locale];
-  const msgSaude = MSG_SAUDE_BY_LOCALE[locale];
-  const text = HOME_TEXT_BY_LOCALE[locale];
+  const msgConsulta = MSG_CONSULTA_BY_LOCALE[locale] ?? MSG_CONSULTA_BY_LOCALE.pt;
+  const msgConsultoria = MSG_CONSULTORIA_BY_LOCALE[locale] ?? MSG_CONSULTORIA_BY_LOCALE.pt;
+  const msgSaude = MSG_SAUDE_BY_LOCALE[locale] ?? MSG_SAUDE_BY_LOCALE.pt;
+  const text = HOME_TEXT_BY_LOCALE[locale] ?? HOME_TEXT_BY_LOCALE.pt;
   const localizedPracticeAreas =
-    locale === "pt" ? practiceAreas : PRACTICE_AREAS_BY_LOCALE[locale];
+    locale === "pt" ? practiceAreas : PRACTICE_AREAS_BY_LOCALE[locale] ?? practiceAreas;
   const localizedServiceHighlights =
     locale === "pt"
       ? serviceHighlights
-      : SERVICE_HIGHLIGHTS_BY_LOCALE[locale];
+      : SERVICE_HIGHLIGHTS_BY_LOCALE[locale] ?? serviceHighlights;
   const localizedProcessRows =
-    locale === "pt" ? processRows : PROCESS_ROWS_BY_LOCALE[locale];
-  const localizedFaqs = locale === "pt" ? faqs : FAQS_BY_LOCALE[locale];
+    locale === "pt" ? processRows : PROCESS_ROWS_BY_LOCALE[locale] ?? processRows;
+  const localizedFaqs = locale === "pt" ? faqs : FAQS_BY_LOCALE[locale] ?? faqs;
   const localizedLegalAreas =
-    locale === "pt" ? legalAreasSchema : LEGAL_AREAS_SCHEMA_BY_LOCALE[locale];
+    locale === "pt" ? legalAreasSchema : LEGAL_AREAS_SCHEMA_BY_LOCALE[locale] ?? legalAreasSchema;
   const localizedSpecificServices =
-    locale === "pt" ? specificServices : SPECIFIC_SERVICES_BY_LOCALE[locale];
-  const pageDescription = HOME_DESCRIPTION_BY_LOCALE[locale];
+    locale === "pt" ? specificServices : SPECIFIC_SERVICES_BY_LOCALE[locale] ?? specificServices;
+  const pageDescription = HOME_DESCRIPTION_BY_LOCALE[locale] ?? HOME_DESCRIPTION_BY_LOCALE.pt;
   const siteUrl = getSiteUrl();
   const legalServiceSchema = {
     "@context": "https://schema.org",

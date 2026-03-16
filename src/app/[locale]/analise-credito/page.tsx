@@ -431,10 +431,10 @@ type PageProps = {
 
 export default async function AnaliseCreditoPage({ params }: PageProps) {
   const { locale } = await params;
-  const msgHero = MSG_HERO_BY_LOCALE[locale];
-  const msgCta = MSG_CTA_BY_LOCALE[locale];
-  const localizedFaqs =
-    locale === "pt" ? productFaqs : ANALISE_COPY_BY_LOCALE[locale].faqs;
+  const msgHero = MSG_HERO_BY_LOCALE[locale] ?? MSG_HERO_BY_LOCALE.pt;
+  const msgCta = MSG_CTA_BY_LOCALE[locale] ?? MSG_CTA_BY_LOCALE.pt;
+  const copy = locale === "pt" ? null : ANALISE_COPY_BY_LOCALE[locale] ?? null;
+  const localizedFaqs = copy?.faqs ?? productFaqs;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -447,8 +447,6 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
       },
     })),
   };
-
-  const copy = locale === "pt" ? null : ANALISE_COPY_BY_LOCALE[locale];
 
   const heroEyebrow = copy?.eyebrow ?? "Análise jurídica de histórico bancário e acesso ao crédito";
   const heroTitle = copy?.heroTitle ?? "Crédito negado, mesmo sem negativação aparente?";

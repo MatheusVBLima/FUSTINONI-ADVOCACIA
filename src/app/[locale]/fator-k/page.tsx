@@ -429,10 +429,10 @@ type PageProps = {
 
 export default async function FatorKPage({ params }: PageProps) {
   const { locale } = await params;
-  const msgHero = MSG_HERO_BY_LOCALE[locale];
-  const msgCta = MSG_CTA_BY_LOCALE[locale];
-  const localizedFaqs =
-    locale === "pt" ? productFaqs : FATOR_K_COPY_BY_LOCALE[locale].faqs;
+  const msgHero = MSG_HERO_BY_LOCALE[locale] ?? MSG_HERO_BY_LOCALE.pt;
+  const msgCta = MSG_CTA_BY_LOCALE[locale] ?? MSG_CTA_BY_LOCALE.pt;
+  const copy = locale === "pt" ? null : FATOR_K_COPY_BY_LOCALE[locale] ?? null;
+  const localizedFaqs = copy?.faqs ?? productFaqs;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -445,8 +445,6 @@ export default async function FatorKPage({ params }: PageProps) {
       },
     })),
   };
-
-  const copy = locale === "pt" ? null : FATOR_K_COPY_BY_LOCALE[locale];
 
   const heroEyebrow = copy?.eyebrow ?? "Revisão jurídica de cobrança de Fator K — SABESP";
   const heroTitle = copy?.heroTitle ?? "Sua empresa está pagando Fator K à SABESP?";
