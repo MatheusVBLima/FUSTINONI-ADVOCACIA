@@ -8,6 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
 import { OG_LOCALE_BY_APP_LOCALE } from "@/lib/i18n";
+import { getLocalizedHash } from "@/lib/navigation";
 import { getAlternatesLanguages, getLocalizedUrl } from "@/lib/seo";
 import { SITE_OG_IMAGE, SITE_NAME, getSiteUrl } from "@/lib/site";
 
@@ -1022,6 +1023,13 @@ export default async function Home({ params }: HomePageProps) {
     locale === "pt" ? legalAreasSchema : LEGAL_AREAS_SCHEMA_BY_LOCALE[locale] ?? legalAreasSchema;
   const localizedSpecificServices =
     locale === "pt" ? specificServices : SPECIFIC_SERVICES_BY_LOCALE[locale] ?? specificServices;
+  const homeSectionHashes = {
+    services: getLocalizedHash("/", "services", locale),
+    process: getLocalizedHash("/", "process", locale),
+    firm: getLocalizedHash("/", "firm", locale),
+    sectors: getLocalizedHash("/", "sectors", locale),
+    faq: getLocalizedHash("/", "faq", locale),
+  };
   const pageDescription = HOME_DESCRIPTION_BY_LOCALE[locale] ?? HOME_DESCRIPTION_BY_LOCALE.pt;
   const siteUrl = getSiteUrl();
   const legalServiceSchema = {
@@ -1145,7 +1153,7 @@ export default async function Home({ params }: HomePageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="services" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
+      <section id={homeSectionHashes.services} className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 md:px-20 md:py-24">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">
             {text.teamLabel}
@@ -1178,7 +1186,7 @@ export default async function Home({ params }: HomePageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="firm" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
+      <section id={homeSectionHashes.firm} className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="px-4 py-16 text-center sm:px-6 sm:py-20">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             {text.studioLabel}
@@ -1212,7 +1220,7 @@ export default async function Home({ params }: HomePageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="process" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
+      <section id={homeSectionHashes.process} className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             {text.processLabel}
@@ -1281,7 +1289,7 @@ export default async function Home({ params }: HomePageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="sectors" className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
+      <section id={homeSectionHashes.sectors} className="scroll-mt-24 border-b border-black/15 sm:scroll-mt-28">
         <div className="border-b border-black/15 px-4 py-16 text-center sm:px-6 sm:py-20">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             {text.sectorsLabel}
@@ -1429,7 +1437,7 @@ export default async function Home({ params }: HomePageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="faq" className="scroll-mt-24 grid grid-cols-1 border-b border-black/15 sm:scroll-mt-28 lg:grid-cols-2">
+      <section id={homeSectionHashes.faq} className="scroll-mt-24 grid grid-cols-1 border-b border-black/15 sm:scroll-mt-28 lg:grid-cols-2">
         <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
           <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
           <h2 className="max-w-sm font-serif text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">

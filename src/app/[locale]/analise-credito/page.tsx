@@ -20,6 +20,7 @@ import { Marquee } from "@/components/ui/marquee";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
 import { OG_LOCALE_BY_APP_LOCALE } from "@/lib/i18n";
+import { getLocalizedHash } from "@/lib/navigation";
 import { getAlternatesLanguages, getLocalizedUrl } from "@/lib/seo";
 import { SITE_NAME, SITE_OG_IMAGE } from "@/lib/site";
 
@@ -431,6 +432,14 @@ type PageProps = {
 
 export default async function AnaliseCreditoPage({ params }: PageProps) {
   const { locale } = await params;
+  const sectionHashes = {
+    problema: getLocalizedHash(pagePath, "problema", locale),
+    comoAtuamos: getLocalizedHash(pagePath, "como-atuamos", locale),
+    irregularidade: getLocalizedHash(pagePath, "irregularidade", locale),
+    publico: getLocalizedHash(pagePath, "publico", locale),
+    diferenciais: getLocalizedHash(pagePath, "diferenciais", locale),
+    faq: getLocalizedHash(pagePath, "faq", locale),
+  };
   const msgHero = MSG_HERO_BY_LOCALE[locale] ?? MSG_HERO_BY_LOCALE.pt;
   const msgCta = MSG_CTA_BY_LOCALE[locale] ?? MSG_CTA_BY_LOCALE.pt;
   const copy = locale === "pt" ? null : ANALISE_COPY_BY_LOCALE[locale] ?? null;
@@ -680,7 +689,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
                 className="h-[42px] rounded-none border-black/30 px-6 text-xs uppercase tracking-wider"
               >
                 <Link
-                  href={{ pathname: "/analise-credito", hash: "como-atuamos" }}
+                  href={{ pathname: "/analise-credito", hash: sectionHashes.comoAtuamos }}
                 >
                   {heroSecondaryCta}
                 </Link>
@@ -747,7 +756,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="problema" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
+      <section id={sectionHashes.problema} className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-end">
           <div>
             <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
@@ -784,7 +793,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
       <section
-        id="como-atuamos"
+        id={sectionHashes.comoAtuamos}
         className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10"
       >
         <div className="grid gap-10 md:grid-cols-2 md:items-start">
@@ -860,7 +869,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
       <section
-        id="irregularidade"
+        id={sectionHashes.irregularidade}
         className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10"
       >
         <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-start">
@@ -926,7 +935,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="publico" className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
+      <section id={sectionHashes.publico} className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10">
         <div className="max-w-4xl">
           <div className="mb-4 text-xs font-bold uppercase tracking-widest text-black/70">
             {sectionAudienceEyebrow}
@@ -977,7 +986,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
       <section
-        id="diferenciais"
+        id={sectionHashes.diferenciais}
         className="border-b border-black/15 px-4 py-16 sm:px-6 sm:py-20 md:px-10"
       >
         <div className="mb-12 grid gap-8 md:grid-cols-2 md:items-start">
@@ -1065,7 +1074,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
-      <section id="faq" className="border-b border-black/15">
+      <section id={sectionHashes.faq} className="border-b border-black/15">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="flex flex-col justify-center border-b border-black/15 p-8 sm:p-12 lg:border-r lg:border-b-0 lg:p-20">
             <div className="mb-6 text-xs font-bold uppercase tracking-widest text-black/70">FAQ</div>
@@ -1128,4 +1137,3 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
     </>
   );
 }
-

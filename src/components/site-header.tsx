@@ -1,16 +1,18 @@
 "use client";
 
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { type MouseEvent, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { LanguageToggle } from "@/components/language-toggle";
 import { LeadCaptureDialog } from "@/components/lead-capture-dialog";
 import { Link, usePathname } from "@/i18n/navigation";
+import { type AppLocale } from "@/i18n/routing";
 import {
   ANALISE_CREDITO_NAV_ITEMS,
   FATOR_K_NAV_ITEMS,
+  getLocalizedHash,
   type HomeNavItem,
   type ProductNavItem,
 } from "@/lib/navigation";
@@ -34,6 +36,7 @@ export function SiteHeader({
   whatsappPhone,
 }: SiteHeaderProps) {
   const t = useTranslations("siteHeader");
+  const locale = useLocale() as AppLocale;
   const mobileMenuId = "mobile-main-navigation";
   const mobileProductsId = "mobile-products-navigation";
   const pathname = usePathname();
@@ -52,6 +55,22 @@ export function SiteHeader({
     setIsMobileProductsOpen(false);
   };
 
+  const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    closeMobileMenu();
+
+    if (pathname !== "/") {
+      return;
+    }
+
+    event.preventDefault();
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}${window.location.search}`,
+    );
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const ctaLabel = t("scheduleConsultation");
 
   return (
@@ -60,7 +79,7 @@ export function SiteHeader({
         <Link
           href="/"
           className="font-serif text-base leading-[1.05] font-semibold tracking-[0.22em] uppercase sm:text-lg"
-          onClick={closeMobileMenu}
+          onClick={handleLogoClick}
         >
           <span className="block">FUSTINONI</span>
           <span className="block">ADVOCACIA</span>
@@ -69,10 +88,15 @@ export function SiteHeader({
         <nav className="hidden items-center gap-8 text-xs font-medium uppercase tracking-wider text-black/70 xl:flex">
           {activeNavItems.map(item => {
             const isSamePage = item.pathname === pathname;
+            const localizedHash = getLocalizedHash(
+              item.pathname,
+              item.hash,
+              locale,
+            );
             return isSamePage ? (
               <a
                 key={`${item.pathname}#${item.hash}`}
-                href={`#${item.hash}`}
+                href={`#${localizedHash}`}
                 className="transition-colors hover:text-black"
               >
                 {t(`nav.${item.labelKey}`)}
@@ -80,7 +104,7 @@ export function SiteHeader({
             ) : (
               <Link
                 key={`${item.pathname}#${item.hash}`}
-                href={{ pathname: item.pathname, hash: item.hash }}
+                href={{ pathname: item.pathname, hash: localizedHash }}
                 className="transition-colors hover:text-black"
               >
                 {t(`nav.${item.labelKey}`)}
@@ -168,10 +192,15 @@ export function SiteHeader({
 
             {activeNavItems.map(item => {
               const isSamePage = item.pathname === pathname;
+              const localizedHash = getLocalizedHash(
+                item.pathname,
+                item.hash,
+                locale,
+              );
               return isSamePage ? (
                 <a
                   key={`${item.pathname}#${item.hash}`}
-                  href={`#${item.hash}`}
+                  href={`#${localizedHash}`}
                   className="border-b border-black/15 px-4 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-50"
                   onClick={closeMobileMenu}
                 >
@@ -180,7 +209,7 @@ export function SiteHeader({
               ) : (
                 <Link
                   key={`${item.pathname}#${item.hash}`}
-                  href={{ pathname: item.pathname, hash: item.hash }}
+                  href={{ pathname: item.pathname, hash: localizedHash }}
                   className="border-b border-black/15 px-4 py-3 text-xs font-medium tracking-wider uppercase transition-colors hover:bg-neutral-50"
                   onClick={closeMobileMenu}
                 >

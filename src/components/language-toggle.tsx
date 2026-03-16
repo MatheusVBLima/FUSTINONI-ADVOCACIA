@@ -3,10 +3,11 @@
 import { Check, Globe } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { routing, type AppLocale } from "@/i18n/routing";
 import { getPathname, usePathname } from "@/i18n/navigation";
+import { getInternalHash, getLocalizedHash } from "@/lib/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,17 +27,60 @@ export function LanguageToggle() {
   const t = useTranslations("language");
   const locale = useLocale() as AppLocale;
   const pathname = usePathname();
+  const [currentHash, setCurrentHash] = useState("");
+
+  useEffect(() => {
+    const syncHash = () => {
+      const rawHash = window.location.hash.replace(/^#/, "");
+      const internalHash = rawHash
+        ? getInternalHash(pathname, rawHash, locale)
+        : "";
+      const localizedHash = internalHash
+        ? getLocalizedHash(pathname, internalHash, locale)
+        : "";
+
+      if (localizedHash && localizedHash !== rawHash) {
+        const nextUrl = `${window.location.pathname}${window.location.search}#${localizedHash}`;
+        window.history.replaceState(null, "", nextUrl);
+        document.getElementById(localizedHash)?.scrollIntoView();
+        setCurrentHash(localizedHash);
+        return;
+      }
+
+      setCurrentHash(rawHash);
+    };
+
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+
+    return () => {
+      window.removeEventListener("hashchange", syncHash);
+    };
+  }, [locale, pathname]);
+
   const hrefByLocale = useMemo(() => {
     return Object.fromEntries(
-      routing.locales.map(option => [
-        option,
-        getPathname({
+      routing.locales.map(option => {
+        const localizedPathname = getPathname({
           href: pathname,
           locale: option,
-        }),
-      ]),
+        });
+        const internalHash = currentHash
+          ? getInternalHash(pathname, currentHash, locale)
+          : "";
+        const localizedHash = internalHash
+          ? getLocalizedHash(pathname, internalHash, option)
+          : "";
+
+        return [
+          option,
+          localizedHash
+            ? `${localizedPathname}#${localizedHash}`
+            : localizedPathname,
+        ];
+      }),
     ) as Record<AppLocale, string>;
-  }, [pathname]);
+  }, [currentHash, locale, pathname]);
 
   return (
     <DropdownMenu>
