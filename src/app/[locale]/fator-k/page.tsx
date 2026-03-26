@@ -18,6 +18,7 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
+import { FatorKExtratoCta } from "@/components/fator-k/fator-k-extrato-cta";
 import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
 import { OG_LOCALE_BY_APP_LOCALE } from "@/lib/i18n";
 import { getLocalizedHash } from "@/lib/navigation";
@@ -650,7 +651,7 @@ export default async function FatorKPage({ params }: PageProps) {
             <p className="mb-8 max-w-3xl text-sm leading-7 text-black/70 sm:text-base">{heroDescription2}</p>
 
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-              <WhatsAppCTAButton
+              <WhatsAppCTAButton origem="fator_k"
                 whatsappPhone={whatsappPhone}
                 whatsappBaseMessage={msgHero}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
@@ -725,6 +726,8 @@ export default async function FatorKPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      <FatorKExtratoCta whatsappPhone={whatsappPhone} />
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 
@@ -1102,7 +1105,7 @@ export default async function FatorKPage({ params }: PageProps) {
             {ctaDescription}
           </p>
           <div className="mt-8 flex justify-center">
-            <WhatsAppCTAButton
+            <WhatsAppCTAButton origem="fator_k"
               whatsappPhone={whatsappPhone}
               whatsappBaseMessage={msgCta}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"

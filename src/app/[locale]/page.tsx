@@ -1117,7 +1117,7 @@ export default async function Home({ params }: HomePageProps) {
           {text.heroDescription}
         </p>
 
-        <WhatsAppCTAButton
+        <WhatsAppCTAButton origem="pagina_principal"
           whatsappPhone={whatsappPhone}
           whatsappBaseMessage={msgConsulta}
           className="z-10 mb-12 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:mb-16 sm:w-auto sm:py-6"
@@ -1237,7 +1237,7 @@ export default async function Home({ params }: HomePageProps) {
               <p className="mb-8 leading-relaxed text-black/70">
                 {text.consultingDescription}
               </p>
-              <WhatsAppCTAButton
+              <WhatsAppCTAButton origem="pagina_principal"
                 whatsappPhone={whatsappPhone}
                 whatsappBaseMessage={msgConsultoria}
                 className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80"
@@ -1264,7 +1264,7 @@ export default async function Home({ params }: HomePageProps) {
               <p className="mb-8 leading-relaxed text-black/70">
                 {text.fullActingDescription}
               </p>
-              <WhatsAppCTAButton
+              <WhatsAppCTAButton origem="pagina_principal"
                 whatsappPhone={whatsappPhone}
                 whatsappBaseMessage={msgConsulta}
                 className="w-full rounded-none bg-black py-6 text-xs uppercase tracking-wider text-white hover:bg-black/80"
@@ -1420,7 +1420,7 @@ export default async function Home({ params }: HomePageProps) {
                           ))}
                         </ul>
                       </div>
-                      <WhatsAppCTAButton
+                      <WhatsAppCTAButton origem="pagina_principal"
                         whatsappPhone={whatsappPhone}
                         whatsappBaseMessage={msgSaude}
                         className="w-full rounded-none bg-black py-5 text-xs uppercase tracking-wider text-white hover:bg-black/80"
@@ -1476,7 +1476,7 @@ export default async function Home({ params }: HomePageProps) {
           {text.finalDescription}
         </p>
 
-        <WhatsAppCTAButton
+        <WhatsAppCTAButton origem="pagina_principal"
           whatsappPhone={whatsappPhone}
           whatsappBaseMessage={msgConsulta}
           className="z-10 mb-10 w-full max-w-xs rounded-none bg-black px-8 py-5 text-sm uppercase tracking-wider text-white hover:bg-black/80 sm:w-auto sm:py-6"

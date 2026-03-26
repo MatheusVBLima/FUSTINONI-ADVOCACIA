@@ -43,3 +43,5 @@ next-env.d.ts
 /dogfood-output
 
 .vercel
+
+/reports

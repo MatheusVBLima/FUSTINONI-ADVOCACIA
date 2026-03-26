@@ -171,7 +171,7 @@ export function SiteHeader({
             )}
           </Button>
 
-          <LeadCaptureDialog whatsappPhone={whatsappPhone}>
+          <LeadCaptureDialog whatsappPhone={whatsappPhone} origem="cabecalho">
             <Button className="hidden h-10 shrink-0 rounded-none bg-black px-3 text-[10px] uppercase tracking-wide text-white hover:bg-black/80 sm:px-4 sm:text-[11px] xl:inline-flex">
               {ctaLabel}
             </Button>
@@ -255,7 +255,7 @@ export function SiteHeader({
             </div>
 
             <div className="p-4">
-              <LeadCaptureDialog whatsappPhone={whatsappPhone}>
+              <LeadCaptureDialog whatsappPhone={whatsappPhone} origem="cabecalho">
                 <Button
                   className="w-full rounded-none bg-black text-xs tracking-wider uppercase text-white"
                   onClick={closeMobileMenu}

@@ -123,6 +123,61 @@
       "unknown": "Could not resend now. Please try again."
     }
   },
+  "fatorK": {
+    "extratoCta": {
+      "sectionEyebrow": "Bill check",
+      "sectionTitle": "Upload your PDF bill and see if it mentions Factor K",
+      "compareDisclaimer": "Illustrative comparison with fictional amounts for visualization only.",
+      "step1Title": "Contact details and file",
+      "step1Detail": "Provide your name, phone, and email, then upload a PDF of your SABESP bill or statement.",
+      "step2Title": "Automatic scan",
+      "step2Detail": "We extract text from the PDF and search for Factor K wording. This is not legal advice.",
+      "step3Title": "Follow-up",
+      "step3Detail": "If the text suggests Factor K, our team may contact you using the details you provided.",
+      "compareWith": "With Factor K",
+      "compareWithout": "Without Factor K",
+      "idleTitle": "Check your bill now?",
+      "idleDescription": "First enter your contact details. Then you can upload a PDF for an automatic keyword scan.",
+      "idleButton": "Get started",
+      "leadTitle": "Contact details",
+      "leadDescription": "We need this information to follow up if the scan finds Factor K mentions and to send your email confirmation.",
+      "leadSubmit": "Continue to PDF upload",
+      "leadResumo": "Lead — Factor K tool: bill/statement upload (pre-check on website).",
+      "fields": {
+        "nameLabel": "Name",
+        "namePlaceholder": "Your full name",
+        "phoneLabel": "Phone",
+        "phonePlaceholder": "+1 (555) 123-4567",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@email.com",
+        "emailHelp": "You will receive a confirmation email; we may also use it to contact you."
+      },
+      "validation": {
+        "name": "Please enter your name",
+        "phone": "Please enter a valid phone number",
+        "email": "Please enter a valid email"
+      },
+      "uploadTitle": "Upload bill (PDF)",
+      "uploadSubtitle": "Drag and drop or click to select. Automatic reading works with PDF files; images are not analyzed in this step.",
+      "dropHint": "Drop PDF here",
+      "modifiedPrefix": "Modified on",
+      "analyzing": "Analyzing the document…",
+      "progressUploading": "Uploading document…",
+      "progressExtracting": "Extracting text from PDF…",
+      "progressSearching": "Searching for Factor K…",
+      "resultFoundTitle": "We found a Factor K mention in the text",
+      "resultFoundBody": "The preliminary reading of the submitted file indicates the need for a more in-depth analysis of the bill in order to accurately verify the composition of the charge and any tariff criteria that require individualized technical and legal review.\n\nFor a reliable conclusion, we recommend scheduling an analysis with the firm's team, when a detailed review of the documentation and guidance on appropriate measures will be possible.\n\nThis initial review by the team will be free of charge, aimed at a more accurate verification of the case and identifying the possible viability of further proceedings.",
+      "resultFoundCta": "Schedule analysis with the firm",
+      "resultFoundWhatsAppMessage": "Hello, I would like to schedule an analysis of my bill after the preliminary check on the website (Factor K).",
+      "resultNotFoundTitle": "No consistent Factor K indicators identified in this file",
+      "resultNotFoundBody": "After a preliminary analysis of the submitted file, no sufficient elements were identified at this time that would allow consistent indications of a charge related to Factor K on the bill presented.\n\nImportant: this check was performed automatically and may therefore contain errors, inaccuracies, or omissions.\n\nIf you wish to have an individualized technical and legal analysis with a more in-depth review of the documentation, our team remains at your disposal.",
+      "tryAgain": "Upload another file",
+      "errorGeneric": "We could not save your details. Please try again.",
+      "errorAnalyze": "We could not read the bill you uploaded properly.\n\nThis may happen, for example, due to low resolution, a cropped image, shadow, missing pages, or a file format that hinders automated reading.\n\nWe recommend resending the bill as a readable PDF or as a sharp, complete, uncropped image so a new check can be performed.",
+      "errorStorage": "We could not save the file on the server. Try again shortly or contact the firm.",
+      "needsPdf": "For automatic analysis, please upload a PDF file (not an image)."
+    }
+  },
   "emailConfirmed": {
     "backToSite": "Back to website",
     "talkWhatsApp": "Talk on WhatsApp",
