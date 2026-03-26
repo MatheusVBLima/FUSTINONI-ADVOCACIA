@@ -81,8 +81,8 @@ export function FatorKLeadGateDialog({
         return;
       }
       form.reset();
-      onOpenChange(false);
       onSuccess(body.leadId);
+      onOpenChange(false);
     } catch {
       setSubmitError(t("errorGeneric"));
     } finally {

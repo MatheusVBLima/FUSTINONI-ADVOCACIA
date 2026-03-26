@@ -10,13 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Compare } from "@/components/ui/compare";
 import { FileUpload } from "@/components/ui/file-upload";
 
-import { WhatsAppCTAButton } from "@/components/whatsapp-cta-button";
-
 import { FatorKLeadGateDialog } from "./fator-k-lead-gate-dialog";
-
-type FatorKExtratoCtaProps = {
-  whatsappPhone: string;
-};
 
 type AnalysisPhase = "ready" | "running" | "complete";
 
@@ -63,27 +57,44 @@ function readFatorKDevLeadId(): string | null {
 
 const FATOR_K_DEV_LEAD_BOOTSTRAP = readFatorKDevLeadId();
 
-export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
+type RunAnalyzeOptions = {
+  keepResultVisible?: boolean;
+};
+
+export function FatorKExtratoCta() {
   const t = useTranslations("fatorK.extratoCta");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [analysisRunning, setAnalysisRunning] = useState(false);
   const progress = useProgressSteps(analysisRunning);
   const [leadId, setLeadId] = useState<string | null>(FATOR_K_DEV_LEAD_BOOTSTRAP);
-  const [gateDone, setGateDone] = useState(FATOR_K_DEV_LEAD_BOOTSTRAP !== null);
   const [analysisPhase, setAnalysisPhase] = useState<AnalysisPhase>("ready");
   const [uploadKey, setUploadKey] = useState(0);
   const [found, setFound] = useState<boolean | null>(null);
   const [analyzeError, setAnalyzeError] = useState<string | null>(null);
+  const [pendingLeadFile, setPendingLeadFile] = useState<File | null>(null);
+  const [analysisToken, setAnalysisToken] = useState<string | null>(null);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
-  const handleFiles = useCallback(
-    async (files: File[]) => {
-      const file = files[0];
-      if (!file || !gateDone || !leadId) return;
-      setAnalyzeError(null);
-      setAnalysisPhase("running");
-      setAnalysisRunning(true);
+  const runAnalyze = useCallback(
+    async (
+      file: File,
+      leadIdOverride?: string | null,
+      options?: RunAnalyzeOptions,
+    ) => {
+      const activeLeadId = leadIdOverride ?? leadId;
+      const keepResultVisible = options?.keepResultVisible ?? false;
+      if (!keepResultVisible) {
+        setAnalyzeError(null);
+        setAnalysisPhase("running");
+        setAnalysisRunning(true);
+      }
       const fd = new FormData();
-      fd.append("leadId", leadId);
+      if (activeLeadId) {
+        fd.append("leadId", activeLeadId);
+      }
+      if (analysisToken) {
+        fd.append("analysisToken", analysisToken);
+      }
       fd.append("file", file);
       try {
         const res = await fetch("/api/fator-k/analyze-extract", {
@@ -91,49 +102,95 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
           body: fd,
         });
         if (res.status === 415) {
-          setAnalyzeError(t("needsPdf"));
-          setAnalysisPhase("ready");
-          setAnalysisRunning(false);
-          setUploadKey(k => k + 1);
+          if (!keepResultVisible) {
+            setAnalyzeError(t("needsPdf"));
+            setAnalysisPhase("ready");
+            setAnalysisRunning(false);
+            setUploadKey(k => k + 1);
+          }
           return;
         }
-        const payload = (await res.json()) as { code?: string; found?: boolean };
+        const payload = (await res.json()) as {
+          code?: string;
+          found?: boolean;
+          analysisToken?: string;
+        };
         if (!res.ok) {
-          if (payload.code === "STORAGE_UPLOAD_FAILED") {
-            setAnalyzeError(t("errorStorage"));
+          if (!keepResultVisible) {
+            if (payload.code === "STORAGE_UPLOAD_FAILED") {
+              setAnalyzeError(t("errorStorage"));
+            } else {
+              setAnalyzeError(t("errorAnalyze"));
+            }
+            setAnalysisPhase("ready");
+            setAnalysisRunning(false);
+            setUploadKey(k => k + 1);
           } else {
-            setAnalyzeError(t("errorAnalyze"));
+            console.error("Background Fator K upload link failed:", payload.code);
           }
-          setAnalysisPhase("ready");
-          setAnalysisRunning(false);
-          setUploadKey(k => k + 1);
           return;
         }
         const data = payload;
         setFound(Boolean(data.found));
-        setAnalysisRunning(false);
-        setAnalysisPhase("complete");
+        if (data.analysisToken) {
+          setAnalysisToken(data.analysisToken);
+        }
+        if (!keepResultVisible) {
+          setAnalysisRunning(false);
+          setAnalysisPhase("complete");
+        }
+        if (activeLeadId) {
+          setPendingLeadFile(null);
+          setAnalysisToken(null);
+        }
       } catch {
-        setAnalyzeError(t("errorAnalyze"));
-        setAnalysisPhase("ready");
-        setAnalysisRunning(false);
-        setUploadKey(k => k + 1);
+        if (!keepResultVisible) {
+          setAnalyzeError(t("errorAnalyze"));
+          setAnalysisPhase("ready");
+          setAnalysisRunning(false);
+          setUploadKey(k => k + 1);
+        } else {
+          console.error("Background Fator K upload link failed.");
+        }
+      } finally {
+        if (!keepResultVisible) {
+          setAnalysisRunning(false);
+        }
       }
     },
-    [gateDone, leadId, t],
+    [t, leadId, analysisToken],
+  );
+
+  const handleFiles = useCallback(
+    async (files: File[]) => {
+      const file = files[0];
+      if (!file) return;
+      setPendingLeadFile(file);
+      await runAnalyze(file);
+    },
+    [runAnalyze],
   );
 
   function handleTryAgain() {
     setAnalysisPhase("ready");
     setFound(null);
     setAnalyzeError(null);
+    setPendingLeadFile(null);
+    setAnalysisToken(null);
+    setContactSubmitted(false);
     setUploadKey(k => k + 1);
   }
 
-  function handleLeadSuccess(id: string) {
+  async function handleLeadSuccess(id: string) {
     setLeadId(id);
-    setGateDone(true);
-    setAnalysisPhase("ready");
+    setContactSubmitted(true);
+    if (pendingLeadFile) {
+      await runAnalyze(pendingLeadFile, id, { keepResultVisible: true });
+    }
+  }
+
+  function handleLeadDialogOpenChange(open: boolean) {
+    setDialogOpen(open);
   }
 
   return (
@@ -188,23 +245,7 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
               <code className="rounded bg-black/30 px-1">.env.local</code> when finished testing.
             </p>
           ) : null}
-          {!gateDone && (
-            <div className="text-center">
-              <h3 className="font-serif text-xl sm:text-2xl">{t("idleTitle")}</h3>
-              <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/75">
-                {t("idleDescription")}
-              </p>
-              <Button
-                type="button"
-                className="mt-8 h-[42px] rounded-none bg-white px-8 text-xs font-medium uppercase tracking-wider text-black hover:bg-white/90"
-                onClick={() => setDialogOpen(true)}
-              >
-                {t("idleButton")}
-              </Button>
-            </div>
-          )}
-
-          {gateDone && analysisPhase === "running" && (
+          {analysisPhase === "running" && (
             <div className="flex flex-col items-center justify-center gap-4 py-16">
               <Loader2 className="size-6 animate-spin text-white/70" aria-hidden />
               <span className="text-sm text-white/90">{t(progress.label)}</span>
@@ -217,7 +258,7 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
             </div>
           )}
 
-          {gateDone && analysisPhase === "ready" && (
+          {analysisPhase === "ready" && (
             <div>
               <FileUpload
                 key={uploadKey}
@@ -237,26 +278,32 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
             </div>
           )}
 
-          {gateDone && analysisPhase === "complete" && found !== null && (
+          {analysisPhase === "complete" && found !== null && (
             <div className="text-center">
               <h3 className="font-serif text-xl sm:text-2xl">
-                {found ? t("resultFoundTitle") : t("resultNotFoundTitle")}
+                {contactSubmitted && found
+                  ? t("resultContactConfirmedTitle")
+                  : found
+                    ? t("resultFoundTitle")
+                    : t("resultNotFoundTitle")}
               </h3>
               <p className="mx-auto mt-4 max-w-2xl whitespace-pre-line text-sm leading-relaxed text-white/78">
-                {found ? t("resultFoundBody") : t("resultNotFoundBody")}
+                {contactSubmitted && found
+                  ? t("resultContactConfirmedBody")
+                  : found
+                    ? t("resultFoundBody")
+                    : t("resultNotFoundBody")}
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-                {found && whatsappPhone ? (
-                  <WhatsAppCTAButton
-                    origem="fator_k_extrato_resultado"
-                    whatsappPhone={whatsappPhone}
-                    whatsappBaseMessage={t("resultFoundWhatsAppMessage")}
+                {found && !contactSubmitted ? (
+                  <Button
+                    type="button"
                     className="h-[42px] rounded-none bg-white px-8 text-xs font-medium uppercase tracking-wider text-black hover:bg-white/90"
+                    onClick={() => setDialogOpen(true)}
                   >
-                    {t("resultFoundCta")}
-                  </WhatsAppCTAButton>
-                ) : null}
-                {!found || !whatsappPhone ? (
+                    {t("resultOpenLeadCta")}
+                  </Button>
+                ) : (
                   <Button
                     type="button"
                     variant="outline"
@@ -265,7 +312,7 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
                   >
                     {t("tryAgain")}
                   </Button>
-                ) : null}
+                )}
               </div>
             </div>
           )}
@@ -274,7 +321,7 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
 
       <FatorKLeadGateDialog
         open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        onOpenChange={handleLeadDialogOpenChange}
         onSuccess={handleLeadSuccess}
       />
     </section>

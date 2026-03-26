@@ -727,7 +727,7 @@ export default async function FatorKPage({ params }: PageProps) {
         </div>
       </section>
 
-      <FatorKExtratoCta whatsappPhone={whatsappPhone} />
+      <FatorKExtratoCta />
 
       <div className="h-16 w-full border-b border-black/15 bg-grid-pattern-small" />
 

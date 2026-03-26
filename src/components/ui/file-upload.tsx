@@ -76,7 +76,8 @@ export const FileUpload = ({
         whileHover={disabled || isDark ? undefined : "animate"}
         className={cn(
           "group/file relative block w-full overflow-hidden rounded-lg p-10",
-          isDark && "border border-white/20 bg-zinc-900",
+          /* Dark: parent section already provides the outer card — no second border/bg */
+          isDark && "rounded-none border-0 bg-transparent p-0 shadow-none",
           disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
         )}
       >
@@ -113,8 +114,8 @@ export const FileUpload = ({
           </p>
           <div
             className={cn(
-              "relative mx-auto mt-10 w-full",
-              isDark ? "max-w-none" : "max-w-xl",
+              "relative mx-auto w-full",
+              isDark ? "mt-6 max-w-none" : "mt-10 max-w-xl",
             )}
           >
             {files.length > 0 &&
@@ -189,10 +190,10 @@ export const FileUpload = ({
               <motion.div
                 layoutId="file-upload"
                 className={cn(
-                  "relative z-40 mx-auto flex min-h-[148px] w-full flex-col items-center justify-center gap-3 rounded-lg border border-dashed px-6 py-8 transition-colors",
-                  "border-white/25 bg-zinc-800",
-                  "group-hover/file:border-white/40 group-hover/file:bg-zinc-700",
-                  isDragActive && "border-white/50 bg-zinc-700",
+                  "relative z-40 mx-auto flex min-h-[148px] w-full flex-col items-center justify-center gap-3 rounded-none border border-dashed px-6 py-8 transition-colors",
+                  "border-white/25 bg-black/25",
+                  "group-hover/file:border-white/40 group-hover/file:bg-black/35",
+                  isDragActive && "border-white/45 bg-black/40",
                 )}
               >
                 <IconUpload

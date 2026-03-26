@@ -1,4 +1,9 @@
-import { randomUUID } from "node:crypto";
+import {
+  createHash,
+  createHmac,
+  randomUUID,
+  timingSafeEqual,
+} from "node:crypto";
 
 import { google } from "@ai-sdk/google";
 import { generateObject, generateText } from "ai";
@@ -12,6 +17,7 @@ export const maxDuration = 30;
 
 const MAX_BYTES = 10 * 1024 * 1024;
 const STORAGE_BUCKET = "fator-k-extratos";
+const ANALYSIS_TOKEN_TTL_MS = 30 * 60 * 1000;
 const GEMINI_MODEL = google("gemini-3.1-flash-lite-preview");
 const GEMINI_PROVIDER_OPTIONS = {
   google: {
@@ -22,6 +28,12 @@ const GEMINI_PROVIDER_OPTIONS = {
 } as const;
 
 const leadIdSchema = z.string().uuid();
+const analysisTokenPayloadSchema = z.object({
+  v: z.literal(1),
+  sha256: z.string().min(32),
+  found: z.boolean(),
+  exp: z.number().int().positive(),
+});
 const fatorKAnalysisSchema = z.object({
   found: z.boolean(),
   evidence: z.array(z.string()).default([]),
@@ -36,6 +48,8 @@ type FatorKExtratoUploadEntry = {
   fator_k_found: boolean | null;
   parse_ok: boolean;
 };
+
+type AnalysisTokenPayload = z.infer<typeof analysisTokenPayloadSchema>;
 
 function normalizeForSearch(text: string): string {
   return text
@@ -140,6 +154,107 @@ function sanitizeOriginalName(name: string): string {
   return base || "document.pdf";
 }
 
+function sha256OfBuffer(buffer: Buffer): string {
+  return createHash("sha256").update(buffer).digest("hex");
+}
+
+function getAnalysisTokenSecret(): string {
+  const secret =
+    process.env.FATOR_K_ANALYSIS_SECRET?.trim() ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+
+  if (!secret) {
+    throw new Error("Missing FATOR_K_ANALYSIS_SECRET or SUPABASE_SERVICE_ROLE_KEY");
+  }
+
+  return secret;
+}
+
+function encodeBase64Url(value: string): string {
+  return Buffer.from(value, "utf8").toString("base64url");
+}
+
+function decodeBase64Url(value: string): string {
+  return Buffer.from(value, "base64url").toString("utf8");
+}
+
+function signAnalysisToken(payload: AnalysisTokenPayload): string {
+  const encodedPayload = encodeBase64Url(JSON.stringify(payload));
+  const signature = createHmac("sha256", getAnalysisTokenSecret())
+    .update(encodedPayload)
+    .digest("base64url");
+
+  return `${encodedPayload}.${signature}`;
+}
+
+function verifyAnalysisToken(
+  token: string,
+  expectedSha256: string,
+): { found: boolean } | null {
+  const parts = token.split(".");
+  if (parts.length !== 2) return null;
+
+  const [encodedPayload, providedSignature] = parts;
+  const expectedSignature = createHmac("sha256", getAnalysisTokenSecret())
+    .update(encodedPayload)
+    .digest("base64url");
+
+  const provided = Buffer.from(providedSignature, "utf8");
+  const expected = Buffer.from(expectedSignature, "utf8");
+  if (provided.length !== expected.length) return null;
+  if (!timingSafeEqual(provided, expected)) return null;
+
+  const parsed = analysisTokenPayloadSchema.safeParse(
+    JSON.parse(decodeBase64Url(encodedPayload)),
+  );
+  if (!parsed.success) return null;
+
+  const payload = parsed.data;
+  if (payload.exp < Date.now()) return null;
+  if (payload.sha256 !== expectedSha256) return null;
+
+  return { found: payload.found };
+}
+
+async function computeFatorKFromBuffer(buffer: Buffer): Promise<{
+  found: boolean | null;
+  parseOk: boolean;
+  analysisToken: string | null;
+}> {
+  let extractedText = "";
+  let parseOk = false;
+
+  try {
+    const analysis = await analyzePdfForFatorK(buffer);
+    extractedText = analysis.extractedText;
+    parseOk = true;
+  } catch (analysisErr) {
+    console.error("Gemini PDF Factor K analysis failed:", analysisErr);
+
+    try {
+      extractedText = await extractPdfText(buffer);
+      parseOk = true;
+    } catch (extractErr) {
+      console.error("Gemini PDF extraction fallback failed:", extractErr);
+    }
+  }
+
+  const found = parseOk ? textIndicatesFatorK(extractedText) : null;
+  return {
+    found,
+    parseOk,
+    analysisToken:
+      parseOk && found !== null
+        ? signAnalysisToken({
+            v: 1,
+            sha256: sha256OfBuffer(buffer),
+            found,
+            exp: Date.now() + ANALYSIS_TOKEN_TTL_MS,
+          })
+        : null,
+  };
+}
+
 async function appendLeadUpload(
   supabase: ReturnType<typeof getSupabaseAdminClient>,
   leadId: string,
@@ -161,7 +276,10 @@ async function appendLeadUpload(
   const current = Array.isArray(raw) ? raw : [];
   const next = [...current, entry];
 
-  const { error: upErr } = await db.from("leads").update({ fator_k_extrato_uploads: next }).eq("id", leadId);
+  const { error: upErr } = await db
+    .from("leads")
+    .update({ fator_k_extrato_uploads: next })
+    .eq("id", leadId);
 
   if (upErr) {
     console.error("appendLeadUpload update:", upErr);
@@ -178,13 +296,11 @@ export async function POST(req: Request) {
   }
 
   const leadIdRaw = formData.get("leadId");
-  const leadIdParsed = leadIdSchema.safeParse(
-    typeof leadIdRaw === "string" ? leadIdRaw : "",
-  );
-  if (!leadIdParsed.success) {
-    return NextResponse.json({ code: "LEAD_ID_REQUIRED" }, { status: 400 });
-  }
-  const leadId = leadIdParsed.data;
+  const leadIdStr =
+    typeof leadIdRaw === "string" ? leadIdRaw.trim() : "";
+  const analysisTokenRaw = formData.get("analysisToken");
+  const analysisToken =
+    typeof analysisTokenRaw === "string" ? analysisTokenRaw.trim() : "";
 
   const file = formData.get("file");
   if (!(file instanceof File)) {
@@ -210,6 +326,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ code: "NEEDS_PDF", found: null }, { status: 415 });
   }
 
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const fileSha256 = sha256OfBuffer(buffer);
+
+  if (!leadIdStr) {
+    const { found, parseOk, analysisToken } = await computeFatorKFromBuffer(buffer);
+    if (!parseOk) {
+      return NextResponse.json({ code: "PARSE_FAILED" }, { status: 422 });
+    }
+    return NextResponse.json({ found: Boolean(found), analysisToken });
+  }
+
+  const leadIdParsed = leadIdSchema.safeParse(leadIdStr);
+  if (!leadIdParsed.success) {
+    return NextResponse.json({ code: "LEAD_ID_INVALID" }, { status: 400 });
+  }
+  const leadId = leadIdParsed.data;
+
   const supabase = getSupabaseAdminClient();
 
   const { data: leadRowRaw, error: leadErr } = await supabase
@@ -228,7 +361,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ code: "LEAD_NOT_ELIGIBLE" }, { status: 403 });
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
   const originalName = sanitizeOriginalName(file.name);
   const objectPath = `${leadId}/${randomUUID()}.pdf`;
 
@@ -252,26 +384,13 @@ export async function POST(req: Request) {
   }
 
   const uploadedAt = new Date().toISOString();
+  const verifiedToken = analysisToken
+    ? verifyAnalysisToken(analysisToken, fileSha256)
+    : null;
 
-  let extractedText = "";
-  let parseOk = false;
-
-  try {
-    const analysis = await analyzePdfForFatorK(buffer);
-    extractedText = analysis.extractedText;
-    parseOk = true;
-  } catch (analysisErr) {
-    console.error("Gemini PDF Factor K analysis failed:", analysisErr);
-
-    try {
-      extractedText = await extractPdfText(buffer);
-      parseOk = true;
-    } catch (extractErr) {
-      console.error("Gemini PDF extraction fallback failed:", extractErr);
-    }
-  }
-
-  const found = parseOk ? textIndicatesFatorK(extractedText) : null;
+  const { found, parseOk } = verifiedToken
+    ? { found: verifiedToken.found, parseOk: true }
+    : await computeFatorKFromBuffer(buffer);
 
   try {
     await appendLeadUpload(supabase, leadId, {
