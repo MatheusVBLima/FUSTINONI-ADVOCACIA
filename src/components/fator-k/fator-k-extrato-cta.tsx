@@ -6,7 +6,6 @@ import { Loader2 } from "lucide-react";
 import { z } from "zod/v4";
 
 import { GridBackground } from "@/components/grid-background-demo";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Compare } from "@/components/ui/compare";
 import { FileUpload } from "@/components/ui/file-upload";
@@ -167,23 +166,9 @@ export function FatorKExtratoCta({ whatsappPhone }: FatorKExtratoCtaProps) {
 
         <div className="mb-12">
           <div className="mx-auto w-full max-w-xl sm:max-w-2xl">
-            <div className="mb-4 flex justify-between gap-3">
-              <Badge
-                variant="outline"
-                className="border-white/30 bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm sm:text-[11px]"
-              >
-                {t("compareWith")}
-              </Badge>
-              <Badge
-                variant="outline"
-                className="border-white/30 bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm sm:text-[11px]"
-              >
-                {t("compareWithout")}
-              </Badge>
-            </div>
             <Compare
-              firstImage="/sabesp-compare-with-fator-k.svg?v=5"
-              secondImage="/sabesp-compare-without-fator-k.svg?v=5"
+              firstImage="/sabesp-compare-without-fator-k.svg?v=6"
+              secondImage="/sabesp-compare-with-fator-k.svg?v=6"
               className="aspect-800/520 h-auto w-full overflow-hidden rounded-none border-0 bg-black"
               firstImageClassName="h-full w-full object-cover object-center"
               secondImageClassname="h-full w-full object-cover object-center"

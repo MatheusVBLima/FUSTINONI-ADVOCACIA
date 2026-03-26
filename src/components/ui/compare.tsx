@@ -11,6 +11,12 @@ interface CompareProps {
   className?: string;
   firstImageClassName?: string;
   secondImageClassname?: string;
+  /**
+   * Which side of the handle shows `firstImage`. `secondImage` fills the other side (below z-index).
+   * - `left` (default): first image is clipped to the left portion [0, slider] — same as original behavior.
+   * - `right`: first image is clipped to the right portion [slider, 100%] — use when labels are Sem left / Com right with first=com, second=sem.
+   */
+  firstImageSide?: "left" | "right";
   initialSliderPercentage?: number;
   slideMode?: "hover" | "drag";
   showHandlebar?: boolean;
@@ -23,6 +29,7 @@ export const Compare = ({
   className,
   firstImageClassName,
   secondImageClassname,
+  firstImageSide = "left",
   initialSliderPercentage = 50,
   slideMode = "hover",
   showHandlebar = true,
@@ -147,6 +154,11 @@ export const Compare = ({
     [handleMove, autoplay]
   );
 
+  const firstImageClipPath =
+    firstImageSide === "right"
+      ? `inset(0 0 0 ${sliderXPercent}%)`
+      : `inset(0 ${100 - sliderXPercent}% 0 0)`;
+
   return (
     <div
       ref={sliderRef}
@@ -202,7 +214,7 @@ export const Compare = ({
                 firstImageClassName
               )}
               style={{
-                clipPath: `inset(0 ${100 - sliderXPercent}% 0 0)`,
+                clipPath: firstImageClipPath,
               }}
               transition={{ duration: 0 }}
             >
