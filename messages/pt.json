@@ -123,6 +123,61 @@
       "unknown": "Não foi possível reenviar agora. Tente novamente."
     }
   },
+  "fatorK": {
+    "extratoCta": {
+      "sectionEyebrow": "Análise do extrato",
+      "sectionTitle": "Envie sua fatura em PDF e veja se há menção a Fator K",
+      "compareDisclaimer": "Comparativo ilustrativo com valores fictícios, apenas para visualização.",
+      "step1Title": "Dados e documento",
+      "step1Detail": "Informe nome, telefone e e-mail e, em seguida, envie um PDF da fatura ou extrato SABESP.",
+      "step2Title": "Análise automática",
+      "step2Detail": "O site extrai o texto do PDF e busca indícios da rubrica Fator K. Não substitui parecer jurídico.",
+      "step3Title": "Retorno",
+      "step3Detail": "Se houver indícios no texto, nossa equipe poderá entrar em contato pelos dados informados.",
+      "compareWith": "Com Fator K",
+      "compareWithout": "Sem Fator K",
+      "idleTitle": "Quer analisar seu extrato agora?",
+      "idleDescription": "Primeiro preencha seus dados de contato. Depois você poderá enviar o PDF da fatura para uma verificação automática.",
+      "idleButton": "Começar",
+      "leadTitle": "Dados para contato",
+      "leadDescription": "Precisamos destas informações para retornar caso a análise encontre indícios de Fator K e para enviar a confirmação de e-mail.",
+      "leadSubmit": "Continuar para envio do PDF",
+      "leadResumo": "Lead — ferramenta Fator K: envio de extrato/fatura (pré-análise no site).",
+      "fields": {
+        "nameLabel": "Nome",
+        "namePlaceholder": "Seu nome completo",
+        "phoneLabel": "Telefone",
+        "phonePlaceholder": "(11) 99999-9999",
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "seu@email.com",
+        "emailHelp": "Você receberá um e-mail de confirmação; é por ele que também podemos contatá-lo."
+      },
+      "validation": {
+        "name": "Informe seu nome",
+        "phone": "Informe um telefone válido",
+        "email": "Informe um e-mail válido"
+      },
+      "uploadTitle": "Enviar fatura (PDF)",
+      "uploadSubtitle": "Arraste o arquivo ou clique para selecionar. A leitura automática funciona com PDF; imagens não são analisadas nesta etapa.",
+      "dropHint": "Solte o PDF aqui",
+      "modifiedPrefix": "Modificado em",
+      "analyzing": "Analisando o documento…",
+      "progressUploading": "Enviando documento…",
+      "progressExtracting": "Extraindo texto do PDF…",
+      "progressSearching": "Buscando Fator K…",
+      "resultFoundTitle": "Encontramos menção a Fator K no texto",
+      "resultFoundBody": "A leitura preliminar do arquivo apresentado indica a necessidade de uma análise mais aprofundada da fatura, a fim de verificar, com precisão, a composição da cobrança e a eventual adoção de critérios tarifários que demandem exame técnico e jurídico individualizado.\n\nPara uma conclusão segura, recomenda-se o agendamento de análise com a equipe do escritório, ocasião em que será possível realizar avaliação detalhada da documentação e orientar quanto às medidas cabíveis.\n\nEssa análise inicial pela equipe não terá custo, destinando-se justamente à verificação mais acurada do caso e à identificação da eventual viabilidade de medidas posteriores.",
+      "resultFoundCta": "Agendar análise com o escritório",
+      "resultFoundWhatsAppMessage": "Olá, gostaria de agendar uma análise da minha fatura após a verificação prévia no site (Fator K).",
+      "resultNotFoundTitle": "Não identificamos indícios consistentes de Fator K neste arquivo",
+      "resultNotFoundBody": "Após análise preliminar do arquivo enviado, não foram identificados, neste momento, elementos suficientes que permitam apontar indícios consistentes de cobrança relacionada ao Fator K na fatura apresentada.\n\nImportante: esta verificação foi realizada de forma automatizada e, por essa razão, pode conter falhas, imprecisões ou omissões.\n\nCaso deseje uma análise técnico-jurídica individualizada, com exame mais aprofundado da documentação, nossa equipe permanece à disposição.",
+      "tryAgain": "Enviar outro arquivo",
+      "errorGeneric": "Não foi possível salvar seus dados. Tente novamente.",
+      "errorAnalyze": "Não foi possível realizar a leitura adequada da fatura enviada.\n\nIsso pode ocorrer, por exemplo, em razão de baixa resolução do arquivo, imagem cortada, sombra, ausência de páginas ou envio em formato que prejudique a leitura automatizada.\n\nRecomendamos o reenvio da fatura em PDF legível ou em imagem nítida, completa e sem cortes, para que nova verificação possa ser realizada.",
+      "errorStorage": "Não foi possível salvar o arquivo no servidor. Tente de novo em instantes ou contate o escritório.",
+      "needsPdf": "Para análise automática, envie um arquivo PDF (não imagem)."
+    }
+  },
   "emailConfirmed": {
     "backToSite": "Voltar para o site",
     "talkWhatsApp": "Falar no WhatsApp",

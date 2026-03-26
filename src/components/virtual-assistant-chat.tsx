@@ -371,6 +371,7 @@ export function VirtualAssistantChat({
             <LeadCaptureDialog
               whatsappPhone={whatsappPhone}
               whatsappBaseMessage={getChatWhatsAppPrefillMessage(resolvedLocale)}
+              origem="agente_atendimento"
             >
               <Button className="mt-3 h-10 w-full rounded-none border border-black bg-white text-xs uppercase tracking-wider text-black hover:bg-neutral-100">
                 {t("ctaWhatsApp")}

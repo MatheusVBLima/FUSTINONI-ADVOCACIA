@@ -676,7 +676,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
             </div>
 
             <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-              <WhatsAppCTAButton
+              <WhatsAppCTAButton origem="analise_credito"
                 whatsappPhone={whatsappPhone}
                 whatsappBaseMessage={msgHero}
                 className="h-[42px] rounded-none border-black bg-black px-6 text-xs uppercase tracking-wider text-white hover:bg-black/85"
@@ -1119,7 +1119,7 @@ export default async function AnaliseCreditoPage({ params }: PageProps) {
             {ctaDescription}
           </p>
           <div className="mt-8 flex justify-center">
-            <WhatsAppCTAButton
+            <WhatsAppCTAButton origem="analise_credito"
               whatsappPhone={whatsappPhone}
               whatsappBaseMessage={msgCta}
               className="h-[42px] rounded-none border-white bg-white px-8 text-xs uppercase tracking-wider text-black hover:bg-white/90"

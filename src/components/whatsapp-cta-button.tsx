@@ -6,6 +6,7 @@ import { LeadCaptureDialog } from "@/components/lead-capture-dialog";
 type WhatsAppCTAButtonProps = {
   whatsappPhone: string;
   whatsappBaseMessage?: string;
+  origem?: string;
   className?: string;
   children: React.ReactNode;
 };
@@ -13,6 +14,7 @@ type WhatsAppCTAButtonProps = {
 export function WhatsAppCTAButton({
   whatsappPhone,
   whatsappBaseMessage,
+  origem,
   className,
   children,
 }: WhatsAppCTAButtonProps) {
@@ -20,6 +22,7 @@ export function WhatsAppCTAButton({
     <LeadCaptureDialog
       whatsappPhone={whatsappPhone}
       whatsappBaseMessage={whatsappBaseMessage}
+      origem={origem}
     >
       <Button className={className}>{children}</Button>
     </LeadCaptureDialog>

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const m = require\\(''pdf-parse''\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(node -e \":*)",
+      "Bash(node -e:*)",
+      "Bash(bunx tsc:*)",
+      "Bash(bun remove:*)",
+      "WebFetch(domain:ai.google.dev)",
+      "Read(//c/Web/ Workspace/control-center/src/app/\\(dashboard/\\)/obulo/doacoes/**)",
+      "Read(//c/Web/ Workspace/control-center/src/app/\\(dashboard/\\)/fustinoni/leads/**)",
+      "Bash(cat \"c:\\\\Web Workspace\\\\control-center\\\\src\\\\app\\\\\\(dashboard\\)\\\\obulo\\\\doacoes\\\\page.tsx\")",
+      "Bash(ls \"/c/Web Workspace/control-center/src/app/\\(dashboard\\)/fustinoni/leads/[id]/\")",
+      "Bash(pushd \"/c/Web Workspace/control-center\")",
+      "Bash(popd)",
+      "Bash(node -e \"console.log\\(require\\(''react-pdf/package.json''\\).version\\)\")",
+      "mcp__supabase__execute_sql"
+    ],
+    "additionalDirectories": [
+      "c:\\Web Workspace\\control-center\\src\\app\\_actions",
+      "c:\\Web Workspace\\control-center\\src\\app\\(dashboard)\\fustinoni\\leads\\[id]",
+      "c:\\Web Workspace\\control-center\\src\\app\\(dashboard)\\fustinoni\\leads"
+    ]
+  }
+}

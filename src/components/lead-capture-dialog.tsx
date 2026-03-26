@@ -37,12 +37,14 @@ type LeadCaptureDialogProps = {
   children: React.ReactNode;
   whatsappPhone: string;
   whatsappBaseMessage?: string;
+  origem?: string;
 };
 
 export function LeadCaptureDialog({
   children,
   whatsappPhone,
   whatsappBaseMessage,
+  origem,
 }: LeadCaptureDialogProps) {
   const t = useTranslations("leadDialog");
   const locale = useLocale() as AppLocale;
@@ -105,6 +107,7 @@ export function LeadCaptureDialog({
           email: step1Data.email,
           resumo: data.resumo,
           locale,
+          ...(origem ? { origem } : {}),
         }),
       });
     } catch {
