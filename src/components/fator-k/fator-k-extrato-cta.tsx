@@ -9,6 +9,7 @@ import { GridBackground } from "@/components/grid-background-demo";
 import { Button } from "@/components/ui/button";
 import { Compare } from "@/components/ui/compare";
 import { FileUpload } from "@/components/ui/file-upload";
+import { trackFatorKLeadConversion } from "@/lib/google-ads";
 
 import { FatorKLeadGateDialog } from "./fator-k-lead-gate-dialog";
 
@@ -184,6 +185,7 @@ export function FatorKExtratoCta() {
   async function handleLeadSuccess(id: string) {
     setLeadId(id);
     setContactSubmitted(true);
+    trackFatorKLeadConversion(id);
     if (pendingLeadFile) {
       await runAnalyze(pendingLeadFile, id, { keepResultVisible: true });
     }

@@ -3,6 +3,7 @@ import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import "streamdown/styles.css";
 import "./globals.css";
 
+import { GoogleAdsTag } from "@/components/google-ads-tag";
 import { SITE_NAME, getSiteUrl } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -60,6 +61,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <GoogleAdsTag />
+      </head>
       <body
         className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
       >
