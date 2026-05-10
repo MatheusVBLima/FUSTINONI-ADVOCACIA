@@ -1,7 +1,8 @@
 export const GOOGLE_ADS_ID = "AW-18020571962";
 
 const FATOR_K_LEAD_CONVERSION_LABEL =
-  process.env.NEXT_PUBLIC_GOOGLE_ADS_FATOR_K_LEAD_LABEL?.trim();
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_FATOR_K_LEAD_LABEL?.trim() ??
+  "EPykCOn45aMcELq28JBD";
 
 type Gtag = (
   command: "config" | "event" | "js",
